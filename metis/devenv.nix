@@ -22,6 +22,7 @@
     aerial-api.exec = "cd ./api-aerial/src && npm run dev";
     dashboard-api.exec = "cd ./api-dashboard/src && npm run dev";
     front-resa.exec = "cd ./front-reservation/src && npm run dev";
+    dashboard.exec = "cd ./front-dashboard/src && npm run dev";
   };
 
 

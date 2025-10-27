@@ -1,0 +1,39 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to Node (host:port)",
+      "address": "127.0.0.1",
+      "port": 9229,
+      "restart": true,
+      "timeout": 30000,
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to Node (prompt address/port)",
+      "address": "${input:debugAddress}",
+      "port": "${input:debugPort}",
+      "restart": true,
+      "timeout": 30000,
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "debugAddress",
+      "type": "promptString",
+      "description": "Debugger address (default 127.0.0.1)",
+      "default": "127.0.0.1"
+    },
+    {
+      "id": "debugPort",
+      "type": "promptString",
+      "description": "Debugger port (default 9229)",
+      "default": "9229"
+    }
+  ]
+}

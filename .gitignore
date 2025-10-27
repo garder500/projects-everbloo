@@ -2,3 +2,13 @@
 metis/.devenv.flake.nix
 metis/.devenv*
 tourcom/.devenv*
+
+metis/api-aerial
+metis/api-dashboard
+metis/front-dashboard
+metis/front-reservation
+
+tourcom/api-adhesion
+tourcom/api-tourcom-mobile
+tourcom/front-adhesion
+tourcom/api-tourcom-users

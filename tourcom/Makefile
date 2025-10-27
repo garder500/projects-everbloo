@@ -10,7 +10,7 @@ DIRECTORIES_MOBILE := \
 # Define commands
 GIT_PULL=git pull origin development
 GIT_PULL_API=git pull origin dev
-NPM_INSTALL=npm ci --legacy-peer-deps
+NPM_INSTALL=npm install --legacy-peer-deps
 BUILD=npm run prebuild
 
 # Target to launch properly the project

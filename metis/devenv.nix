@@ -1,40 +1,39 @@
 { pkgs, lib, config, inputs, ... }:
 
 {
-  # Définir une variable d'environnement
   env.GREET = "devenv";
 
-  # Inclure uniquement les packages nécessaires
   packages = [
     pkgs.git
+    pkgs.gnumake
   ];
 
-  # Activer JavaScript (Node.js sera automatiquement utilisé)
   languages.javascript = {
     enable = true;
-    package = pkgs.nodejs_20;
-    corepack = {
-      enable = true;
-    };
+    npm.enable = true;
+    bun.enable = true;
+    corepack.enable = true;
   };
 
+  # 1. Define it as a helper script
+  # Now you can run "devenv run clean" manually when you need it.
+  scripts.clean.exec = "make clean-branches";
+
+  # 2. Processes (The "devenv up" part)
+  # REMOVED the "init-project &&" chain. 
+  # You don't want to clean git branches just to start a server.
   processes = {
-    aerial-api.exec = "cd ./api-aerial/src && npm run dev";
+    aerial-api.exec    = "cd ./api-aerial/src && npm run dev";
     dashboard-api.exec = "cd ./api-dashboard/src && npm run dev";
-    front-resa.exec = "cd ./front-reservation/src && npm run dev";
-    dashboard.exec = "cd ./front-dashboard/src && npm run dev";
+    front-resa.exec    = "cd ./front-reservation/src && npm run dev";
+    dashboard.exec     = "cd ./front-dashboard/src && npm run dev";
   };
 
-
-
-
-  # Commandes à exécuter lors de l'entrée dans le shell
   enterShell = ''
     git --version
-    make
+    echo "To clean branches, run: devenv run clean"
   '';
 
-  # Commandes pour les tests
   enterTest = ''
     echo "Running tests"
     git --version | grep --color=auto "${pkgs.git.version}"

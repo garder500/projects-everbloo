@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Configuration des répertoires
 DIRECTORIES="api-aerial api-dashboard front-dashboard front-reservation"
@@ -32,9 +32,9 @@ for dir in $DIRECTORIES; do
     $GIT_PULL
 
     # L'installation des dépendances reste dans src/ si le package.json y est présent
-    if [ -f "$src_dir/package.json" ]; then
-        cd "$src_dir" && $NPM_INSTALL && cd "$repo_dir"
-    elif [ -f "$repo_dir/package.json" ]; then
+    if [ -f "src/package.json" ]; then
+        (cd src && $NPM_INSTALL)
+    elif [ -f "package.json" ]; then
         $NPM_INSTALL
     else
         echo "Aucun package.json trouvé pour $repo_name, npm install ignoré"

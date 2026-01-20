@@ -18,6 +18,7 @@
   # 1. Define it as a helper script
   # Now you can run "devenv run clean" manually when you need it.
   scripts.clean.exec = "make clean-branches";
+  scripts.pull.exec = "make pull";
 
   # 2. Processes (The "devenv up" part)
   # REMOVED the "init-project &&" chain. 

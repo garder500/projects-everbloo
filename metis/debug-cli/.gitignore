@@ -2,6 +2,7 @@
 node_modules
 
 # output
+metis-db
 out
 dist
 *.tgz

@@ -6,6 +6,7 @@
   packages = [
     pkgs.git
     pkgs.gnumake
+    pkgs.gemini-cli
   ];
 
   languages.javascript = {

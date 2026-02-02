@@ -48,6 +48,7 @@ export interface StructuredDirection {
     date: string;
     segments: StructuredSegment[];
     segmentRefs: number[];
+    departureTime?: string;
 }
 
 export function buildDirections(
@@ -75,11 +76,16 @@ export function buildDirections(
         const segments: string[] = [];
         const structSegments: StructuredSegment[] = [];
         const segmentRefs: number[] = [];
+        let departureTime: string = "N/A";
 
         if (legDesc) {
-            for (const scheduleRef of legDesc.schedules) {
+            for (let j = 0; j < legDesc.schedules.length; j++) {
+                const scheduleRef = legDesc.schedules[j];
                 const schedule = scheduleMap.get(scheduleRef.ref);
                 if (schedule) {
+                    if (j === 0) { // First schedule of this leg
+                        departureTime = schedule.departure.time || "N/A";
+                    }
                     const flightCode = `${schedule.carrier.marketing}${schedule.carrier.marketingFlightNumber}`;
                     itineraryFlights.add(flightCode);
                     segments.push(`${schedule.departure.airport} -> ${schedule.arrival.airport} (${flightCode})`);
@@ -100,7 +106,8 @@ export function buildDirections(
             to: legInfo?.arrivalLocation || "N/A",
             date: legInfo?.departureDate || "N/A",
             segments: structSegments,
-            segmentRefs
+            segmentRefs,
+            departureTime
         });
     }
 

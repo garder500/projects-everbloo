@@ -12,3 +12,6 @@ tourcom/api-adhesion
 tourcom/api-tourcom-mobile
 tourcom/front-adhesion
 tourcom/api-tourcom-users
+# pixi environments
+.pixi/*
+!.pixi/config.toml

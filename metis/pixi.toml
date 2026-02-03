@@ -28,8 +28,8 @@ front-resa = "cd front-reservation/src && npm run dev"
 front-dashboard = "cd front-dashboard/src && npm run dev"
 
 up = """
-  start powershell -NoExit -Command "pixi run api-aerial" & 
-  start powershell -NoExit -Command "pixi run api-dashboard" & 
-  start powershell -NoExit -Command "pixi run front-resa" & 
-  start powershell -NoExit -Command "front-dashboard"
+  cmd /c start powershell -NoExit -Command "pixi run api-aerial" &&
+  cmd /c start powershell -NoExit -Command "pixi run api-dashboard" &&
+  cmd /c start powershell -NoExit -Command "pixi run front-resa" &&
+  cmd /c start powershell -NoExit -Command "pixi run front-dashboard"
 """

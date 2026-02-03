@@ -1,0 +1,35 @@
+[workspace]
+authors = ["garder500 <jeremy27.clara22@gmail.com>"]
+channels = ["conda-forge"]
+name = "metis"
+platforms = ["win-64"]
+version = "0.1.0"
+
+[dependencies]
+nodejs = ">=20"
+git = "*"
+make = "*" # Équivalent de gnumake sur Windows via conda
+# gemini-cli n'est pas sur conda-forge, on l'installera via npm dans le setup
+
+[tasks]
+# --- SETUP & HELPERS ---
+# On installe ce qui manque à conda-forge (Bun + Gemini)
+setup = "npm install -g bun @google/gemini-cli concurrently"
+clean = "make clean-branches"
+pull = "make pull"
+info = "git --version && echo To clean branches, run: pixi run clean"
+
+# --- PROCESSES (L'équivalent de 'devenv up') ---
+# Pixi n'a pas de gestionnaire de processus intégré comme "up", 
+# on utilise souvent 'concurrently' (npm) pour ça.
+api-aerial = "cd api-aerial/src && npm run dev"
+api-dashboard = "cd api-dashboard/src && npm run dev"
+front-resa = "cd front-reservation/src && npm run dev"
+front-dashboard = "cd front-dashboard/src && npm run dev"
+
+up = """
+  start powershell -NoExit -Command "pixi run api-aerial" & 
+  start powershell -NoExit -Command "pixi run api-dashboard" & 
+  start powershell -NoExit -Command "pixi run front-resa" & 
+  start powershell -NoExit -Command "front-dashboard"
+"""

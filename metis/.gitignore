@@ -12,9 +12,3 @@ devenv.local.yaml
 # pixi environments
 .pixi/*
 !.pixi/config.toml
-
-# Sub-repositories (nested git repos - managed separately)
-api-aerial/
-api-dashboard/
-front-dashboard/
-front-reservation/

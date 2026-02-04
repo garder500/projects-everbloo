@@ -3,11 +3,7 @@ metis/.devenv.flake.nix
 metis/.devenv*
 tourcom/.devenv*
 
-metis/api-aerial/.git
-metis/api-dashboard/.git
-metis/api-reservation/.git  
-metis/front-dashboard/.git
-
-# pixi environments
-.pixi/*
-!.pixi/config.toml
+metis/api-aerial/
+metis/api-dashboard/
+metis/api-reservation/  
+metis/front-dashboard/

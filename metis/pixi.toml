@@ -15,8 +15,7 @@ make = "*" # Équivalent de gnumake sur Windows via conda
 # --- SETUP & HELPERS ---
 # On installe ce qui manque à conda-forge (Bun + Gemini)
 setup = "npm install -g bun @google/gemini-cli concurrently"
-clean = "make clean-branches"
-pull = "make pull"
+clean = "./clean-branches.sh"
 info = "git --version && echo To clean branches, run: pixi run clean"
 
 # --- PROCESSES (L'équivalent de 'devenv up') ---
@@ -28,8 +27,12 @@ front-resa = "cd front-reservation/src && npm run dev"
 front-dashboard = "cd front-dashboard/src && npm run dev"
 
 up = """
-  cmd /c start powershell -NoExit -Command "pixi run api-aerial" &&
-  cmd /c start powershell -NoExit -Command "pixi run api-dashboard" &&
-  cmd /c start powershell -NoExit -Command "pixi run front-resa" &&
-  cmd /c start powershell -NoExit -Command "pixi run front-dashboard"
+  concurrently -k \
+    -n api-aerial,api-dashboard,front-resa,front-dashboard \
+    -c blue,magenta,green,cyan \
+    --hide front-resa,front-dashboard \
+    "pixi run api-aerial" \
+    "pixi run api-dashboard" \
+    "pixi run front-resa" \
+    "pixi run front-dashboard"
 """

@@ -19,8 +19,6 @@
   # 1. Define it as a helper script
   # Now you can run "devenv run clean" manually when you need it.
   scripts.clean.exec = ./clean-branches.sh;
-  scripts.pull.exec = "make pull";
-
   # 2. Processes (The "devenv up" part)
   # REMOVED the "init-project &&" chain. 
   # You don't want to clean git branches just to start a server.
@@ -33,7 +31,7 @@
 
   enterShell = ''
     git --version
-    echo "To clean branches, run: devenv run clean"
+    echo "To clean branches, run: clean"
   '';
 
   enterTest = ''

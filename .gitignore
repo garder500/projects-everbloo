@@ -3,7 +3,3 @@ metis/.devenv.flake.nix
 metis/.devenv*
 tourcom/.devenv*
 
-metis/api-aerial/
-metis/api-dashboard/
-metis/front-dashboard/
-metis/front-reservation/

@@ -1,0 +1,12 @@
+[submodule "metis/api-aerial"]
+	path = metis/api-aerial
+	url = git@gitlab.com:GroupeAdnenis/metis-connect/api-aerial.git
+[submodule "metis/api-dashboard"]
+	path = metis/api-dashboard
+	url = git@gitlab.com:GroupeAdnenis/metis-connect/api-dashboard.git
+[submodule "metis/front-dashboard"]
+	path = metis/front-dashboard
+	url = git@gitlab.com:GroupeAdnenis/metis-connect/front-dashboard.git
+[submodule "metis/front-reservation"]
+	path = metis/front-reservation
+	url = git@gitlab.com:GroupeAdnenis/metis-connect/front-reservation.git

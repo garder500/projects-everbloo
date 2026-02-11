@@ -5,7 +5,7 @@ DIRECTORIES="api-aerial api-dashboard front-dashboard front-reservation"
 
 # Commandes communes
 GIT_PULL="git pull origin development"
-NPM_INSTALL="npm install"
+NPM_INSTALL="npm install --legacy-peer-deps"
 
 # Nettoyage des branches
 echo "Nettoyage des branches..."

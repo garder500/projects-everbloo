@@ -7,6 +7,7 @@ version = "0.1.0"
 
 [dependencies]
 nodejs = ">=20"
+openjdk = ">=17"
 git = "*"
 make = "*" # Équivalent de gnumake sur Windows via conda
 # gemini-cli n'est pas sur conda-forge, on l'installera via npm dans le setup
@@ -17,6 +18,9 @@ make = "*" # Équivalent de gnumake sur Windows via conda
 setup = "npm install -g bun @google/gemini-cli concurrently"
 clean = "./clean-branches.sh"
 info = "git --version && echo To clean branches, run: pixi run clean"
+scalar = "cd api-aerial/src/docs && npx --yes @scalar/cli document serve openapi.yaml --watch --port 8088"
+scalar-build = "cd api-aerial/src/docs && npx --yes @scalar/cli document validate openapi.yaml && node -e \"require('node:fs').copyFileSync('redoc.html', 'redoc-static.html')\""
+sdk-generate = "cd api-aerial/src/docs && node -e \"require('node:fs').rmSync('../../../sdk/typescript-fetch', { recursive: true, force: true })\" && npx --yes @openapitools/openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o ../../../sdk/typescript-fetch --skip-validate-spec --global-property apiDocs=false,modelDocs=false"
 
 # --- PROCESSES (L'équivalent de 'devenv up') ---
 # Pixi n'a pas de gestionnaire de processus intégré comme "up", 

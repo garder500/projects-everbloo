@@ -6,7 +6,7 @@ platforms = ["win-64"]
 version = "0.1.0"
 
 [dependencies]
-nodejs = ">=20"
+nodejs = ">=20,<25"
 openjdk = ">=17"
 git = "*"
 make = "*" # Équivalent de gnumake sur Windows via conda

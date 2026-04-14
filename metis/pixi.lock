@@ -13,7 +13,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/libgomp-15.2.0-h8ee18e1_16.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/libwinpthread-12.0.0.r4.gg4f2fc60ca-h57928b3_10.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/make-4.4.1-h0e40799_2.conda
-      - conda: https://conda.anaconda.org/conda-forge/win-64/nodejs-25.2.1-he453025_2.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/nodejs-24.14.1-h80d1838_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/openjdk-25.0.1-hda6743d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/symlink-exe-runtime-1.0-hcfcfb64_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
@@ -89,13 +89,13 @@ packages:
   license_family: GPL
   size: 2176937
   timestamp: 1727802346950
-- conda: https://conda.anaconda.org/conda-forge/win-64/nodejs-25.2.1-he453025_2.conda
-  sha256: abe64c5dce6d7024919807f9d5ac72729862848238e6ad6bf9ed4e721c8cc232
-  md5: b965c8d527c0a5b4781e39339abc808a
+- conda: https://conda.anaconda.org/conda-forge/win-64/nodejs-24.14.1-h80d1838_0.conda
+  sha256: a28e0d625cdda676cae11be8330261564ce7b9fce8823913fb4c3ab85d04303b
+  md5: 2c3cbab5bfbda7212344e46b649e8845
   license: MIT
   license_family: MIT
-  size: 30449041
-  timestamp: 1769159661802
+  size: 30597452
+  timestamp: 1774519101352
 - conda: https://conda.anaconda.org/conda-forge/win-64/openjdk-25.0.1-hda6743d_0.conda
   sha256: 2eba52d8bf181f32287f383bb67918c99e33da3afab0c634cf86078ffb3cc7e7
   md5: 1d0f849284a59851b7e9a1bb083dce37

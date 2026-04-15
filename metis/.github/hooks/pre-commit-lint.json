@@ -1,0 +1,14 @@
+{
+    "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "createCommit",
+                "type": "command",
+                "command": "echo Running lint before commit...",
+                "windows": "powershell -NoProfile -Command \"Write-Host 'Lint check reminder: run npm run lint from the affected submodule src/ before committing.' -ForegroundColor Yellow\"",
+                "linux": "echo '\\033[33mLint check reminder: run npm run lint from the affected submodule src/ before committing.\\033[0m'",
+                "timeout": 5
+            }
+        ]
+    }
+}

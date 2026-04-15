@@ -1,40 +1,55 @@
 ﻿# Repository Guidelines
 
-## Project Structure & Module Organization
-This repository is a coordinator for the Metis system and mainly hosts configuration plus Git submodules. The main application code lives in sub-repositories:
-- `api-aerial/`, `api-dashboard/`: backend APIs (Node/Express)
-- `front-dashboard/`, `front-reservation/`: frontend apps (Nuxt 3)
-- `debug-cli/`: local CLI utilities
-- `pixi.toml`, `devenv.*`: dev environment tooling
+## Project Structure
+Coordinator monorepo for the **Metis** travel distribution platform. Application code lives in Git submodules:
 
-Each submodule has its own `src/` directory containing `package.json`, source code, and tests. Run app-specific commands from inside those `src/` folders.
+| Submodule | Stack | Role |
+|-----------|-------|------|
+| `api-aerial/` | Node/Express, Sequelize | Reservation & ticketing API (Sabre, Amadeus, NDC) |
+| `api-dashboard/` | Node/Express, Sequelize | Back-office API |
+| `front-dashboard/` | Nuxt 3, Vuetify 3, Pinia | Back-office SPA |
+| `front-reservation/` | Nuxt 3, Vuetify 3, Pinia | Booking SPA (B2B/SBT) |
+| `debug-cli/` | Bun, TypeScript | Local debugging CLI |
 
-## Build, Test, and Development Commands
-Use Pixi to manage common tasks:
-- `pixi run setup`: installs global tooling (`bun`, `@google/gemini-cli`, `concurrently`).
-- `pixi run up`: starts all services with labeled logs via `concurrently`.
-- `pixi run clean`: runs `clean-branches.sh`.
+Each submodule has a `src/` directory — **all npm/bun commands run from `src/`**.
 
-Subproject examples (from inside `api-aerial/src`, etc.):
-- `npm install`
-- `npm run dev`
-- `npm run lint`
-- `npm run build` (frontends) / `npm run start` (APIs)
+### Architecture Patterns
+- **APIs**: MVCS — `controllers/` → `services/` → `models/` (Sequelize). Auth via Keycloak. Background jobs via pgboss (`queue/`).
+- **Frontends**: Nuxt 3 (SSR disabled), Vuetify 3, Pinia stores. Proxy config in `nuxt.config.ts` routes `/api` and `/aerial/` to backend URLs.
+- **Sabre utilities**: `api-aerial/src/utils/SABRE/` — GDS/NDC orchestration (shopping, booking, ticketing, exchange, refund). See `.github/instructions/sabre-ticketing-exchange-guards.instructions.md` for guard rules.
 
-## Coding Style & Naming Conventions
-- JavaScript/TypeScript style is enforced in each subproject via ESLint/Prettier (see subproject configs).
-- Follow existing naming and folder conventions within each submodule (e.g., `src/controllers`, `src/services`, `src/models`).
+## Build, Test & Dev
 
-## Testing Guidelines
-- APIs typically use Mocha/Chai; frontends use Playwright (notably `front-reservation`).
-- Test commands are defined in each submodule’s `package.json` (run from `src/`).
-- Name tests to match the subproject conventions and co-locate with existing test structure.
+### Orchestration (from repo root)
+- `pixi run setup` — install global tooling (`bun`, `concurrently`)
+- `pixi run up` — start all 4 services concurrently
+- `pixi run clean` — clean merged Git branches
+- `pixi run scalar` — OpenAPI docs server on port 8088
 
-## Commit & Pull Request Guidelines
-- Commit messages follow Conventional Commits (e.g., `feat:`, `fix:`, `chore:`).
-- PRs should include a clear summary, testing notes (commands run), and screenshots for UI changes.
+### Per-submodule (from `<submodule>/src/`)
+| Action | APIs (`api-aerial`, `api-dashboard`) | Frontends (`front-dashboard`, `front-reservation`) | CLI (`debug-cli`) |
+|--------|--------------------------------------|---------------------------------------------------|--------------------|
+| Install | `npm install` | `npm install` | `bun install` |
+| Dev | `npm run dev` | `npm run dev` | `bun run index.ts` |
+| Lint | `npm run lint` | `npm run lint` | — |
+| Build | — | `npm run build` | `bun build ./index.ts --compile --outfile metis-db` |
+| Start | `npm run start` | `npm run start` | — |
 
-## Configuration & Environment Tips
-- Backend env files live in `src/.environment/`.
-- Frontend env files live in `src/.environments/`.
-- Submodules must be initialized after clone with `git submodule update --init --recursive`.
+### Testing
+| Submodule | Framework | Command (from `src/`) |
+|-----------|-----------|----------------------|
+| `api-aerial` | Mocha/Chai | `npm run test:default` (Linux/Mac) · `npm run test:windows` |
+| `api-aerial` SABRE utils | Node built-in test runner | `node --test utils/SABRE/__tests__/*.test.js` |
+| `api-dashboard` | Mocha/Chai | `npm run test:default` · `npm run test:windows` |
+| `front-reservation` | Playwright | `npm run test:script` · `npm run test:headed` · `npm run test:debug` |
+
+## Conventions
+- **Commits**: Conventional Commits (`feat:`, `fix:`, `chore:`).
+- **Code style**: ESLint + Prettier per submodule. Semicolons, double quotes, 2-space indent, strict equality.
+- **Folder layout**: follow existing patterns (`controllers/`, `services/`, `models/`, `schemas/`, `middleware/`).
+- **Environment files**: APIs use `src/.environment/`, frontends use `src/.environments/` (note the **plural 's'** for frontends).
+- **PRs**: include summary, testing notes (commands run), screenshots for UI changes.
+- **Submodule init**: `git submodule update --init --recursive` after clone.
+
+## Detailed Context
+See [GEMINI.md](GEMINI.md) for extended architecture notes, supplier integration details, and workflow descriptions.

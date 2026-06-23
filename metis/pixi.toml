@@ -27,7 +27,7 @@ sdk-generate = "cd api-aerial/src/docs && node -e \"require('node:fs').rmSync('.
 # on utilise souvent 'concurrently' (npm) pour ça.
 api-aerial = "cd api-aerial/src && npm run dev"
 api-dashboard = "cd api-dashboard/src && npm run dev"
-front-resa = "cd front-reservation/src && npm run dev"
+front-resa = "cd front-reservation && npm run dev"
 front-dashboard = "cd front-dashboard/src && npm run dev"
 
 up = """

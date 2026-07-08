@@ -10,3 +10,12 @@
 [submodule "metis/front-reservation"]
 	path = metis/front-reservation
 	url = git@gitlab.com:GroupeAdnenis/metis-connect/front-reservation.git
+[submodule "metis/api-car"]
+	path = metis/api-car
+	url = git@gitlab.com:GroupeAdnenis/metis-connect/api-car.git
+[submodule "metis/api-rail"]
+	path = metis/api-rail
+	url = git@gitlab.com:GroupeAdnenis/metis-connect/api-rail.git
+[submodule "metis/api-hotel"]
+	path = metis/api-hotel
+	url = git@gitlab.com:GroupeAdnenis/metis-connect/api-hotel.git

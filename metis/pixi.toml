@@ -27,16 +27,22 @@ sdk-generate = "cd api-aerial/src/docs && node -e \"require('node:fs').rmSync('.
 # on utilise souvent 'concurrently' (npm) pour ça.
 api-aerial = "cd api-aerial/src && npm run dev"
 api-dashboard = "cd api-dashboard/src && npm run dev"
+api-car = "cd api-car/src && npm run dev"
+api-hotel = "cd api-hotel/src && npm run dev"
+api-rail = "cd api-rail/src && npm run dev"
 front-resa = "cd front-reservation && npm run dev"
 front-dashboard = "cd front-dashboard/src && npm run dev"
 
 up = """
   concurrently -k \
-    -n api-aerial,api-dashboard,front-resa,front-dashboard \
-    -c blue,magenta,green,cyan \
+    -n api-aerial,api-dashboard,api-car,api-hotel,api-rail,front-resa,front-dashboard \
+    -c blue,magenta,red,yellow,cyan,green,white \
     --hide front-resa,front-dashboard \
     "pixi run api-aerial" \
     "pixi run api-dashboard" \
+    "pixi run api-car" \
+    "pixi run api-hotel" \
+    "pixi run api-rail" \
     "pixi run front-resa" \
     "pixi run front-dashboard"
 """

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Configuration des répertoires
-DIRECTORIES="api-aerial api-dashboard front-dashboard front-reservation"
+DIRECTORIES="api-aerial api-dashboard api-car api-hotel api-rail front-dashboard front-reservation"
 
 # Commandes communes
 GIT_PULL="git pull origin development"
@@ -17,7 +17,7 @@ for dir in $DIRECTORIES; do
     repo_name=$(basename "$repo_dir")
     url="git@gitlab.com:GroupeAdnenis/metis-connect/${repo_name}.git"
 
-    if [ -d "$repo_dir/.git" ]; then
+    if [ -e "$repo_dir/.git" ]; then
         echo "Mise à jour du dépôt existant dans $repo_dir"
     else
         echo "Clonage du dépôt $repo_name..."

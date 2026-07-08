@@ -42,6 +42,9 @@
   processes = {
     aerial-api.exec    = "cd ./api-aerial/src && npm run dev";
     dashboard-api.exec = "cd ./api-dashboard/src && npm run dev";
+    car-api.exec       = "cd ./api-car/src && npm run dev";
+    hotel-api.exec     = "cd ./api-hotel/src && npm run dev";
+    rail-api.exec      = "cd ./api-rail/src && npm run dev";
     front-resa.exec    = "cd ./front-reservation/src && npm run dev";
     dashboard.exec     = "cd ./front-dashboard/src && npm run dev";
   };

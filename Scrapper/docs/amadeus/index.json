@@ -1,0 +1,363 @@
+{
+  "source": "amadeus",
+  "updated_at": "2026-07-15T10:50:10.864Z",
+  "entries": [
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/1/doc-read/2311?serviceVersion=7.1",
+      "title": "HTML_UG_WBS_Air_FlightInfo_FLIREQ_07.1_018",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Air_FlightInfo-7.1.md",
+      "excerpt": "# Function: Air\\_FlightInfo * * * ## 1 Overview The Flight Information function provides Amadeus end-users with up-to-date information related to the operation of a particular flight before, during an…",
+      "scraped_at": "2026-07-15T10:12:44.173Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2/doc-read/7311?serviceVersion=16.1",
+      "title": "HTML_UG_WBS_Air_MultiAvailability_SATRQT_16.1_019",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Air_MultiAvailability-16.1.md",
+      "excerpt": "# Function: Air\\_MultiAvailability * * * ## 1 Overview The Air\\_MultiAvailability service is used by Amadeus customers (offline and online travel agencies, airline offices and corporations) to retriev…",
+      "scraped_at": "2026-07-15T10:17:42.432Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/5/doc-read/98296?serviceVersion=5.1",
+      "title": "UG_WBS_Air_SellFromAvailability_ITAREQ_05.1_058",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Air_SellFromAvailability-5.1.md",
+      "excerpt": "# Function: SellFromAvailability ## Overview The SellFromAvailability function enables users to request the booking of a flight availability previously retrieved using the MultiAvailability function. …",
+      "scraped_at": "2026-07-15T10:18:13.694Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/64/doc-read/141479?serviceVersion=24.6",
+      "title": "HTML_UG_WBS_Car_LocationList_RCLLRQ_24.6_001",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Car_LocationList-24.6.md",
+      "excerpt": "# Function: Car\\_LocationList * * * ## 1 Overview This service allows the customer to search for all car rental stations in a requested geographical area. The service can be applied in two different m…",
+      "scraped_at": "2026-07-15T10:18:45.484Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/70/doc-read/141481?serviceVersion=24.6",
+      "title": "HTML_UG_WBS_Car_RateInformationFromAvailability_RCFARQ_24.6_002",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Car_RateInformationFromAvailability-24.6.md",
+      "excerpt": "# Function: Car\\_RateInformationFromAvailability * * * ## 1 Overview The \"Rate Information From Availability\" functionality allows the user to access information linked to a Car rate,previously retrie…",
+      "scraped_at": "2026-07-15T10:18:50.953Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/71/doc-read/141652?serviceVersion=25.1",
+      "title": "HTML_UG_WBS_Car_RateInformationFromCarSegment_RCFSRQ_25.1_001",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Car_RateInformationFromCarSegment-25.1.md",
+      "excerpt": "# Function: Car\\_RateInformationFromCarSegment * * * ## 1 Overview The \"**Rate Information From Car Segment**\" functionality allows the user to access information linked to a Car Booking stored in an …",
+      "scraped_at": "2026-07-15T10:18:56.610Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/10/doc-read/98310?serviceVersion=1.2",
+      "title": "ug_doc_displayitinerary",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Doc_DisplayItinerary-1.2.md",
+      "excerpt": "# Function: DisplayItinerary ## Overview Is used to display travel arrangements from a retrieved or modified PNR. The function Display Itinerary is used to display travel arrangements from a retrieved…",
+      "scraped_at": "2026-07-15T10:19:26.547Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/571/doc-read/4370?serviceVersion=15.1",
+      "title": "HTML_UG_WBS_DocIssuance_IssueTicket_TTKTIQ_15.1_005",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-DocIssuance_IssueTicket-15.1.md",
+      "excerpt": "# Function: DocIssuance\\_IssueTicket * * * ## 1 Overview This service is used to **ISSUE** or **REVALIDATE** contracts. The **ISSUANCE TRANSACTION** is the process whereby the reservation and the pric…",
+      "scraped_at": "2026-07-15T10:19:45.233Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/573/doc-read/99669?serviceVersion=7.1",
+      "title": "ug_fare_checkrules",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_CheckRules-7.1.md",
+      "excerpt": "# Function: CheckRules ## Overview The verb CheckRules is used to display fare notes after Fare Display or after Pricing transactions. (This PSP service provides the same information as the cryptic FQ…",
+      "scraped_at": "2026-07-15T10:21:00.380Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/1253/doc-read/101653?serviceVersion=8.2",
+      "title": "UG_WBS_Fare_DisplayFareDetails_FARRVQ_08.2_009",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_DisplayFareDetails-8.2.md",
+      "excerpt": "# Function: DisplayFareDetails ## Overview The PSP Service DisplayFareDetails returns details on the fare including currency amounts for specified fare and add-ons. The PSP Service DisplayFareDetails …",
+      "scraped_at": "2026-07-15T10:21:47.908Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/663/doc-read/99946?serviceVersion=8.2",
+      "title": "UG_WBS_Fare_DisplayTicketImage_FITQQQ_08.2_009",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_DisplayTicketImage-8.2.md",
+      "excerpt": "# Function: Fare\\_DisplayTicketImage * * * ## 1 Overview The DisplayTicket Image provides structured information from pricing results. The DisplayTicket Image must follow a fare pricing / fare best pr…",
+      "scraped_at": "2026-07-15T10:22:15.233Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/53309/doc-read/141656?serviceVersion=24.6",
+      "title": "HTML_UG_WBS_Fare_EnrichTravelProposals_FMPXAQ_24.6_007",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_EnrichTravelProposals-24.6.md",
+      "excerpt": "# Function: Fare\\_EnrichTravelProposals * * * ## 1 Overview This function aims to offer the cheapest price for a set of specified flights / travel solutions that have already been provided in input re…",
+      "scraped_at": "2026-07-15T10:22:22.850Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2191/doc-read/106211?serviceVersion=12.1",
+      "title": "UG_WBS_Fare_GetRulesOfPricedItinerary_TFRUDQ_12.1_025",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_GetRulesOfPricedItinerary-12.1.md",
+      "excerpt": "# Function: Fare\\_GetRulesOfPricedItinerary * * * ## 1 Overview ## 1.1 Supported Operations Default = for all Passengers and Fare recommendations Option = - per Passenger Type or - per Passenger Type …",
+      "scraped_at": "2026-07-15T10:23:43.454Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/581/doc-read/141658?serviceVersion=24.6",
+      "title": "HTML_UG_WBS_Fare_MasterPricerTravelBoardSearch_FMPTBQ_24.6_020",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_MasterPricerTravelBoardSearch-24.6.md",
+      "excerpt": "# Function: Fare\\_MasterPricerTravelBoardSearch * * * ## 1 Overview This function is designed to facilitate a wide range of options, ensuring that customers can narrow down or broaden the fare search,…",
+      "scraped_at": "2026-07-15T10:24:22.598Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/1101/doc-read/140706?serviceVersion=24.1",
+      "title": "HTML_UG_WBS_Hotel_CompleteReservationDetails_HCRDRQ_24.1_004",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Hotel_CompleteReservationDetails-24.1.md",
+      "excerpt": "# Function: Hotel\\_CompleteReservationDetails * * * ## 1 Overview The Hotel\\_CompleteReservationsDetails function gives the travel agent the complete details of the hotel reservation at the time of th…",
+      "scraped_at": "2026-07-15T10:28:07.123Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2047/doc-read/20019?serviceVersion=2.0",
+      "title": "HTML_UG_WBS_Hotel_EnhancedPricing_HOTPRQ_02.0_214",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Hotel_EnhancedPricing-2.0.md",
+      "excerpt": "# Function: Hotel\\_EnhancedPricing * * * ## 1 Overview This functionality is using the Open Travel Alliance (OTA) XML verbs OTA\\_HotelAvailRQ and OTA\\_HotelAvailRS version 2011B. It gives details for …",
+      "scraped_at": "2026-07-15T10:28:38.080Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/90/doc-read/140708?serviceVersion=24.2",
+      "title": "HTML_UG_WBS_Hotel_Sell_HBKRCQ_24.2_018",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Hotel_Sell-24.2.md",
+      "excerpt": "# Function: Hotel\\_Sell * * * ## 1 Overview ### Overview of Hotel\\_Sell The hotel booking flow in web services consists of four steps : **Message Flow** : Hotel\\_MultiSingleAvailability\\[Live Search\\]…",
+      "scraped_at": "2026-07-15T10:28:47.620Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2140/doc-read/105621?serviceVersion=12.1",
+      "title": "UG_WBS_Info_EncodeDecodeAircraft_MDNERQ_12.1_011",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Info_EncodeDecodeAircraft-12.1.md",
+      "excerpt": "# Function: Info\\_EncodeDecodeAircraft * * * ## 1 Overview This function allows the retrieval of an Aircraft code (respectively name) from an Aircraft name (respectively code). In both cases it return…",
+      "scraped_at": "2026-07-15T10:29:10.664Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2236/doc-read/107010?serviceVersion=13.1",
+      "title": "HTML_UG_WBS_MiniRule_GetFromETicket_TMRERQ_13.1_028",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-MiniRule_GetFromETicket-13.1.md",
+      "excerpt": "# Function: MiniRule\\_GetFromETicket * * * ## 1 Overview Amadeus Mini Rules provides to the user a summary of the most important fare conditions in a structured format. MiniRule\\_GetFromETicket functi…",
+      "scraped_at": "2026-07-15T10:30:09.721Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2753/doc-read/140440?serviceVersion=23.1",
+      "title": "HTML_UG_WBS_MiniRule_GetFromRec_TMRXRQ_23.1_016",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-MiniRule_GetFromRec-23.1.md",
+      "excerpt": "# Function: MiniRule\\_GetFromRec * * * ## 1 Overview Amadeus Mini Rules provide to the user a summary of the most important fare conditions in a structured format. They are stored in TST, PQR, upsell …",
+      "scraped_at": "2026-07-15T10:30:38.951Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2709/doc-read/7922?serviceVersion=2.0",
+      "title": "HTML_UG_WBS_PAY_CancelVirtualCardLoad_ _02.0_011",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PAY_CancelVirtualCardLoad-2.0.md",
+      "excerpt": "# Function: PAY\\_CancelVirtualCardLoad * * * ## 1 Overview The PAY\\_CancelVirtualCardLoad service is composed of: - Query: PAY\\_CancelVirtualCardLoadRQ - Response: PAY\\_CancelVirtualCardLoadRS This gu…",
+      "scraped_at": "2026-07-15T10:31:04.846Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2611/doc-read/6413?serviceVersion=1.1",
+      "title": "HTML_UG_WBS_PAY_DeleteVirtualCard_ _01.1_002",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PAY_DeleteVirtualCard-1.1.md",
+      "excerpt": "# Function: PAY\\_DeleteVirtualCard * * * ## 1 Overview A virtual card is a B2B method of payment used by travel agencies to pay their suppliers and ease the reconciliation process. PAY\\_DeleteVirtualC…",
+      "scraped_at": "2026-07-15T10:31:31.669Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2681/doc-read/142318?serviceVersion=3.2",
+      "title": "HTML_UG_WBS_PAY_GetVirtualCardDetails_ _03.2_011",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PAY_GetVirtualCardDetails-3.2.md",
+      "excerpt": "# Function: PAY\\_GetVirtualCardDetails * * * ## 1 Overview PAY\\_GetVirtualCardDetail is composed of: - Query: PAY\\_GetVirtualCardDetailsRQ - Reply: PAY\\_GetVirtualCardDetailsRS This guide explains how…",
+      "scraped_at": "2026-07-15T10:31:50.521Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2710/doc-read/6416?serviceVersion=1.0",
+      "title": "HTML_UG_WBS_PAY_ScheduleVirtualCardLoad_ _01.0_014",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PAY_ScheduleVirtualCardLoad-1.0.md",
+      "excerpt": "# Function: PAY\\_ScheduleVirtualCardLoad * * * ## 1 Overview The ScheduleVirtualCardLoad feature is part of the services provided by Amadeus Payment Virtual Card interface. It enables an agent to requ…",
+      "scraped_at": "2026-07-15T10:32:44.290Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/28/doc-read/136600?serviceVersion=22.1",
+      "title": "HTML_UG_WBS_PNR_Cancel_PNRXCL_22.1_006",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_Cancel-22.1.md",
+      "excerpt": "# Function: PNR\\_Cancel * * * ## 1 Overview The Cancel service is used to cancel selected elements from a PNR. A PNR contains all the elements (details) pertaining to a passenger's trip and reservatio…",
+      "scraped_at": "2026-07-15T10:34:02.734Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/120/doc-read/1756?serviceVersion=4.2",
+      "title": "HTML_UG_WBS_PNR_Commit_PEOTUQ_04.2_011",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_Commit-4.2.md",
+      "excerpt": "# Function: PNR\\_Commit * * * ## 1 Overview This function commits the modifications made to the PNR and release the PNR. ## 1.1 Supported Operations Not Applicable ## 1.2 Limitations Not Applicable ##…",
+      "scraped_at": "2026-07-15T10:34:22.865Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/530/doc-read/5535?serviceVersion=16.1",
+      "title": "HTML_UG_WBS_PNR_DisplayHistory_PHIDRQ_16.1_007",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_DisplayHistory-16.1.md",
+      "excerpt": "# Function: PNR\\_DisplayHistory * * * ## 1 Overview The PNR\\_DisplayHistory function is used to retrieve the history of a PNR. It is possible to retrieve all the PNR history or a filtered view of it b…",
+      "scraped_at": "2026-07-15T10:34:58.587Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/1247/doc-read/101636?serviceVersion=7.3",
+      "title": "UG_WBS_PNR_DisplayTSM_TMCORQ_07.3_107",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_DisplayTSM-7.3.md",
+      "excerpt": "# Function: DisplayTSM ## Overview It retrieves all TSM data based on a TSM tattoo number. The response sends the full data of the TSM. In particular, the Ticketed statusis showing whether the TSM has…",
+      "scraped_at": "2026-07-15T10:35:24.764Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/614/doc-read/4145?serviceVersion=14.1",
+      "title": "HTML_UG_WBS_PNR_NameChange_NMEREQ_14.1_063",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_NameChange-14.1.md",
+      "excerpt": "# Function: PNR\\_NameChange * * * ## 1 Overview The NameChange service allows to Update, Change or Complete a name. \\- The Name Update function is used to update surname, first name or title of name e…",
+      "scraped_at": "2026-07-15T10:35:44.800Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/123/doc-read/109953?serviceVersion=14.1",
+      "title": "UG_WBS_PNR_RetrieveByRecLoc_PRETRQ_14.1_003",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_RetrieveByRecLoc-14.1.md",
+      "excerpt": "# Function: PNR\\_RetrieveByRecLoc * * * ## 1 Overview The retrieve function is used to retrieve and provide a structured representation of an active passenger name record (PNR).The record locator of t…",
+      "scraped_at": "2026-07-15T10:37:28.464Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/103/doc-read/135549?serviceVersion=21.1",
+      "title": "HTML_UG_WBS_PNR_Split_PNRSPL_21.1_002",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_Split-21.1.md",
+      "excerpt": "# Function: PNR\\_Split * * * ## 1 Overview The function PNR\\_Split separates passengers from a parent PNR and creates a new child PNR with these passengers and their associated segments and elements. …",
+      "scraped_at": "2026-07-15T10:37:49.136Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/104/doc-read/5422?serviceVersion=14.1",
+      "title": "HTML_UG_WBS_PNR_TransferOwnership_POWNUQ_14.1_059",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_TransferOwnership-14.1.md",
+      "excerpt": "# Function: PNR\\_TransferOwnership * * * ## 1 Overview The TransferOwnership function is used to change the responsible office and/or the owner User Security Entity of a given PNR. The responsible off…",
+      "scraped_at": "2026-07-15T10:38:01.114Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/1908/doc-read/106608?serviceVersion=12.2",
+      "title": "UG_WBS_Profile_ReadProfile_PROFILE_READPROFILE_12.2_029",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Profile_ReadProfile-12.2.md",
+      "excerpt": "# Function: Profile\\_ReadProfile * * * ## 1 Overview This service is used to read one or more travel agency profiles from the Amadeus Customer Profile Database known as CSX. This service may be used f…",
+      "scraped_at": "2026-07-15T10:39:42.101Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/1909/doc-read/106628?serviceVersion=12.2",
+      "title": "UG_WBS_Profile_UpdateProfile_12.2",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Profile_UpdateProfile-12.2.pdf",
+      "excerpt": "PDF user guide (12.2)",
+      "scraped_at": "2026-07-15T10:40:34.503Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/52/doc-read/1643?serviceVersion=11.1",
+      "title": "HTML_UG_WBS_Queue_List_QDQLRQ_11.1_011",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Queue_List-11.1.md",
+      "excerpt": "# Function: Queue\\_List * * * ## 1 Overview This function retrieves a list of PNRs Record Locator placed in a queue and retrieves one among them with no need to display all PNRs one by one. Even more,…",
+      "scraped_at": "2026-07-15T10:41:14.518Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/113/doc-read/2299?serviceVersion=3.1",
+      "title": "HTML_UG_WBS_Queue_MoveItem_QUQMUQ_03.1_019",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Queue_MoveItem-3.1.md",
+      "excerpt": "# Function: Queue\\_MoveItem * * * ## 1 Overview The message can be used to move and copy PNRs/ Messages between Queues of the same office OR between different offices. ## 1.1 Supported Operations The …",
+      "scraped_at": "2026-07-15T10:41:27.124Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/31/doc-read/2759?serviceVersion=3.1",
+      "title": "HTML_UG_WBS_Queue_PlacePNR_QUQPCQ_03.1_011",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Queue_PlacePNR-3.1.md",
+      "excerpt": "# Function: Queue\\_PlacePNR * * * ## 1 Overview - This service allows to place a PNR to a specific Queue, Category and date Range; - It allows user to place a PNR in a single or multiple queues; - It …",
+      "scraped_at": "2026-07-15T10:41:39.576Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/32/doc-read/2443?serviceVersion=3.1",
+      "title": "HTML_UG_WBS_Queue_RemoveItem_QUQMDQ_03.1_013",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Queue_RemoveItem-3.1.md",
+      "excerpt": "# Function: Queue\\_RemoveItem * * * ## 1 Overview - This service allows to remove some or ALL PNRs/Messages from a specified Queue, Category and Date range. - It also enables user to remove PNRs/messa…",
+      "scraped_at": "2026-07-15T10:41:52.470Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/1292/doc-read/103292?serviceVersion=9.1",
+      "title": "UG_WBS_QueueMode_processQueue_QUEREQ_09.1_009",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-QueueMode_ProcessQueue-9.1.md",
+      "excerpt": "# Function: QueueMode\\_processQueue * * * ## 1 Overview This function allows accessing the six main operations that are available in the PoweredQueueModeinterface. In order to follow the IATA standard…",
+      "scraped_at": "2026-07-15T10:42:20.557Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/1310/doc-read/102282?serviceVersion=10.1",
+      "title": "UG_WBS_Rail_GetAccommodations_RAIL_GETACCOMMODATIONS_10.1_048",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Rail_GetAccommodations-10.1.md",
+      "excerpt": "# Function: Rail\\_GetAccommodations * * * ## 1 Overview The **GetAccommodations** functionality allows the user to request for the list of possible accommodations (seat, berth or bed) for a specific p…",
+      "scraped_at": "2026-07-15T10:42:47.817Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/1237/doc-read/138978?serviceVersion=22.2",
+      "title": "HTML_UG_WBS_SalesReports_DisplayQueryReport_TSRQRQ_22.2_006",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-SalesReports_DisplayQueryReport-22.2.md",
+      "excerpt": "# Function: SalesReports\\_DisplayQueryReport * * * ## 1 Overview This function requests the display of a query report. With no options, the query report is displayed with sales data from the current d…",
+      "scraped_at": "2026-07-15T10:43:24.349Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/48/doc-read/98459?serviceVersion=4.1",
+      "title": "UG_WBS_Security_SignOut_VLSSOQ_04.1_027",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Security_SignOut-4.1.md",
+      "excerpt": "# Function: Security\\_newSignOut * * * ## 1 Overview The currently logged user wants to invalidate all his current conversations. It allows a user to be unlogged from the system. In other words, Amade…",
+      "scraped_at": "2026-07-15T10:43:52.654Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2033/doc-read/9867?serviceVersion=17.1",
+      "title": "HTML_UG_WBS_Service_IntegratedCatalogue_TPICGQ_17.1_005",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Service_IntegratedCatalogue-17.1.md",
+      "excerpt": "# Function: Service\\_IntegratedCatalogue * * * ## 1 Overview This version of catalogue also returns: - **Integrated mode**: requested from the PNR, the system retrieves the context information from th…",
+      "scraped_at": "2026-07-15T10:44:17.603Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2332/doc-read/8710?serviceVersion=13.1",
+      "title": "HTML_UG_WBS_Ticket_ATCShopperMasterPricerCalendar_FMTCCQ_13.1_188",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_ATCShopperMasterPricerCalendar-13.1.md",
+      "excerpt": "# Function: Ticket\\_ATCShopperMasterPricerCalendar * * * ## 1 Overview The Ticket\\_ATCShopperMasterPricerCalendar service provides access to the calendar feature of ATC Shopper. ATC Shopper is a re-sh…",
+      "scraped_at": "2026-07-15T10:45:10.538Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/1293/doc-read/9688?serviceVersion=14.1",
+      "title": "HTML_UG_WBS_Ticket_CancelDocument_TRCANQ_14.1_008",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_CancelDocument-14.1.md",
+      "excerpt": "# Function: Ticket\\_CancelDocument * * * ## 1 Overview This service is available for both travel agencies and airline offices (ATO/CTO). It cancels documents before the sales report closure, when no m…",
+      "scraped_at": "2026-07-15T10:45:50.946Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/38/doc-read/1774?serviceVersion=4.1",
+      "title": "HTML_UG_WBS_Ticket_CreateTSTFromPricing_TAUTCQ_04.1_009",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_CreateTSTFromPricing-4.1.md",
+      "excerpt": "# Function: Ticket\\_CreateTSTFromPricing * * * ## 1 Overview This function provides Amadeus Customers with an automatic way to create TST. In the TST, the system automatically stores information obtai…",
+      "scraped_at": "2026-07-15T10:46:44.033Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2424/doc-read/3017?serviceVersion=3.0",
+      "title": "HTML_UG_WBS_Ticket_InitRefund_03.0_020",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_InitRefund-3.0.md",
+      "excerpt": "# Function: Ticket\\_InitRefund * * * ## 1 Overview Ticket\\_InitRefund initiates refunds on several documents via a single query/response. ## 1.1 Supported Operations **For air use-cases,** the data in…",
+      "scraped_at": "2026-07-15T10:47:51.774Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/2426/doc-read/9636?serviceVersion=3.3",
+      "title": "HTML_UG_WBS_Ticket_ProcessRefund_ _03.3",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_ProcessRefund-3.3.md",
+      "excerpt": "# Function: Ticket\\_ProcessRefund * * * ## 1 Overview The function Ticket\\_ProcessRefund allows the end user to process a previously retrieved refund record. This refund record must have been previous…",
+      "scraped_at": "2026-07-15T10:48:15.965Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/52651/doc-read/134524?serviceVersion=1.0",
+      "title": "HTML_UG_WBS_Ticket_RebookAndRepricePNR_ _01.0_022",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_RebookAndRepricePNR-1.0.md",
+      "excerpt": "# Function: Ticket\\_RebookAndRepricePNR * * * ## 1 Overview The service is meant to be used on ticketed PNRs only. It can cancel any PNR element by passing the identifier of the element to cancel in t…",
+      "scraped_at": "2026-07-15T10:48:28.021Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/605/doc-read/5331?serviceVersion=15.1",
+      "title": "HTML_UG_WBS_Ticket_ReissuePricingWithoutPNR_TRPNRQ_15.1_080",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_ReissuePricingWithoutPNR-15.1.md",
+      "excerpt": "# Function: Ticket\\_ReissuePricingWithoutPNR * * * ## 1 Overview Context: This transaction has been created in order to provide Amadeus Customers with an automated solution for the re-issuance of airl…",
+      "scraped_at": "2026-07-15T10:49:07.213Z"
+    },
+    {
+      "url": "https://developers.amadeus.com/api-library/soap/functional-doc/132/doc-read/106416?serviceVersion=12.2",
+      "title": "UG_WBS_Ticket_RepricePNRWithLowestFare_TARIBQ_12.2_044",
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_RepricePNRWithLowestFare-12.2.md",
+      "excerpt": "# Function: Ticket\\_RepricePNRWithLowestFare * * * ## 1 Overview The RepricePNRWithLowestFare function re-prices up to nine passengers for the entire flight itinerary or for as elected flight itinerar…",
+      "scraped_at": "2026-07-15T10:49:45.621Z"
+    }
+  ]
+}

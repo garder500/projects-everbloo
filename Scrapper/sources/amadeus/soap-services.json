@@ -1,0 +1,840 @@
+{
+  "total": 116,
+  "fetched_at": "2026-07-15T10:50:10.867Z",
+  "services": [
+    {
+      "id": 1,
+      "name": "Air_FlightInfo",
+      "latestVersion": "7.1",
+      "documentId": 2311,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Air_FlightInfo-7.1.md",
+      "status": "skipped"
+    },
+    {
+      "id": 2,
+      "name": "Air_MultiAvailability",
+      "latestVersion": "19.1",
+      "documentId": 7311,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Air_MultiAvailability-16.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 3,
+      "name": "Air_RebookAirSegment",
+      "latestVersion": "20.1",
+      "documentId": 134985,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Air_RebookAirSegment-20.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 51,
+      "name": "Air_RetrieveSeatMap",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 5,
+      "name": "Air_SellFromAvailability",
+      "latestVersion": "5.1",
+      "documentId": 98296,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Air_SellFromAvailability-5.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 6,
+      "name": "Air_SellFromRecommendation",
+      "latestVersion": "5.2",
+      "documentId": 98302,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Air_SellFromRecommendation-5.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 1291,
+      "name": "Car_Availability",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 64,
+      "name": "Car_LocationList",
+      "latestVersion": "24.6",
+      "documentId": 141479,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Car_LocationList-24.6.md",
+      "status": "ok"
+    },
+    {
+      "id": 70,
+      "name": "Car_RateInformationFromAvailability",
+      "latestVersion": "24.6",
+      "documentId": 141481,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Car_RateInformationFromAvailability-24.6.md",
+      "status": "ok"
+    },
+    {
+      "id": 71,
+      "name": "Car_RateInformationFromCarSegment",
+      "latestVersion": "25.1",
+      "documentId": 141652,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Car_RateInformationFromCarSegment-25.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 72,
+      "name": "Car_Sell",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 10,
+      "name": "Doc_DisplayItinerary",
+      "latestVersion": "1.2",
+      "documentId": 98310,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Doc_DisplayItinerary-1.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 567,
+      "name": "DocIssuance_IssueCombined",
+      "latestVersion": "15.1",
+      "documentId": 8383,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-DocIssuance_IssueCombined-15.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 569,
+      "name": "DocIssuance_IssueMiscellaneousDocuments",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 571,
+      "name": "DocIssuance_IssueTicket",
+      "latestVersion": "15.1",
+      "documentId": 4370,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-DocIssuance_IssueTicket-15.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 1889,
+      "name": "DocRefund_CalculateRefund",
+      "latestVersion": "16.1",
+      "documentId": 5516,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-DocRefund_CalculateRefund-16.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 1104,
+      "name": "Fare_CalculateExcessBaggage",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 1273,
+      "name": "Fare_CalculateMileage",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 573,
+      "name": "Fare_CheckRules",
+      "latestVersion": "7.1",
+      "documentId": 99669,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_CheckRules-7.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 533,
+      "name": "Fare_ConvertCurrency",
+      "latestVersion": "8.1",
+      "documentId": 8477,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_ConvertCurrency-8.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 974,
+      "name": "Fare_DisplayCurrencyIATARates",
+      "latestVersion": "8.1",
+      "documentId": 100677,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_DisplayCurrencyIATARates-8.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 1253,
+      "name": "Fare_DisplayFareDetails",
+      "latestVersion": "8.2",
+      "documentId": 101653,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_DisplayFareDetails-8.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 11,
+      "name": "Fare_DisplayFaresForCityPair",
+      "latestVersion": "12.1",
+      "documentId": 3923,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_DisplayFaresForCityPair-12.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 663,
+      "name": "Fare_DisplayTicketImage",
+      "latestVersion": "8.2",
+      "documentId": 99946,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_DisplayTicketImage-8.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 53309,
+      "name": "Fare_EnrichTravelProposals",
+      "latestVersion": "24.6",
+      "documentId": 141656,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_EnrichTravelProposals-24.6.md",
+      "status": "ok"
+    },
+    {
+      "id": 2278,
+      "name": "Fare_GetFareFamilyDescription",
+      "latestVersion": "18.1",
+      "documentId": 5289,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_GetFareFamilyDescription-15.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 2023,
+      "name": "Fare_GetFareRules",
+      "latestVersion": "10.1",
+      "documentId": 104218,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_GetFareRules-10.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 2191,
+      "name": "Fare_GetRulesOfPricedItinerary",
+      "latestVersion": "12.1",
+      "documentId": 106211,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_GetRulesOfPricedItinerary-12.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 1124,
+      "name": "Fare_InformativeBestPricingWithoutPNR",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 624,
+      "name": "Fare_InformativePricingWithoutPNR",
+      "latestVersion": "24.3",
+      "documentId": 141336,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_InformativePricingWithoutPNR-24.3.md",
+      "status": "ok"
+    },
+    {
+      "id": 12,
+      "name": "Fare_MasterPricerCalendar",
+      "latestVersion": "20.2",
+      "documentId": 140424,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_MasterPricerCalendar-20.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 579,
+      "name": "Fare_MasterPricerExpertSearch",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 581,
+      "name": "Fare_MasterPricerTravelBoardSearch",
+      "latestVersion": "24.6",
+      "documentId": 141658,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_MasterPricerTravelBoardSearch-24.6.md",
+      "status": "ok"
+    },
+    {
+      "id": 14,
+      "name": "Fare_PricePNRWithBookingClass",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 79,
+      "name": "Fare_PricePNRWithLowestFare",
+      "latestVersion": "23.2",
+      "documentId": 139970,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_PricePNRWithLowestFare-23.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 2331,
+      "name": "Fare_PriceUpsellWithoutPNR",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 669,
+      "name": "Fare_QuoteItinerary",
+      "latestVersion": "12.2",
+      "documentId": 103627,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_QuoteItinerary-10.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 80,
+      "name": "Fare_SellByFareCalendar",
+      "latestVersion": "12.2",
+      "documentId": 105515,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_SellByFareCalendar-12.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 81,
+      "name": "Fare_SellByFareSearch",
+      "latestVersion": "12.2",
+      "documentId": 105509,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_SellByFareSearch-12.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 82,
+      "name": "Fare_TLAGetFareRules",
+      "latestVersion": "5.1",
+      "documentId": 98628,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Fare_TLAGetFareRules-5.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 1379,
+      "name": "FOP_CreateFormOfPayment",
+      "latestVersion": "19.2",
+      "documentId": 133609,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-FOP_CreateFormOfPayment-19.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 1101,
+      "name": "Hotel_CompleteReservationDetails",
+      "latestVersion": "24.1",
+      "documentId": 140706,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Hotel_CompleteReservationDetails-24.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 637,
+      "name": "Hotel_DescriptiveInfo",
+      "latestVersion": "13.0",
+      "documentId": 140511,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Hotel_DescriptiveInfo-13.0.md",
+      "status": "ok"
+    },
+    {
+      "id": 2047,
+      "name": "Hotel_EnhancedPricing",
+      "latestVersion": "2.0",
+      "documentId": 20019,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Hotel_EnhancedPricing-2.0.md",
+      "status": "ok"
+    },
+    {
+      "id": 90,
+      "name": "Hotel_Sell",
+      "latestVersion": "24.2",
+      "documentId": 140708,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Hotel_Sell-24.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 2140,
+      "name": "Info_EncodeDecodeAircraft",
+      "latestVersion": "12.1",
+      "documentId": 105621,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Info_EncodeDecodeAircraft-12.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 17,
+      "name": "Insurance_Booking",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 592,
+      "name": "Insurance_Proposal",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 2236,
+      "name": "MiniRule_GetFromETicket",
+      "latestVersion": "13.1",
+      "documentId": 107010,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-MiniRule_GetFromETicket-13.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 2027,
+      "name": "MiniRule_GetFromPricing",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 2028,
+      "name": "MiniRule_GetFromPricingRec",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 2753,
+      "name": "MiniRule_GetFromRec",
+      "latestVersion": "23.1",
+      "documentId": 140440,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-MiniRule_GetFromRec-23.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 2709,
+      "name": "PAY_CancelVirtualCardLoad",
+      "latestVersion": "3.0",
+      "documentId": 7922,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PAY_CancelVirtualCardLoad-2.0.md",
+      "status": "ok"
+    },
+    {
+      "id": 2611,
+      "name": "PAY_DeleteVirtualCard",
+      "latestVersion": "3.0",
+      "documentId": 6413,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PAY_DeleteVirtualCard-1.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 2612,
+      "name": "PAY_GenerateVirtualCard",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 2681,
+      "name": "PAY_GetVirtualCardDetails",
+      "latestVersion": "3.2",
+      "documentId": 142318,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PAY_GetVirtualCardDetails-3.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 2682,
+      "name": "PAY_ListVirtualCards",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 2710,
+      "name": "PAY_ScheduleVirtualCardLoad",
+      "latestVersion": "3.0",
+      "documentId": 6416,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PAY_ScheduleVirtualCardLoad-1.0.md",
+      "status": "ok"
+    },
+    {
+      "id": 2708,
+      "name": "PAY_UpdateVirtualCard",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 24,
+      "name": "PNR_AddFrequentFlyer",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 25,
+      "name": "PNR_AddMultiElements",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 116,
+      "name": "PNR_AddSSR",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 28,
+      "name": "PNR_Cancel",
+      "latestVersion": "22.1",
+      "documentId": 136600,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_Cancel-22.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 537,
+      "name": "PNR_ChangeElement",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 120,
+      "name": "PNR_Commit",
+      "latestVersion": "4.2",
+      "documentId": 1756,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_Commit-4.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 1245,
+      "name": "PNR_CreateTSM",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 530,
+      "name": "PNR_DisplayHistory",
+      "latestVersion": "16.1",
+      "documentId": 5535,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_DisplayHistory-16.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 1247,
+      "name": "PNR_DisplayTSM",
+      "latestVersion": "7.3",
+      "documentId": 101636,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_DisplayTSM-7.3.md",
+      "status": "ok"
+    },
+    {
+      "id": 121,
+      "name": "PNR_Ignore",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 614,
+      "name": "PNR_NameChange",
+      "latestVersion": "14.1",
+      "documentId": 4145,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_NameChange-14.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 1923,
+      "name": "PNR_Redisplay",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 27,
+      "name": "PNR_Retrieve",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 1922,
+      "name": "PNR_RetrieveAndDisplay",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 102,
+      "name": "PNR_RetrieveByOARloc",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 123,
+      "name": "PNR_RetrieveByRecLoc",
+      "latestVersion": "14.1",
+      "documentId": 109953,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_RetrieveByRecLoc-14.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 2329,
+      "name": "PNR_Search",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 103,
+      "name": "PNR_Split",
+      "latestVersion": "21.1",
+      "documentId": 135549,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_Split-21.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 104,
+      "name": "PNR_TransferOwnership",
+      "latestVersion": "14.1",
+      "documentId": 5422,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-PNR_TransferOwnership-14.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 1385,
+      "name": "PriceXplorer_ExtremeSearch",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 1907,
+      "name": "Profile_CreateProfile",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 1911,
+      "name": "Profile_DeleteProfile",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 108,
+      "name": "Profile_ListDeactivatedProfiles",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 1908,
+      "name": "Profile_ReadProfile",
+      "latestVersion": "12.2",
+      "documentId": 106608,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Profile_ReadProfile-12.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 109,
+      "name": "Profile_RetrieveProfile",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 1909,
+      "name": "Profile_UpdateProfile",
+      "latestVersion": "12.2",
+      "documentId": 106628,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Profile_UpdateProfile-12.2.pdf",
+      "status": "ok"
+    },
+    {
+      "id": 112,
+      "name": "Queue_CountTotal",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 52,
+      "name": "Queue_List",
+      "latestVersion": "11.1",
+      "documentId": 1643,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Queue_List-11.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 113,
+      "name": "Queue_MoveItem",
+      "latestVersion": "3.1",
+      "documentId": 2299,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Queue_MoveItem-3.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 31,
+      "name": "Queue_PlacePNR",
+      "latestVersion": "3.1",
+      "documentId": 2759,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Queue_PlacePNR-3.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 32,
+      "name": "Queue_RemoveItem",
+      "latestVersion": "3.1",
+      "documentId": 2443,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Queue_RemoveItem-3.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 1292,
+      "name": "QueueMode_ProcessQueue",
+      "latestVersion": "9.1",
+      "documentId": 103292,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-QueueMode_ProcessQueue-9.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 1310,
+      "name": "Rail_GetAccommodations",
+      "latestVersion": "10.1",
+      "documentId": 102282,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Rail_GetAccommodations-10.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 2564,
+      "name": "Rail_GetContentAndRules",
+      "latestVersion": "1.4",
+      "status": "no_document"
+    },
+    {
+      "id": 1237,
+      "name": "SalesReports_DisplayQueryReport",
+      "latestVersion": "22.2",
+      "documentId": 138978,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-SalesReports_DisplayQueryReport-22.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 48,
+      "name": "Security_SignOut",
+      "latestVersion": "4.1",
+      "documentId": 98459,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Security_SignOut-4.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 2501,
+      "name": "Service_BookPriceService",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 2033,
+      "name": "Service_IntegratedCatalogue",
+      "latestVersion": "17.1",
+      "documentId": 9867,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Service_IntegratedCatalogue-17.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 2257,
+      "name": "Service_StandaloneCatalogue",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 2324,
+      "name": "Service_StandalonePricing",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 2332,
+      "name": "Ticket_ATCShopperMasterPricerCalendar",
+      "latestVersion": "18.2",
+      "documentId": 8710,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_ATCShopperMasterPricerCalendar-13.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 2330,
+      "name": "Ticket_ATCShopperMasterPricerTravelBoardSearch",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 1293,
+      "name": "Ticket_CancelDocument",
+      "latestVersion": "14.1",
+      "documentId": 9688,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_CancelDocument-14.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 126,
+      "name": "Ticket_CheckEligibility",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 1270,
+      "name": "Ticket_CreateTSMFromPricing",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 38,
+      "name": "Ticket_CreateTSTFromPricing",
+      "latestVersion": "4.1",
+      "documentId": 1774,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_CreateTSTFromPricing-4.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 1148,
+      "name": "Ticket_DisplayTSMP",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 41,
+      "name": "Ticket_DisplayTST",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 2424,
+      "name": "Ticket_InitRefund",
+      "latestVersion": "3.3",
+      "documentId": 3017,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_InitRefund-3.0.md",
+      "status": "ok"
+    },
+    {
+      "id": 1164,
+      "name": "Ticket_ProcessEDoc",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 2426,
+      "name": "Ticket_ProcessRefund",
+      "latestVersion": "3.3",
+      "documentId": 9636,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_ProcessRefund-3.3.md",
+      "status": "ok"
+    },
+    {
+      "id": 52651,
+      "name": "Ticket_RebookAndRepricePNR",
+      "latestVersion": "1.0",
+      "documentId": 134524,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_RebookAndRepricePNR-1.0.md",
+      "status": "ok"
+    },
+    {
+      "id": 130,
+      "name": "Ticket_ReissueConfirmedPricing",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 605,
+      "name": "Ticket_ReissuePricingWithoutPNR",
+      "latestVersion": "15.1",
+      "documentId": 5331,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_ReissuePricingWithoutPNR-15.1.md",
+      "status": "ok"
+    },
+    {
+      "id": 131,
+      "name": "Ticket_RepricePNRWithBookingClass",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    },
+    {
+      "id": 132,
+      "name": "Ticket_RepricePNRWithLowestFare",
+      "latestVersion": "12.2",
+      "documentId": 106416,
+      "path": "C:\\Users\\user\\Code\\everbloo\\Scrapper\\docs\\amadeus\\soap-Ticket_RepricePNRWithLowestFare-12.2.md",
+      "status": "ok"
+    },
+    {
+      "id": 1150,
+      "name": "Ticket_RetrieveListOfTSM",
+      "status": "failed",
+      "error": "Document download failed: HTTP 404"
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "data": [
+    {
+      "id": 233,
+      "name": "Flight Booking",
+      "index": 0,
+      "level": 1,
+      "catalogue": {
+        "id": 3,
+        "name": "Self service"
+      },
+      "parentFamily": {
+        "id": 203,
+        "name": "Flights"
+      },
+      "shortDescription": "Help travelers search, book, and manage their trips on over 400 airlines.",
+      "services": [],
+      "apis": [
+        {
+          "id": 60,
+          "name": "FlightOffersSearch_v2",
+          "displayName": "Flight Offers Search",
+          "description": "The Flight Offers Search API searches over 500 airlines to find the cheapest flights for a given itinerary. The API lets you can search flights between two cities, perform multi-city searches for longer itineraries and access one-way combinable fares to offer the cheapest options possible. For each itinerary, the API provides a list of flight offers with prices, fare details, airline names, baggage allowances and departure terminals.\n\nThis API forms the first step in the flight booking flow. Once a flight is chosen, confirm the real-time price using Flight Offers Price and book the flight with Flight Create Orders.\n\nThis API answers the question: &quot;What are the cheapest flights from Madrid to Paris on June 1st?&quot;\n\nNotes:\n-\tDevelopers working for airlines should use the airline APIs available in our Enterprise catalog.\n-\tFlights from low-cost carriers are currently unavailable.\n-\tFlights from American Airlines are currently unavailable.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 59,
+          "name": "FlightOffersPrice_v1",
+          "displayName": "Flight Offers Price",
+          "description": "The price and availability of airfare fluctuate constantly, so it&apos;s necessary to confirm the real-time price before proceeding to book. The Flight Offers Price API confirms the availability and final price (including taxes and fees) of flights returned by the Flight Offers Search API. The API also provides pricing for ancillary products like additional bags or extra-legroom seats and the details on the payment information required to complete the booking.\n\nThis API forms the second step in the flight booking flow. It is used to confirm the price of flights returned by Flight Offers Search  before booking with Flight Create Orders.\n\nThis API answers the question: &quot;what&apos;s the final price for this flight?&quot; \n\nNotes:\n-\tDevelopers working for airlines should use the airline APIs available in our Enterprise catalog.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 63,
+          "name": "FlightCreateOrders_v1",
+          "displayName": "Flight Create Orders",
+          "description": "The Flight Create Orders API performs the final booking for a chosen flight. The API provides a unique booking ID and reservation details once the reservation is completed.\n\nThis API is the final step in the flight booking flow. Use it after completing a flight search with Flight Offers Search and confirming real-time price and availability with Flight Offers Price.\n\nThis API answers the question: &quot;how can I book this flight?&quot; \n\nNotes:\n-\tDevelopers working for airlines should use the airline APIs available in our Enterprise catalog.\n-\tFares must be confirmed using Flight Offers Price before booking.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 80,
+          "name": "FlightOrderManagement_v1",
+          "displayName": "Flight Order Management",
+          "description": "The Flight Order Management API makes it easy to consult and manage flight reservations. Using the booking ID provided by the Flight Create Orders API, Flight Order Management checks the latest status of a reservation, shows post-booking modifications like ticket information or form of payment and lets you cancel reservations.\n\nThis API answers the question: &quot;where can I consult and manage my bookings?&quot;\n\nNotes:\n-\tDevelopers working for airlines should use the airline APIs available in our Enterprise catalog.\n-\tWhen working with an airline consolidator, cancellation via API is only permitted while the booking is in queue for ticketing.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 79,
+          "name": "SeatMapDisplay_v1",
+          "displayName": "SeatMap Display",
+          "description": "&quot;SeatMap Display&quot; API allows you to get information to display airplane cabin plan from a Flight Offer in order for the traveler to be able to choose his seat during the flight booking flow thanks to POST method. In addition GET method allows you to display airplane cabin plan from an existing Flight Order.\n\nThis API answers the question, &quot;What is the seat map description of my flights?&quot;",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 143,
+          "name": "BrandedFaresUpsell_v1",
+          "displayName": "Branded Fares Upsell",
+          "description": "Branded fares, or fare families, are airline-created fares that combine different products and services like bags, sets, meals, free cancellation or miles accrual. The Amadeus Branded Fare Upsell API provides the branded fares available for a given flight, along with pricing and a fare description. This enables you to increase booking revenue by recommending higher-value fares during the shopping phase.\n\nThe Branded Fares Upsell API is easily integrated into the Amadeus REST/JSON flight booking engine and provides branded fare options for flights returned by the Flight Offers Search API.\n\nNotes:\n   - Branded fares are provided directly by the airlines. Availability of branded fares may vary among airlines.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 234,
+      "name": "Flight Inspiration",
+      "index": 1,
+      "level": 1,
+      "catalogue": {
+        "id": 3,
+        "name": "Self service"
+      },
+      "parentFamily": {
+        "id": 203,
+        "name": "Flights"
+      },
+      "shortDescription": "Help flexible or undecided travelers pick their destination and start their flight search.",
+      "services": [],
+      "apis": [
+        {
+          "id": 142,
+          "name": "FlightAvailabilitiesSearch_v1",
+          "displayName": "Flight Availabilities Search",
+          "description": "The Amadeus Flight Availability API provides a list of flights with seats for sale on a given itinerary and the quantity of seats available in different fare classes. In addition to availability, the API also returns carrier and aircraft information, the departure and arrival terminals, schedule, and route.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 108,
+          "name": "TravelRecommendations_v1",
+          "displayName": "Travel Recommendations",
+          "description": "The Travel Recommendations API provides travelers personalized destination recommendations based on their location and an input destination, such as a previously searched flight destination or city of interest. The API uses Artificial Intelligence trained on Amadeus historical flight search data to determine which destinations are also popular among travelers with similar profiles, and provides a list of recommended destinations with name, IATA code, coordinates and similarity score.\n\nThe API answers the question: &quot;if a traveler has shown interest in Berlin, what other destinations would he/she like?&quot;\n\nNotes\n\n    - The API recommends destinations for travelers in the following countries of departure: France, UK, Germany, Italy, Spain, Netherlands, USA, Argentina, Mexico and South Africa.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 235,
+      "name": "Flight Schedule",
+      "index": 2,
+      "level": 1,
+      "catalogue": {
+        "id": 3,
+        "name": "Self service"
+      },
+      "parentFamily": {
+        "id": 203,
+        "name": "Flights"
+      },
+      "shortDescription": "Track real-time flight status and forecast potential delays.",
+      "services": [],
+      "apis": [
+        {
+          "id": 119,
+          "name": "OnDemandFlightStatus_v2",
+          "displayName": "On Demand Flight Status",
+          "description": "The Flight Status API provides real-time flight schedule data including up-to-date departure and arrival times, terminal and gate information, flight duration and real-time delay status. Help travelers track the live status of their flight and enjoy a stress-free trip.\n\nThis API answers the question: &quot;What&apos;s the current status of my flight?&quot;\n\nNotes:\n\n    - Flight status is based on information provided by the airlines. The quality of data may vary from one airline to another.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 236,
+      "name": "Airport",
+      "index": 3,
+      "level": 1,
+      "catalogue": {
+        "id": 3,
+        "name": "Self service"
+      },
+      "parentFamily": {
+        "id": 203,
+        "name": "Flights"
+      },
+      "shortDescription": "Get data on over 10,000 airports and make it easy for travelers to select their origin and destination. ",
+      "services": [],
+      "apis": [
+        {
+          "id": 10,
+          "name": "AirportCitySearch_v1",
+          "displayName": "Airport & City Search",
+          "description": "The Airport & City Search API finds airports and cities that match a specific word or string of letters. Using this API, you can automatically suggest airports based on what the traveler enters in the search field. The API provides a list of airports/cities ordered by yearly passenger volume with the name, 3-letter IATA code, time zone and coordinates of each airport.\n\nThis API answers the question: &quot;which cities and airports begin with Lon..?&quot;\n\nNotes:\n-\tAirports must have a minimum of commercial flights per week to be included.\n-\tExcludes military and private airports.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 9,
+          "name": "AirportNearestRelevant_v1",
+          "displayName": "Airport Nearest Relevant",
+          "description": "The Airport Nearest Relevant API finds the closest major airports to a starting point. The API provides a list of commercial airports within a 500km (311mi) radius of a given point that are ordered by relevance, which considers their distance from the starting point and their yearly flight traffic. For each airport, the API provides the name, 3-letter IATA code, time zone and coordinates.\n\nThis API answers the question: &quot;what are the nearest major airports to this location?&quot;\n\nNotes:\n-\tThe API does not consider traffic conditions, international boundaries, mountains, water or any other element which may impede access to the airport.\n-\tMaximum (radial) distance from a given coordinate is 500km (311mi).\n-\tAirports must have a minimum of commercial flights per week to be included.\n-\tExcludes military and private airports.\n-\tBy default, results are sorted by relevance. Results can also be sorted by distance from the starting point or total flight traffic.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 163,
+          "name": "AirportRoutes_v1",
+          "displayName": "Airport Routes",
+          "description": "\t\nThe Amadeus Airport Routes API helps you find all destinations served by a given airport. Provide the IATA code of a departure airport and the API will retrieve a list of all nonstop destination cities along with their names and IATA codes.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 237,
+      "name": "Airlines",
+      "index": 4,
+      "level": 1,
+      "catalogue": {
+        "id": 3,
+        "name": "Self service"
+      },
+      "parentFamily": {
+        "id": 203,
+        "name": "Flights"
+      },
+      "shortDescription": "Look up useful information on over 400 airlines.",
+      "services": [],
+      "apis": [
+        {
+          "id": 8,
+          "name": "FlightCheck-inLinks_v2",
+          "displayName": "Flight Check-in Links",
+          "description": "The Flight Check-in Links API simplifies the check-in process easy by providing a direct links to the airline check-in page. When given an airline code, the API provides a list of online check-in URLs in the traveler&apos;s preferred language.\n\nThis API answers the question: &quot;where do I check-in online?&quot;\n\nNotes:\n-\tIncludes links to both web and mobile check-in pages.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 26,
+          "name": "AirlineCodeLookUp_v1",
+          "displayName": "Airline Code Lookup",
+          "description": "The Airline Code Lookup API lets you find the name of an airline by its IATA or ICAO airline code. You can search for multiple airline names by including various airline codes in the same request.\n\nThis API answers the question, &quot;what is the name of the airline with the given IATA code EK?&quot;",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 178,
+          "name": "AirlineRoutes_v1",
+          "displayName": "Airline Routes",
+          "description": "The Amadeus Airline Routes API helps you find all destinations served by a given airline. Provide the IATA code of an airline and the API will retrieve a list of all destination cities along with their names and IATA codes.\n\nThis API answers the question:\n\n&quot;What destinations are served by this airline?&quot;",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    }
+  ],
+  "totalNumberOfResults": 5
+}

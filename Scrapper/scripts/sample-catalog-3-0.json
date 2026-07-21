@@ -1,0 +1,144 @@
+{
+  "data": [
+    {
+      "id": 203,
+      "name": "Flights",
+      "index": 1,
+      "level": 0,
+      "catalogue": {
+        "id": 3,
+        "name": "Self service"
+      },
+      "shortDescription": "Access data from over 400 airlines and build applications that guide travelers from search to check-in.",
+      "services": [],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 210,
+      "name": "Destination experiences",
+      "index": 2,
+      "level": 0,
+      "catalogue": {
+        "id": 3,
+        "name": "Self service"
+      },
+      "shortDescription": "Find data on over 2 million places and 150,000 activities and show travelers the best things to see and do.",
+      "services": [],
+      "apis": [
+        {
+          "id": 120,
+          "name": "ToursandActivities_v1",
+          "displayName": "Tours and Activities",
+          "description": "The Tours and Activities API helps you search and book activities, sightseeing tours, day trips and museum tickets in over 8,000 destinations around the world. The API is powered by MyLittleAdventure which uses Artificial Intelligence to compare deals from over 45 top providers like GetYourGuide or Viator and find the best activities at the best price.\n\nThe Tours and Activities API provides a list of the top activities for a given location or area, and returns the activity name, location, description, photo and a deep link to complete the booking with the provider.\n\nThis API answers the question:\n&quot;What&apos;re the best tours and activities in this location?&quot;\n\nNotes\n\nLocations can be defined by a coordinate with a radius or an area bound by four coordinates.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 176,
+          "name": "CitySearch_v1",
+          "displayName": "City Search",
+          "description": "The City Search API finds cities that match a specific word or string of letters. Using this API, you can automatically suggest cities based on what the traveler enters in the search field. The API provides a list of cities with the name, time zone, coordinates, and when possible the closer airport.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 238,
+      "name": "Cars and Transfers",
+      "index": 4,
+      "level": 0,
+      "catalogue": {
+        "id": 3,
+        "name": "Self service"
+      },
+      "shortDescription": "Tap into the potential of global transportation providers with Amadeus Cars and Transfers APIs.",
+      "services": [],
+      "apis": [
+        {
+          "id": 202,
+          "name": "TransferBooking_v1",
+          "displayName": "Transfer Booking",
+          "description": "The Transfer Booking API performs the final booking for a chosen transfer. The API provides a unique booking ID and reservation details once the reservation is completed. This API is the final step in the transfer booking flow. Use it after completing a transfer search with Transfer Search API.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 203,
+          "name": "TransferManagement_v1",
+          "displayName": "Transfer Management",
+          "description": "\t\nThe Transfer Management API makes it easy to manage your transfer reservations. Using the booking ID provided by the Transfer Booking API, Transfer Management lets you cancel reservations. ",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 201,
+          "name": "TransferSearch_v1",
+          "displayName": "Transfer Search",
+          "description": "Transfers Search API allows the users to search for a transfer in seamlessly way connected with global and local transfer providers, aggregating and standardizing all content and providing a unique API.\n\nWith Transfers API, the user will be able to get the following pre-arranged content:\n\nPrivate Transfers: pre-arranged chauffeured driven transfer from point to point, with the price guaranteed per the vehicle booked.\nHourly Services: pre-arranged chauffeured driven transfer for a period, with the price guaranteed per the vehicle booked and mileage allowed.\nTaxis: pre-arranged taxi reservation from point to point, with the estimated price. Final price will be given after the ride as per taximeter.\nShared Transfers: pre-arranged chauffeured driver shared transfer from point to point, with the price guaranteed per passenger.\nAirport Express: pre-arranged Airport express train from/to Airport to/from railway station, with the price guaranteed per passenger.\nAirport Buses: pre-arranged Airport express bus from/to Airport to/from bus stations, with the price guaranteed per passenger.\nPrivate Jet: pre-arranged Private flight from airport to airport, with price guaranteed per the vehicle booked.\nHelicopter Transfer: pre-arranged Private helicopter from/to airport, with the price guaranteed per vehicle booked.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 207,
+      "name": "Hotels",
+      "index": 5,
+      "level": 0,
+      "catalogue": {
+        "id": 3,
+        "name": "Self service"
+      },
+      "shortDescription": "Build with data from over 125,000 hotels and help your travelers find the perfect room every time.",
+      "services": [],
+      "apis": [
+        {
+          "id": 173,
+          "name": "HotelList_v1",
+          "displayName": "Hotel List",
+          "description": "The Hotel list REST JSON API help you find the list of hotels inside a city or an area.  The API returns the name, address, geoCode, and time zone for each hotel bookable in Amadeus. You can use the unique Hotel Id of each hotel to get the list of available hotel-offers and book a room.\n\nThis API answer the question: &quot;What are the hotel close to the conference center?&quot;",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 11,
+          "name": "HotelSearch_v3",
+          "displayName": "Hotel Search",
+          "description": "The Hotel Search API finds the best deals at over 150,000 hotels worldwide. The API provides a list of the cheapest hotels in a given location with detailed information on each hotel and the option to filter by category, chain, facilities or budget range. Once a hotel is chosen, the API provides the available rooms and prices.\n\nThe API as three endpoints - the first finds the cheapest available hotels in a chosen city, the second shows room and amenity details and the third fetches the real-time price of the desired room.\n\nThis API answers the question: &quot;what are the best hotel deals during my trip?&quot;\n\nNotes:\n-\tReturns offers from over 150,000 hotels on the Amadeus GDS.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 81,
+          "name": "HotelBooking_v2",
+          "displayName": "Hotel Booking",
+          "description": "The Amadeus Hotel Booking API lets you complete bookings at over 150,000 hotels and accommodations around the world. To complete bookings, you must first use the Amadeus Hotel Search API to search for hotel deals, select the desired offer and confirm the final price and availability. You can then use the Hotel Booking API to complete the reservation by providing an offer id, guest information and payment information.\n\nWhat this API does: &quot;I&apos;ve found the hotel I want, now I want to make a\nreservation.&quot;\n\nImportant:\n- This API is currently in beta and may be subject to changes.\n- The cancelation of a hotel can only be done offline\n- Hotel providers do not give commission",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 58,
+          "name": "HotelRatings_v2",
+          "displayName": "Hotel Ratings",
+          "description": "Enrich hotel search results with traveler ratings. The Hotel Ratings API uses sentiment analysis of hotel reviews to provide an overall hotel ratings and ratings for categories like location, comfort, service, staff, internet, food, facilities, pool or sleep quality.\n\nThis API answers the question: &quot;how do travelers rate this hotel?&quot;\n\nNotes:\n-\tSome hotels may not have ratings for all categories.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 151,
+          "name": "HotelNameAutocomplete_v1",
+          "displayName": "Hotel Name Autocomplete",
+          "description": "The Hotel Name Autocomplete API enables you to autocomplete a hotel search field and help your users quickly find their desired hotel. For a given text string, the API will provide a list of up to 20 hotels whose names most closely match.\n\nFor each hotel result, the API also provides descriptive data including hotel name, address, geocode, property type, IATA hotel code and an Amadeus hotel ID. When your user selects a hotel, the hotel ID can be easily passed to the Hotel Search API to retrieve information on rates and rooms.\n\nNotes:\n\nThe API returns name suggestions for over 150,000 hotels distributed by Amadeus.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    }
+  ],
+  "totalNumberOfResults": 4
+}

@@ -1,0 +1,129 @@
+{
+  "data": [
+    {
+      "id": 117,
+      "name": "Air",
+      "index": 0,
+      "level": 0,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "shortDescription": "Build your Air related application using Amadeus\n Air Web Services. From search, including low fares, to ticketing, find all the web services you need to fulfill your business needs.",
+      "services": [],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 118,
+      "name": "Booking Management",
+      "index": 1,
+      "level": 0,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "shortDescription": "Booking services enables you to book airline&apos;s content and manage reservation through PNR features",
+      "services": [],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 119,
+      "name": "Cars & Transfers",
+      "index": 2,
+      "level": 0,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "shortDescription": "Aiming to build a car rental booking application that leaves nothing to be desired? \nLooking for ways to create your own simple but efficient transfer booking application? Our cutting-edge Amadeus Car & Transfer web services provide everything you need. From exploring and booking, benefit from excellent functionalities available at your fingertips.",
+      "services": [],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 121,
+      "name": "Customer Profile",
+      "index": 4,
+      "level": 0,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "shortDescription": "With Amadeus Customer Profiles web services you can benefit from the information on traveler&apos;s preferences, frequent flyer details, seating requirements, and other information such as company corporate travel policies and payment details, to speed up the creation of PNRs.",
+      "services": [],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 122,
+      "name": "Hotel",
+      "index": 5,
+      "level": 0,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "shortDescription": "Build your Hotel related application using Amadeus Hotel Web Services. From availability searches to booking, find all the web services you need to fulfil your business needs.",
+      "services": [],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 123,
+      "name": "Insurance",
+      "index": 6,
+      "level": 0,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "shortDescription": "Looking for ways to build your own simple but efficient travel insurance booking tool? It has never been that quick and straightforward. Use our Amadeus Insurance Web Services to create an application that will fulfil all your business needs.",
+      "services": [],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 124,
+      "name": "Payments by Outpayce",
+      "index": 7,
+      "level": 0,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "services": [],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 125,
+      "name": "Queue Management",
+      "index": 8,
+      "level": 0,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "services": [],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 126,
+      "name": "Rail",
+      "index": 9,
+      "level": 0,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "shortDescription": "Build your Rail related application using \nAmadeus Rail Web Services. \nFrom search to ticketing, find all \nthe web services you need to fulfil \nyour business needs.",
+      "services": [],
+      "apis": [],
+      "metadata": []
+    }
+  ],
+  "totalNumberOfResults": 9
+}

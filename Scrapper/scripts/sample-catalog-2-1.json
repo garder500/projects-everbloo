@@ -1,0 +1,1453 @@
+{
+  "data": [
+    {
+      "id": 154,
+      "name": "Cars",
+      "index": 0,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 119,
+        "name": "Cars & Transfers"
+      },
+      "services": [],
+      "apis": [
+        {
+          "id": 296,
+          "name": "AmadeusCarsQuickConnect_v1",
+          "displayName": "Amadeus Cars Quick Connect",
+          "description": "Amadeus Cars Quick Connect is a set of car reservation APIs based on REST protocol designed for Travel Sellers with online presence to shop, book, retrieve and cancel car rental offers from providers globally.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 159,
+      "name": "Payout B2B Wallet",
+      "index": 0,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 124,
+        "name": "Payments by Outpayce"
+      },
+      "shortDescription": "B2B Wallet is a solution for travel sellers needed a way to pay their travel providers. This portfolio may showcase SOAP webservices.",
+      "services": [
+        {
+          "id": 2709,
+          "name": "PAY_CancelVirtualCardLoad",
+          "index": 2,
+          "nameInCatalogue": "Cancel Virtual Card Load",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "To cancel a previously scheduled load to a virtual card."
+        },
+        {
+          "id": 2611,
+          "name": "PAY_DeleteVirtualCard",
+          "index": 5,
+          "nameInCatalogue": "Delete Virtual Card",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "The DeleteVirtualCard messages enable the travel agency to delete a virtual card previously generated with the GenerateVirtualCard message.\r\n"
+        },
+        {
+          "id": 2612,
+          "name": "PAY_GenerateVirtualCard",
+          "index": 9,
+          "nameInCatalogue": "Generate Virtual Card",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API will act as the gateway to generate any type of virtual card offered by Amadeus. Virtual Cards will allow travel agencies to pay their suppliers, typically with a single use unique card number.&lt;br&gt;\nAdditionally, extended data regarding the travel taking place is also requested to improve the travel agency or corporation&apos;s reconciliation process."
+        },
+        {
+          "id": 2681,
+          "name": "PAY_GetVirtualCardDetails",
+          "index": 13,
+          "nameInCatalogue": "Get Virtual Card Details",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "The aim of the API is to get detailed information of a specific virtual card."
+        },
+        {
+          "id": 2682,
+          "name": "PAY_ListVirtualCards",
+          "index": 16,
+          "nameInCatalogue": "List Virtual Card",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "The aim of the API is to search and retrieve a list of virtual cards."
+        },
+        {
+          "id": 2710,
+          "name": "PAY_ScheduleVirtualCardLoad",
+          "index": 19,
+          "nameInCatalogue": "Schedule Virtual Card Load",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Schedules a load transfer to a virtual card"
+        },
+        {
+          "id": 2708,
+          "name": "PAY_UpdateVirtualCard",
+          "index": 23,
+          "nameInCatalogue": "Update Virtual Card",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows certain elements of a virtual card that has been already created to be modified. This includes items such as the card limitations, the associated additional data and the status of the card"
+        }
+      ],
+      "apis": [
+        {
+          "id": 43,
+          "name": "PaymentB2BWallet_v1",
+          "displayName": "Payment B2B Wallet",
+          "description": "The B2B Wallet API allows the creation, list, update, delete of virtual payment cards. It also allows to perform operations related to them, such as scheduling fund transfers, and the sending of notifications.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 376,
+          "name": "PaymentB2BWalletFundingAccount_v2",
+          "displayName": "Payment B2B Wallet Funding Account",
+          "description": "The B2B Wallet Funding Account API is used for retrieving the details and real-time balance of a funding account",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 153,
+      "name": "PNR Elements",
+      "index": 0,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 118,
+        "name": "Booking Management"
+      },
+      "services": [
+        {
+          "id": 1379,
+          "name": "FOP_CreateFormOfPayment",
+          "index": 5,
+          "nameInCatalogue": "Create Form Of Payment",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Adds an &quot;FP&quot; element in a PNR or in a pricing record, optionally performing a card authorization as well.\r\n\r\nData related to payment is stored in the FP element of the PNR, and is treated by Amadeus according to PCI-DSS compliancy standards. "
+        },
+        {
+          "id": 24,
+          "name": "PNR_AddFrequentFlyer",
+          "index": 7,
+          "nameInCatalogue": "PNR Add Frequent Flyer",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Add a reference to a Frequent Traveller Card in a PNR"
+        },
+        {
+          "id": 25,
+          "name": "PNR_AddMultiElements",
+          "index": 10,
+          "nameInCatalogue": "PNR Add Multi Elements",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows a user to make an entire reservation in the Amadeus system with one transaction. This is an efficient way to create a reservation and reduces the number of transactions required from the client application."
+        },
+        {
+          "id": 116,
+          "name": "PNR_AddSSR",
+          "index": 12,
+          "nameInCatalogue": "PNR Add SSR",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This web services is used to create a Special Service Request (SSR)."
+        },
+        {
+          "id": 28,
+          "name": "PNR_Cancel",
+          "index": 17,
+          "nameInCatalogue": "PNR Cancel",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used to cancel single or multiple elements from a Passenger Name Record (PNR). The cancelled elements are moved to PNR history. Flown or past date auxiliary segments cannot be cancelled from the PNR."
+        },
+        {
+          "id": 537,
+          "name": "PNR_ChangeElement",
+          "index": 21,
+          "nameInCatalogue": "PNR Change element",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "The API allows modification of following content in PNR&lt;br&gt;\n- Content element modification&lt;br&gt;\n- Segment association modification&lt;br&gt;\n- Passenger association modification."
+        },
+        {
+          "id": 120,
+          "name": "PNR_Commit",
+          "index": 22,
+          "nameInCatalogue": "PNR Commit",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Provides the possibility to commit modifications made to the PNR and release it"
+        },
+        {
+          "id": 1245,
+          "name": "PNR_CreateTSM",
+          "index": 23,
+          "nameInCatalogue": "PNR Create TSM",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "To be able to create the TSM for an EMD used for booking ancillary services"
+        },
+        {
+          "id": 1247,
+          "name": "PNR_DisplayTSM",
+          "index": 24,
+          "nameInCatalogue": "PNR Display TSM",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows to display a TSM from a PNR in a stateless mode."
+        },
+        {
+          "id": 121,
+          "name": "PNR_Ignore",
+          "index": 25,
+          "nameInCatalogue": "PNR Ignore",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Ignore all modifications made to the current PNR and release it"
+        },
+        {
+          "id": 614,
+          "name": "PNR_NameChange",
+          "index": 26,
+          "nameInCatalogue": "PNR Name Change",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Provides the possibility to update a passenger name or change a passenger name"
+        },
+        {
+          "id": 1923,
+          "name": "PNR_Redisplay",
+          "index": 27,
+          "nameInCatalogue": "PNR Redisplay",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used to redisplay the active Passenger Name Record (PNR)."
+        },
+        {
+          "id": 2551,
+          "name": "PNR_RequestTimeLimits",
+          "index": 29,
+          "nameInCatalogue": "PNR Request Time Limit",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API computes Time Limits (such as Ticketing Time Limits) from a PNR context, for all airlines, present in the itinerary, which have subscribed to the Amadeus Time Limits product."
+        },
+        {
+          "id": 27,
+          "name": "PNR_Retrieve",
+          "index": 33,
+          "nameInCatalogue": "PNR Retrieve",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used to retrieve and display an active PNR or to redisplay a PNR during the current session."
+        },
+        {
+          "id": 1922,
+          "name": "PNR_RetrieveAndDisplay",
+          "index": 35,
+          "nameInCatalogue": "PNR Retrieve and Display",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used to retrieve and display an active Passenger Name Record (PNR)."
+        },
+        {
+          "id": 102,
+          "name": "PNR_RetrieveByOARloc",
+          "index": 36,
+          "nameInCatalogue": "PNR Retrieve By OA Rloc",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Retrieve PNRs by record locator that the customer has as a reference from the PNR&apos;s booking"
+        },
+        {
+          "id": 123,
+          "name": "PNR_RetrieveByRecLoc",
+          "index": 37,
+          "nameInCatalogue": "PNR Retrieve by RLOC",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "The API allows the user to retrieve a PNR by its Record Locator."
+        },
+        {
+          "id": 103,
+          "name": "PNR_Split",
+          "index": 41,
+          "nameInCatalogue": "PNR Split",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API separates passengers from a parent Passenger Name Record and creates a new child PNR with these passengers and their associated segments and elements. The parent and child PNRs are then linked through Associated Record Indexing (AXR)."
+        },
+        {
+          "id": 104,
+          "name": "PNR_TransferOwnership",
+          "index": 42,
+          "nameInCatalogue": "PNR Transfer ownership",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used to change the owner office ID of a given Passenger Name Record. The office can be either an Amadeus office ID or a third party. Additionally, queuing Office ID, ticketing Office ID and Option Office ID can be modified."
+        },
+        {
+          "id": 530,
+          "name": "PNR_DisplayHistory",
+          "index": 44,
+          "nameInCatalogue": "PNR Display History",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used to retrieve the history of a Passenger Name Record (PNR).&lt;br&gt;\nThe PNR History contains the information about the creation, modification and cancellation of the different PNR elements plus all the actions that involves the PNR such as queuing."
+        },
+        {
+          "id": 2492,
+          "name": "PNR_Replicate",
+          "index": 48,
+          "nameInCatalogue": "PNR Replicate",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API copies elements from an existing Passenger Name record (PNR), referred to as the source PNR, and starts the creation of a new PNR, referred as the replicated PNR."
+        },
+        {
+          "id": 2329,
+          "name": "PNR_Search",
+          "index": 49,
+          "nameInCatalogue": "PNR search",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API provides a way to search for Passenger Name Records (PNR) via different search criteria such as flight data. The result will be a list of PNRs.&lt;br&gt;\nThis API does not allow the retrieval of a PNR by a PNR Record Locator."
+        }
+      ],
+      "apis": [
+        {
+          "id": 54,
+          "name": "FlightCreateOrders_v1",
+          "displayName": "Flight Create Orders",
+          "description": "The Flight Create Orders API allows you to book flights and ancillaries like bags or seats.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 65,
+          "name": "FlightOrderManagement_v1",
+          "displayName": "Flight Order Management",
+          "description": "The Flight Order Management is an API allowing you to do several operations on your existing booking. With the Get operation, you&apos;ll be able to retrieve information stored in the booking record. The Delete operation will allow you to cancel a booking if tickets have not been issued already. The PATCH operation will allow you to book seats on your existing flight booking.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 148,
+      "name": "Pricing & Rules",
+      "index": 0,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 117,
+        "name": "Air"
+      },
+      "shortDescription": "Fast, reliable and customisable\nsearch and calculation services  to automate the pricing of a ticket.",
+      "services": [
+        {
+          "id": 1273,
+          "name": "Fare_CalculateMileage",
+          "index": 2,
+          "nameInCatalogue": "Calculate Mileage",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows you to display the point to point mileage for a specific journey."
+        },
+        {
+          "id": 533,
+          "name": "Fare_ConvertCurrency",
+          "index": 3,
+          "nameInCatalogue": "Convert Currency",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows you to convert a currency."
+        },
+        {
+          "id": 974,
+          "name": "Fare_DisplayCurrencyIATARates",
+          "index": 4,
+          "nameInCatalogue": "Display Currency IATA Rates",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used in standalone mode.  It is used to return the IATA Rate of exchange of any currency, at a specific date."
+        },
+        {
+          "id": 11,
+          "name": "Fare_DisplayFaresForCityPair",
+          "index": 5,
+          "nameInCatalogue": "Display Fares For City Pairs",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows you to display a list of available fares for a specific city pair."
+        },
+        {
+          "id": 2278,
+          "name": "Fare_GetFareFamilyDescription",
+          "index": 6,
+          "nameInCatalogue": "Get Fare Family Description",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used to display the description of a targeted fare family."
+        },
+        {
+          "id": 2023,
+          "name": "Fare_GetFareRules",
+          "index": 7,
+          "nameInCatalogue": "Get Fare Rules",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API Allows Amadeus system users to request the Fare Rule information without having to do a pricing transaction."
+        },
+        {
+          "id": 669,
+          "name": "Fare_QuoteItinerary",
+          "index": 8,
+          "nameInCatalogue": "Quota Itinerary",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows you to do a detailed itinerary pricing without having to create a PNR."
+        },
+        {
+          "id": 82,
+          "name": "Fare_TLAGetFareRules",
+          "index": 9,
+          "nameInCatalogue": "TLA Get Fare Rules",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Get fare rules for TLA carriers"
+        },
+        {
+          "id": 1104,
+          "name": "Fare_CalculateExcessBaggage",
+          "index": 10,
+          "nameInCatalogue": "Calculate Excess Baggage",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows you to request the excess baggage charges between two cities."
+        },
+        {
+          "id": 1253,
+          "name": "Fare_DisplayFareDetails",
+          "index": 11,
+          "nameInCatalogue": "Display Fare Details",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows you to display details on the fare including currency amounts for specified fare and add-ons."
+        },
+        {
+          "id": 663,
+          "name": "Fare_DisplayTicketImage",
+          "index": 12,
+          "nameInCatalogue": "Display Ticket Image",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "The DisplayTicket Image provides structured information from pricing results. The DisplayTicket Image must follow a fare pricing / fare best pricing."
+        },
+        {
+          "id": 2191,
+          "name": "Fare_GetRulesOfPricedItinerary",
+          "index": 13,
+          "nameInCatalogue": "Get Rules of Priced Itinerary",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Return the text of the rules for all passengers, all fare components and whole itinerary after a pricing transaction."
+        },
+        {
+          "id": 2236,
+          "name": "MiniRule_GetFromETicket",
+          "index": 14,
+          "nameInCatalogue": "Mini Rules from eTicket",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This web service will not profit of latest Mini Rules enhancements.\nPlease use MiniRule_GetFromRec (TMRXRQ) instead.\n\nMini Rules provides a short and easy to read summary of the most important rules and restrictions  in a structured output so that they can be clearly understood by end-users and customers. This API is used to retrieve the Mini Rules data from an electronic ticket, with the E-Ticket number."
+        },
+        {
+          "id": 2027,
+          "name": "MiniRule_GetFromPricing",
+          "index": 15,
+          "nameInCatalogue": "Mini Rules from Pricing",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This web service will not profit of latest Mini Rules enhancements.\nPlease use MiniRule_GetFromRec (TMRXRQ) instead.\nMini Rules provides a short and easy to read summary of the most important rules and restrictions in a structured output so that they can be clearly understood by end-users and customers. This API can be used following any of the following transactions:\\\n- PNR pricing\n- Best pricing\n- Ticket Changer\n- Standalone pricing"
+        },
+        {
+          "id": 2028,
+          "name": "MiniRule_GetFromPricingRec",
+          "index": 16,
+          "nameInCatalogue": "Mini Rules from Pricing Record",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This web service will not profit of latest Mini Rules enhancements.\nPlease use MiniRule_GetFromRec (TMRXRQ) instead.\nMini Rules provides a short and easy to read summary of the most important rules and restrictions in a structured output so that they can be clearly understood by end-users and customers. This API is used to retrieve the Mini Rules data from a TST (Transitional Stored Ticket) or a PQR (Quotation Record for Amadeus Offer)."
+        },
+        {
+          "id": 79,
+          "name": "Fare_PricePNRWithLowestFare",
+          "index": 17,
+          "nameInCatalogue": "Price PNR With Lowest Fare",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows a user to get the best price for the itinerary present in a Passenger Name Record (PNR). The best pricing can be done for the whole PNR or for a selection of passengers and/or flight segments. \nNo check is done on the availability."
+        },
+        {
+          "id": 573,
+          "name": "Fare_CheckRules",
+          "index": 18,
+          "nameInCatalogue": "Check Rules",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is a follow-up transaction that can be used after a pricing or a fare display transaction. (This PSP API provides the same information as the cryptic FQN transaction)."
+        }
+      ],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 157,
+      "name": "Search & Shopping",
+      "index": 0,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 122,
+        "name": "Hotel"
+      },
+      "services": [
+        {
+          "id": 1297,
+          "name": "Hotel_MultiSingleAvailability",
+          "index": 0,
+          "nameInCatalogue": "Hotel Multi-Single Availability",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API combines a multi-hotel availability with single-hotel availability requests."
+        },
+        {
+          "id": 2047,
+          "name": "Hotel_EnhancedPricing",
+          "index": 1,
+          "nameInCatalogue": "Hotel Enhanced Pricing",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API provides full details for a specific product, which was returned in a previously performed Enhanced Single Availability request."
+        }
+      ],
+      "apis": [
+        {
+          "id": 47,
+          "name": "HotelSearch_v3",
+          "displayName": "Hotel Search",
+          "description": "The Hotel Search REST/JSON API is a hotel search API that enables you to find the best hotel offers that match your search from a wide choice of providers. The results contain the hotel details and will allow the user to select their preferred option based on either price, location or amenities. A wide range of search criteria can be applied to narrow the search results.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 171,
+          "name": "HotelList_v1",
+          "displayName": "Hotel List",
+          "description": "The Hotel list REST JSON API help you find the list of hotels inside a city or an area.  The API returns the name, address, geoCode, and time zone for each hotel bookable in Amadeus. You can use the unique Hotel Id of each hotel to get the list of available hotel-offers and book a room.\n\nThis API answer the question: &quot;What are the hotel close to the conference center?&quot;",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 158,
+      "name": "Search & Shopping",
+      "index": 0,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 123,
+        "name": "Insurance"
+      },
+      "services": [
+        {
+          "id": 17,
+          "name": "Insurance_Booking",
+          "index": 0,
+          "nameInCatalogue": "Travel Insurance Booking",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API provides the ability to book an insurance product"
+        },
+        {
+          "id": 592,
+          "name": "Insurance_Proposal",
+          "index": 1,
+          "nameInCatalogue": "Travel Insurance Shopping",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API provides the ability to request a list of priced products matching given parameters."
+        }
+      ],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 161,
+      "name": "Search & Shopping",
+      "index": 0,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 126,
+        "name": "Rail"
+      },
+      "services": [
+        {
+          "id": 2141,
+          "name": "Rail_GetContentAndRulesInPnr",
+          "index": 3,
+          "nameInCatalogue": "Get Content And Rules In PNR",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This optional web service offers the capability to retrieve the applicable rules for cancel, ticketing or after-sales of the Rail segments of a PNR.\r\n"
+        },
+        {
+          "id": 2564,
+          "name": "Rail_GetContentAndRules",
+          "index": 4,
+          "nameInCatalogue": "Get Content And Rules",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This optional API offers the capability to retrieve the applicable rules for cancel, ticketing or after-sales of the rail segments of a PNR."
+        },
+        {
+          "id": 2519,
+          "name": "Rail_SellSegment",
+          "index": 5,
+          "nameInCatalogue": "Sell Segment",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Book proposal returned by a MultiDestScheduleQuote and create the booking references both on the external systems and on Amadeus side."
+        },
+        {
+          "id": 1310,
+          "name": "Rail_GetAccommodations",
+          "index": 6,
+          "nameInCatalogue": "Get Accommodations",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Optional API that provides the accommodation for each leg of a trip and the associated preferences (aisle, window, etc.) that are available. Today seat map is not available."
+        }
+      ],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 156,
+      "name": "Utilities",
+      "index": 0,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 121,
+        "name": "Customer Profile"
+      },
+      "services": [
+        {
+          "id": 2674,
+          "name": "Profile_TransferProfile",
+          "index": 1,
+          "nameInCatalogue": "Transfer Profile",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows a fast and efficient creation of a PNR, giving the possibility to Amadeus agents to do a selective transfer of elements present in a Profile to a PNR."
+        },
+        {
+          "id": 1907,
+          "name": "Profile_CreateProfile",
+          "index": 2,
+          "nameInCatalogue": "Create Profile",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows the creation of a profile in Amadeus Customer Database."
+        },
+        {
+          "id": 109,
+          "name": "Profile_RetrieveProfile",
+          "index": 3,
+          "nameInCatalogue": "Retrieve Profile",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Retrieve customer profile"
+        },
+        {
+          "id": 1909,
+          "name": "Profile_UpdateProfile",
+          "index": 4,
+          "nameInCatalogue": "Update Profile",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows the update of a profile in Amadeus Customer Database."
+        },
+        {
+          "id": 1911,
+          "name": "Profile_DeleteProfile",
+          "index": 5,
+          "nameInCatalogue": "Delete Profile",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows the deactivation of a profile from the Amadeus Customer Database."
+        },
+        {
+          "id": 1908,
+          "name": "Profile_ReadProfile",
+          "index": 6,
+          "nameInCatalogue": "Read Profile",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows to read a profile in Amadeus Customer Database."
+        }
+      ],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 160,
+      "name": "Utilities",
+      "index": 0,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 125,
+        "name": "Queue Management"
+      },
+      "services": [
+        {
+          "id": 52,
+          "name": "Queue_List",
+          "index": 0,
+          "nameInCatalogue": "List in Queue",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API retrieves a list of Record Locators placed in a queue and can be filtered based on different search criteria like Name, Ticketing date etc."
+        },
+        {
+          "id": 113,
+          "name": "Queue_MoveItem",
+          "index": 1,
+          "nameInCatalogue": "Move Item in Queue",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used to move PNR/Message between queues."
+        },
+        {
+          "id": 31,
+          "name": "Queue_PlacePNR",
+          "index": 2,
+          "nameInCatalogue": "Place PNR in Queue",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used to add a Passenger Name Record (PNR) in queue."
+        },
+        {
+          "id": 32,
+          "name": "Queue_RemoveItem",
+          "index": 3,
+          "nameInCatalogue": "Remove Item in Queue",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used to remove PNR/Messages from a queue."
+        },
+        {
+          "id": 1292,
+          "name": "QueueMode_ProcessQueue",
+          "index": 4,
+          "nameInCatalogue": "Process Queue",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is used to access PNRs/messages present in the queue and allows six main operations (Start, Place, Delay, Remove, Ignore, Quit) in queue mode."
+        },
+        {
+          "id": 112,
+          "name": "Queue_CountTotal",
+          "index": 6,
+          "nameInCatalogue": "Count Total in Queue",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API returns the total number of Passenger Name records/messages on each queue, category and date range."
+        }
+      ],
+      "apis": [
+        {
+          "id": 148,
+          "name": "QueueList_v1",
+          "displayName": "Queue List",
+          "description": "This service retrieves a list of Record Locators placed in a queue.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 220,
+      "name": "Booking",
+      "index": 1,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 122,
+        "name": "Hotel"
+      },
+      "services": [
+        {
+          "id": 1101,
+          "name": "Hotel_CompleteReservationDetails",
+          "index": 1,
+          "nameInCatalogue": "Complete Reservation Details",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Complete Hotel Reservation"
+        },
+        {
+          "id": 90,
+          "name": "Hotel_Sell",
+          "index": 4,
+          "nameInCatalogue": "Hotel Sell",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API provides the ability to book rooms (Amadeus or non-GDS)."
+        }
+      ],
+      "apis": [
+        {
+          "id": 187,
+          "name": "HotelBookingManage_v2",
+          "displayName": "Hotel Booking Manage",
+          "description": "This service allows a client to update a hotel booking inside a hotel order.\n\nFollowing attributes of a hotel booking can be updated using this service:\n\nCustomer ID (for hotel loyalty programs)\nSpecial Requests (Supplementary Information)\nA request should contain at-least one attribute to be modified (from the list above)\n\nIf the update is successful, a confirmation with the complete Hotel Order is returned.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 106,
+          "name": "HotelBooking_v2",
+          "displayName": "Hotel Booking",
+          "description": "The Amadeus Hotel Booking API lets you complete bookings at over 150,000 hotels and accommodations around the world. To complete bookings, you must first use the Amadeus Hotel Search API to search for hotel deals, select the desired offer and confirm the final price and availability. You can then use the Hotel Booking API to complete the reservation by providing an offer id, guest information and payment information.\n\n\n\nWhat this API does: &quot;I&apos;ve found the hotel I want, now I want to make a reservation.&quot;\n\n\n\nImportant: this API is currently in beta and may be subject to changes.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 195,
+          "name": "HotelBookingRetrievebyReference_v2",
+          "displayName": "Hotel Booking Retrieve by Reference",
+          "description": "This service allows the user to retrieve a Hotel Order using a reference PNR record locator value. \n\nThe required inputs are:\n  1. reference. Used to pass the PNR record locator value (example: ABCDEF) \n  2. originSystemCode. Used to pass the code of the Origin system generating the reference. As the reference is a PNR record locator, the originSystemCode is set to GDS \n\nIf the retrieve is successful, the complete Hotel Order is returned.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 249,
+          "name": "HotelBookingRetrieve_v2",
+          "displayName": "Hotel Booking Retrieve",
+          "description": "This service allows the user to retrieve a Hotel Order. \n\nThe required input is the Hotel Order ID.\n\nIf the retrieve is successful, the complete Hotel Order is returned.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 281,
+          "name": "Etraveli-OrderCreationEvents_v1",
+          "displayName": "Etraveli - Order Creation Events",
+          "description": "The Etraveli - Order Creation Events behaves as Event Handler, when events are notified by a broker from Etraveli Group. At each event notified to Amadeus, the API feeds a database where the stored information will be used for later offline internal processing.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 150,
+      "name": "Search & Shopping",
+      "index": 1,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 117,
+        "name": "Air"
+      },
+      "shortDescription": "Comprehensive suite of flight Search&Shopping services. It applies across all channels, throughout the planning & search flow",
+      "services": [
+        {
+          "id": 80,
+          "name": "Fare_SellByFareCalendar",
+          "index": 5,
+          "nameInCatalogue": "Master Pricer Special Offer  Calendar",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "The Master Pricer Special Offer Calendar Product is an interactive Low Fare Search Product designed to enable a customer to find when a specific promotion of an airline is available in a 1 month calendar."
+        },
+        {
+          "id": 81,
+          "name": "Fare_SellByFareSearch",
+          "index": 6,
+          "nameInCatalogue": "Master Pricer Special Offer Search",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "When the customer has retreived the date when a specific promotion of an airline is available, the subsequent Master Pricer Special Offer Search Product will enable the customer to navigate through a large volume of recommendation by sorting and filtering"
+        },
+        {
+          "id": 1385,
+          "name": "PriceXplorer_ExtremeSearch",
+          "index": 7,
+          "nameInCatalogue": "Extreme Search",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "With Amadeus Extreme Search, find the best deals from hundreds of airlines over a full calendar year and display results using interactive maps according to your own customised web design."
+        },
+        {
+          "id": 2033,
+          "name": "Service_IntegratedCatalogue",
+          "index": 8,
+          "nameInCatalogue": "Ancillary services catalogue with PNR",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API provides the list of recommendations corresponding to the airline filing for their chargeable services  in integrated mode (the system retrieves the context information from the Passenger Name Record - PNR)."
+        },
+        {
+          "id": 2257,
+          "name": "Service_StandaloneCatalogue",
+          "index": 9,
+          "nameInCatalogue": "Ancillary services catalogue without PNR",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API aims at returning the list of services prior to PNR creation, for the flight, passenger and fare related data provided within the catalogue request."
+        },
+        {
+          "id": 1,
+          "name": "Air_FlightInfo",
+          "index": 10,
+          "nameInCatalogue": "Flight Info",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Retrieve up-to-date information related to the operation of a particular flight before, during and after departure"
+        },
+        {
+          "id": 51,
+          "name": "Air_RetrieveSeatMap",
+          "index": 11,
+          "nameInCatalogue": "Air Retrieve Seat Map",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Provides the seat map with prices for a given flight."
+        },
+        {
+          "id": 5,
+          "name": "Air_SellFromAvailability",
+          "index": 12,
+          "nameInCatalogue": "Air Sell From Availability",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Sell a flight in reference to an air availability reply"
+        },
+        {
+          "id": 6,
+          "name": "Air_SellFromRecommendation",
+          "index": 13,
+          "nameInCatalogue": "Air Sell From Recommendation",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Sell air flights with an optional optimisation algorithm"
+        },
+        {
+          "id": 2501,
+          "name": "Service_BookPriceService",
+          "index": 14,
+          "nameInCatalogue": "Book Price Service",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows capacity to book and price automatically chargeable service (AAS services) from PNR without catalogue context."
+        },
+        {
+          "id": 2324,
+          "name": "Service_StandalonePricing",
+          "index": 15,
+          "nameInCatalogue": "Standalone Pricing",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows to price Services based on fare related to services (OC fees), in standalone mode (without Passenger Name Record - PNR, the caller gives the context in input)."
+        },
+        {
+          "id": 2,
+          "name": "Air_MultiAvailability",
+          "index": 16,
+          "nameInCatalogue": "Mult Availability",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "The Air/Multi Availability function works with the functionality of Amadeus Air which includes flight availability, flight schedules, time table information "
+        },
+        {
+          "id": 579,
+          "name": "Fare_MasterPricerExpertSearch",
+          "index": 17,
+          "nameInCatalogue": "Master Pricer Expert Search",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Master Pricer Expert Edition is a low fare search product allowing a customer to look for the best recommendation, book it and ticket it."
+        },
+        {
+          "id": 12,
+          "name": "Fare_MasterPricerCalendar",
+          "index": 18,
+          "nameInCatalogue": "Master Pricer Calendar Search",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "The Master Pricer Calendar Product is an interactive Low Fare Search Product designed to enable a customer flexible with his travel dates to retrieve the cheapest travel solution per combination of dates in a 7x7 calendar matrix."
+        },
+        {
+          "id": 581,
+          "name": "Fare_MasterPricerTravelBoardSearch",
+          "index": 502,
+          "nameInCatalogue": "Master Pricer Travelboard Search",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "The Master Pricer Product is an interactive Low Fare Search Product designed to enable a customer to navigate through a large volume of recommendation by sorting and filtering."
+        }
+      ],
+      "apis": [
+        {
+          "id": 62,
+          "name": "FlightOffersSearch_v2",
+          "displayName": "Flight Offers Search",
+          "description": "The Flight Offers Search API allows to get cheapest flight recommendations and prices on a given journey. It provides a list of flight recommendations and fares from a given origin (city or airport), for a given date (or date range) and for a given list of passengers. Additional information such as bag allowance, first ancillary bag prices or fare details are also provided",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 49,
+          "name": "FlightOffersPrice_v1",
+          "displayName": "Flight Offers Price",
+          "description": "Flight Offers Price allows to validate a fare provided by Flight Offers Search. It also provides ancillaries information and payment information details.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 134,
+          "name": "BrandedFaresUpsell_v1",
+          "displayName": "Branded Fares Upsell",
+          "description": "The **BrandedFaresUpsell** REST/JSON service enables you to get upgraded Branded Fares flight recommendations available from a flight offer.\n\nBranded Fares are airline offers in which airline bundles its airfares with options and features, such as refundability and miles accrual, or a pre-reserved seat, baggage, and meal.\n\nIt is usually used after the Flight Offers Search service.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 141,
+          "name": "FlightAvailabilitiesSearch_v1",
+          "displayName": "Flight Availabilities Search",
+          "description": "The Amadeus Flight Availability API provides a list of flights with seats for sale on a given itinerary and the quantity of seats available in different fare classes. In addition to availability, the API also returns carrier and aircraft information, the departure and arrival terminals, schedule, and route.",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 157,
+          "name": "NDCSeatmapDisplay_v1",
+          "displayName": "NDC Seatmap Display",
+          "description": "The NDC Seatmap Display API provides airplane cabin information for an given flight offered via NDC connectivity. The API returns pricing and availability for seats and details on in-flight amenities like food and beverage service, entertainment options or wi-fi.\n\nThis API answers the question, &quot;What are my seating options on this flight?&quot;",
+          "protocol": "REST",
+          "format": "JSON"
+        },
+        {
+          "id": 61,
+          "name": "SeatMapDisplay_v1",
+          "displayName": "Seatmap Display",
+          "description": "&quot;Seatmap Display&quot; API allows you to get information to display airplane cabin plan from a Flight Offer in order for the traveler to be able to choose his seat during the flight booking flow.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 162,
+      "name": "Ticketing",
+      "index": 1,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 126,
+        "name": "Rail"
+      },
+      "services": [
+        {
+          "id": 2564,
+          "name": "Rail_GetContentAndRules",
+          "index": 1,
+          "nameInCatalogue": "Get Content And Rules",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This optional API offers the capability to retrieve the applicable rules for cancel, ticketing or after-sales of the rail segments of a PNR."
+        },
+        {
+          "id": 2567,
+          "name": "Rail_IssueContract",
+          "index": 2,
+          "nameInCatalogue": "Issue Contract",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Ticket trips, accommodations and supplements that have been priced together, for all passengers in a PNR."
+        }
+      ],
+      "apis": [],
+      "metadata": []
+    },
+    {
+      "id": 252,
+      "name": "Transfers",
+      "index": 1,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 119,
+        "name": "Cars & Transfers"
+      },
+      "services": [],
+      "apis": [
+        {
+          "id": 140,
+          "name": "Transfers_v1",
+          "displayName": "Transfers",
+          "description": "Amadeus Transfers Quick-Connect, part of the Amadeus Travel Distribution Portfolio, enables travel sellers and OTAs of all sizes to enrich air, hotel, and point-to-point content with seamless transfers, ensuring customer satisfaction.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 221,
+      "name": "Content",
+      "index": 2,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 122,
+        "name": "Hotel"
+      },
+      "services": [
+        {
+          "id": 637,
+          "name": "Hotel_DescriptiveInfo",
+          "index": 1,
+          "nameInCatalogue": "Descriptive Info",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Need for property information"
+        }
+      ],
+      "apis": [
+        {
+          "id": 248,
+          "name": "HotelContentDetails_v3",
+          "displayName": "Hotel Content Details",
+          "description": "The Hotel Content API provides functionality for retrieving static and descriptive content of an Individual Property. \n    The following are the main characteristics of this new API:\n    - Provides basic Information of Hotel properties including Hotel Address and Contact.\n    - Provides content related to Hotel facilities which includes Meeting Rooms, Restaurant and Hotel Facilities\n    - Awards and Promotion related content.\n    - Hotel Policies which includes Pets Policies, CheckIn and CheckOut policies\n    - Multimedia Description depicting Textual and Image content \n    - Hotel Rooms and Point of Interest which includes attraction places near Hotel property.",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 151,
+      "name": "Ticketing",
+      "index": 2,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 117,
+        "name": "Air"
+      },
+      "shortDescription": "Suite of Ticketing services at booking time",
+      "services": [
+        {
+          "id": 10,
+          "name": "Doc_DisplayItinerary",
+          "index": 0,
+          "nameInCatalogue": "Display Itinerary",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Display the itinerary"
+        },
+        {
+          "id": 2330,
+          "name": "Ticket_ATCShopperMasterPricerTravelBoardSearch",
+          "index": 3,
+          "nameInCatalogue": "ATCShopper Fare Master Pricer Travel Board Search",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "ATC Shopper - Master Pricer Travelboard provides a set of recommendations to the traveller willing to change his tickets for the specified dates and origin/destination."
+        },
+        {
+          "id": 1270,
+          "name": "Ticket_CreateTSMFromPricing",
+          "index": 4,
+          "nameInCatalogue": "Create TSM From Pricing",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows the automatic creation of the pricing record for ancillary services."
+        },
+        {
+          "id": 38,
+          "name": "Ticket_CreateTSTFromPricing",
+          "index": 5,
+          "nameInCatalogue": "Create TST From Pricing",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Automatic creation of a TST based on a pricing request"
+        },
+        {
+          "id": 1148,
+          "name": "Ticket_DisplayTSMP",
+          "index": 6,
+          "nameInCatalogue": "Display TSMP",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API displays the fields of the pricing record (TSM-P) linked to a service (SSR, SVC, Seat) or a TASF (Travel Agent Service Fees)."
+        },
+        {
+          "id": 41,
+          "name": "Ticket_DisplayTST",
+          "index": 7,
+          "nameInCatalogue": "Display TST",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows customers to display the Transitional Ticket Stored (TST)."
+        },
+        {
+          "id": 2424,
+          "name": "Ticket_InitRefund",
+          "index": 8,
+          "nameInCatalogue": "Init Refund",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows the customer to initiate refund for several documents in the same query."
+        },
+        {
+          "id": 2426,
+          "name": "Ticket_ProcessRefund",
+          "index": 9,
+          "nameInCatalogue": "Process Refund",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows the customer to process refund for several documents in the same query."
+        },
+        {
+          "id": 1150,
+          "name": "Ticket_RetrieveListOfTSM",
+          "index": 10,
+          "nameInCatalogue": "Retrieve List Of TSM",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "List all TSMs in a PNR\r\n"
+        },
+        {
+          "id": 567,
+          "name": "DocIssuance_IssueCombined",
+          "index": 11,
+          "nameInCatalogue": "Issue combined e-ticket and EMD",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API combines issuance of an e-ticket and an Electronic Miscellaneous Document (EMD)."
+        },
+        {
+          "id": 569,
+          "name": "DocIssuance_IssueMiscellaneousDocuments",
+          "index": 12,
+          "nameInCatalogue": "Issue Miscellaneous Document",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows the user to issue an Electronic Miscellaneous Document (EMD) or a Travel Agent Service Fee (TASF)."
+        },
+        {
+          "id": 571,
+          "name": "DocIssuance_IssueTicket",
+          "index": 13,
+          "nameInCatalogue": "Issue e-Ticket",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows the user to issue an E-Ticket."
+        },
+        {
+          "id": 1889,
+          "name": "DocRefund_CalculateRefund",
+          "index": 16,
+          "nameInCatalogue": "ATC Refund",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is computing and filling the refund panel based on ATC Refund computation."
+        },
+        {
+          "id": 1293,
+          "name": "Ticket_CancelDocument",
+          "index": 17,
+          "nameInCatalogue": "Void package",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API can be used to void an e-ticket, cancel an exchange, a Travel Agent Service Fee (TASF), an Electronic Miscellaneous Document (EMD) or a refund."
+        },
+        {
+          "id": 2332,
+          "name": "Ticket_ATCShopperMasterPricerCalendar",
+          "index": 19,
+          "nameInCatalogue": "ATC Master Pricer Calendar",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "ATC Master Pricer Calendar provides the cheapest available rebooking solution per date, over a specified time range, for the ticket change that the traveller wishes to perform."
+        },
+        {
+          "id": 126,
+          "name": "Ticket_CheckEligibility",
+          "index": 20,
+          "nameInCatalogue": "Check Eligibility",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is checking the eligibility for exchange of a given ticket. The eligibility information is returned for the overall ticket and for each coupon."
+        },
+        {
+          "id": 1164,
+          "name": "Ticket_ProcessEDoc",
+          "index": 23,
+          "nameInCatalogue": "E-document display and history display",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "Display an E-ticket or an Electronic Miscellaneous Document (EMD) and its history."
+        },
+        {
+          "id": 130,
+          "name": "Ticket_ReissueConfirmedPricing",
+          "index": 24,
+          "nameInCatalogue": "Confirmed pricing",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API is the confirmation of a previous informative re-pricing.&lt;br&gt;\nIt generates a TST with the new routing and the new fare, and a TSM in case of the additional collection/residual value.&lt;br&gt;\nThese documents can then be issued accordingly."
+        },
+        {
+          "id": 605,
+          "name": "Ticket_ReissuePricingWithoutPNR",
+          "index": 25,
+          "nameInCatalogue": "Pricing Without a PNR",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API triggers ATC (Amadeus Ticket Changer) Reissue in a standalone flow, meaning PNR is not accessible and the information about the old ticket number plus the new bookings have to be provided in input."
+        },
+        {
+          "id": 131,
+          "name": "Ticket_RepricePNRWithBookingClass",
+          "index": 28,
+          "nameInCatalogue": "Informative Repricing ATC Voluntary",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API provides a repricing output of the passengers for the class of service (or booking Class) booked based on ATC (Amadeus Ticket Changer) computation."
+        },
+        {
+          "id": 132,
+          "name": "Ticket_RepricePNRWithLowestFare",
+          "index": 29,
+          "nameInCatalogue": "Informative Repricing Best Pricer",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API offers a re-pricing output of the passengers with the lowest available pricing solution based on ATC (Amadeus Ticket Changer) computation.."
+        }
+      ],
+      "apis": [
+        {
+          "id": 89,
+          "name": "FlightOrderIssue_v1",
+          "displayName": "Flight Order Issue",
+          "description": "Flight Order Issue allows you to issue tickets for Full Service Carriers from an existing PNR you may have booked thanks to Flight Order Create",
+          "protocol": "REST",
+          "format": "JSON"
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": 152,
+      "name": "Utilities",
+      "index": 3,
+      "level": 1,
+      "catalogue": {
+        "id": 2,
+        "name": "Distribution"
+      },
+      "parentFamily": {
+        "id": 117,
+        "name": "Air"
+      },
+      "services": [
+        {
+          "id": 2140,
+          "name": "Info_EncodeDecodeAircraft",
+          "index": 0,
+          "nameInCatalogue": "Encode Decode Aircraft",
+          "protocol": "SOAP",
+          "format": "XML",
+          "shortDescriptionInCatalogue": "This API allows the retrieval of an Aircraft code (respectively name) from an Aircraft name (respectively code). In both cases it returns the corresponding Aircraft (name and code) and the other information linked to it."
+        }
+      ],
+      "apis": [],
+      "metadata": []
+    }
+  ],
+  "totalNumberOfResults": 16
+}

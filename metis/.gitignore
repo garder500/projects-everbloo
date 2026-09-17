@@ -12,3 +12,7 @@ devenv.local.yaml
 # pixi environments
 .pixi/*
 !.pixi/config.toml
+
+# MCP build & artifacts
+metis-mcp/dist/
+node_modules/

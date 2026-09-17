@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "metis-mcp": {
+      "command": "C:\\Users\\user\\Code\\everbloo\\metis\\metis-mcp\\dist\\metis-mcp.exe",
+      "env": {
+        "METIS_WORKSPACE_ROOT": "C:\\Users\\user\\Code\\everbloo\\metis"
+      }
+    }
+  }
+}

@@ -38,7 +38,7 @@ front-resa = "cd front-reservation && npm run dev"
 front-dashboard = "cd front-dashboard/src && npm run dev"
 
 up = """
-  concurrently -k \
+  npx concurrently -k \
     -n api-aerial,api-dashboard,api-car,api-hotel,api-rail,front-resa,front-dashboard \
     -c blue,magenta,red,yellow,cyan,green,white \
     --hide front-resa,front-dashboard \

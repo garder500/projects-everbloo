@@ -1,0 +1,24 @@
+# MinIO local (S3) : 1 bucket par repo. Lancé par `pixi run minio-up`.
+# Image bitnamilegacy : les images officielles minio/minio ne sont plus publiées (docker.io / quay.io).
+# Les buckets sont créés au démarrage via MINIO_DEFAULT_BUCKETS.
+name: metis-dev
+services:
+  minio:
+    image: docker.io/bitnamilegacy/minio:latest
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_DEFAULT_BUCKETS: api-aerial,api-car,api-rail,api-hotel
+    ports:
+      - "9000:9000"   # API S3
+      - "9001:9001"   # Console web
+    volumes:
+      - minio-data:/bitnami/minio/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:9000/minio/health/live || exit 1"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  minio-data:

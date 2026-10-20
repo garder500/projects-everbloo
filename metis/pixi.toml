@@ -2,7 +2,7 @@
 authors = ["garder500 <jeremy27.clara22@gmail.com>"]
 channels = ["conda-forge"]
 name = "metis"
-platforms = ["win-64"]
+platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
 version = "0.1.0"
 
 [dependencies]
@@ -15,8 +15,13 @@ make = "*" # Équivalent de gnumake sur Windows via conda
 [tasks]
 # --- SETUP & HELPERS ---
 # On installe ce qui manque à conda-forge (Bun + Gemini)
-setup = "npm install -g bun @google/gemini-cli concurrently"
+setup = "npm install -g bun @google/gemini-cli"
 clean = "./clean-branches.sh"
+clone = "./sync-repos.sh --clone-only"
+sync = "./sync-repos.sh"
+minio-up = "./dev-env.sh minio-up"
+minio-down = "./dev-env.sh minio-down"
+env-local = "./dev-env.sh env"
 info = "git --version && echo To clean branches, run: pixi run clean"
 mcp = "cd metis-mcp && bun run src/index.ts"
 mcp-test = "cd metis-mcp && bun test"
@@ -26,27 +31,51 @@ scalar = "cd api-aerial/src/docs && npx --yes @scalar/cli document serve openapi
 scalar-build = "cd api-aerial/src/docs && npx --yes @scalar/cli document validate openapi.yaml && node -e \"require('node:fs').copyFileSync('redoc.html', 'redoc-static.html')\""
 sdk-generate = "cd api-aerial/src/docs && node -e \"require('node:fs').rmSync('../../../sdk/typescript-fetch', { recursive: true, force: true })\" && npx --yes @openapitools/openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o ../../../sdk/typescript-fetch --skip-validate-spec --global-property apiDocs=false,modelDocs=false"
 
-# --- PROCESSES (L'équivalent de 'devenv up') ---
-# Pixi n'a pas de gestionnaire de processus intégré comme "up", 
-# on utilise souvent 'concurrently' (npm) pour ça.
-api-aerial = "cd api-aerial/src && npm run dev"
-api-dashboard = "cd api-dashboard/src && npm run dev"
-api-car = "cd api-car/src && npm run dev"
-api-hotel = "cd api-hotel/src && npm run dev"
-api-rail = "cd api-rail/src && npm run dev"
-front-resa = "cd front-reservation && npm run dev"
-front-dashboard = "cd front-dashboard/src && npm run dev"
+# --- INSTALL / UPDATE DES DÉPENDANCES ---
+# `npm install` synchronise node_modules ET met à jour le package-lock.json si package.json a changé.
+# `npm ci` (install-ci) = strict, reproductible, ne touche jamais au lock.
+# `npm update` (update-*) = monte les versions dans les ranges du package.json et réécrit le lock.
+install-api-aerial = { cmd = "npm install --no-audit --no-fund", cwd = "api-aerial/src" }
+update-api-aerial = { cmd = "npm update --no-audit --no-fund", cwd = "api-aerial/src" }
+ci-api-aerial = { cmd = "npm ci --no-audit --no-fund", cwd = "api-aerial/src" }
+install-api-dashboard = { cmd = "npm install --no-audit --no-fund", cwd = "api-dashboard/src" }
+update-api-dashboard = { cmd = "npm update --no-audit --no-fund", cwd = "api-dashboard/src" }
+ci-api-dashboard = { cmd = "npm ci --no-audit --no-fund", cwd = "api-dashboard/src" }
+install-api-car = { cmd = "npm install --no-audit --no-fund", cwd = "api-car/src" }
+update-api-car = { cmd = "npm update --no-audit --no-fund", cwd = "api-car/src" }
+ci-api-car = { cmd = "npm ci --no-audit --no-fund", cwd = "api-car/src" }
+install-api-hotel = { cmd = "npm install --no-audit --no-fund", cwd = "api-hotel/src" }
+update-api-hotel = { cmd = "npm update --no-audit --no-fund", cwd = "api-hotel/src" }
+ci-api-hotel = { cmd = "npm ci --no-audit --no-fund", cwd = "api-hotel/src" }
+install-api-rail = { cmd = "npm install --no-audit --no-fund", cwd = "api-rail/src" }
+update-api-rail = { cmd = "npm update --no-audit --no-fund", cwd = "api-rail/src" }
+ci-api-rail = { cmd = "npm ci --no-audit --no-fund", cwd = "api-rail/src" }
+install-front-resa = { cmd = "npm install --no-audit --no-fund", cwd = "front-reservation" }
+update-front-resa = { cmd = "npm update --no-audit --no-fund", cwd = "front-reservation" }
+ci-front-resa = { cmd = "npm ci --no-audit --no-fund", cwd = "front-reservation" }
+install-front-dashboard = { cmd = "npm install --no-audit --no-fund", cwd = "front-dashboard/src" }
+update-front-dashboard = { cmd = "npm update --no-audit --no-fund", cwd = "front-dashboard/src" }
+ci-front-dashboard = { cmd = "npm ci --no-audit --no-fund", cwd = "front-dashboard/src" }
+install = { depends-on = ["install-api-aerial", "install-api-dashboard", "install-api-car", "install-api-hotel", "install-api-rail", "install-front-resa", "install-front-dashboard"] }
+update = { depends-on = ["update-api-aerial", "update-api-dashboard", "update-api-car", "update-api-hotel", "update-api-rail", "update-front-resa", "update-front-dashboard"] }
+install-ci = { depends-on = ["ci-api-aerial", "ci-api-dashboard", "ci-api-car", "ci-api-hotel", "ci-api-rail", "ci-front-resa", "ci-front-dashboard"] }
 
-up = """
-  node $APPDATA/npm/node_modules/concurrently/dist/bin/index.js -k \
-    -n api-aerial,api-dashboard,api-car,api-hotel,api-rail,front-resa,front-dashboard \
-    -c blue,magenta,red,yellow,cyan,green,white \
-    --hide front-resa,front-dashboard \
-    "pixi run api-aerial" \
-    "pixi run api-dashboard" \
-    "pixi run api-car" \
-    "pixi run api-hotel" \
-    "pixi run api-rail" \
-    "pixi run front-resa" \
-    "pixi run front-dashboard"
+
+# --- PROCESSES (équivalent de 'devenv up') ---
+api-aerial = { cmd = "npm run dev", cwd = "api-aerial/src" }
+api-dashboard = { cmd = "npm run dev", cwd = "api-dashboard/src" }
+api-car = { cmd = "npm run dev", cwd = "api-car/src" }
+api-hotel = { cmd = "npm run dev", cwd = "api-hotel/src" }
+api-rail = { cmd = "npm run dev", cwd = "api-rail/src" }
+front-resa = { cmd = "npm run dev", cwd = "front-reservation" }
+front-dashboard = { cmd = "npm run dev", cwd = "front-dashboard/src" }
+
+# `pixi run up` : installe/synchronise les deps (et les package-lock) puis lance tout.
+# `pixi run up-fast` : lance sans passer par l'install.
+up-fast = """node $APPDATA/npm/node_modules/concurrently/dist/bin/index.js -k \
+  -n api-aerial,api-dashboard,api-car,api-hotel,api-rail,front-resa,front-dashboard \
+  -c blue,magenta,red,yellow,cyan,green,white \
+  --hide front-resa,front-dashboard \
+  "npm run dev --prefix api-aerial/src" "npm run dev --prefix api-dashboard/src" "npm run dev --prefix api-car/src" "npm run dev --prefix api-hotel/src" "npm run dev --prefix api-rail/src" "npm run dev --prefix front-reservation" "npm run dev --prefix front-dashboard/src"
 """
+up = { depends-on = ["install", "minio-up", "env-local", "up-fast"] }

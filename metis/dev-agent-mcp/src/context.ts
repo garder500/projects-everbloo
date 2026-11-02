@@ -24,9 +24,16 @@ export function taskContext(repo: string): string {
       return false;
     }
   });
-  const range = base ? `origin/${base}..HEAD` : "HEAD~5..HEAD";
-  const commits = git(repo, "log", range, "--format=%h %s", "-n20");
-  const files = git(repo, "diff", "--name-status", base ? `origin/${base}...HEAD` : "HEAD~5").split("\n").filter(Boolean);
+  // Historique court (clone superficiel, repo récent) : on retombe sur les derniers commits / aucun diff.
+  const attempt = (...args: string[]): string => {
+    try {
+      return git(repo, ...args);
+    } catch {
+      return "";
+    }
+  };
+  const commits = (base ? attempt("log", `origin/${base}..HEAD`, "--format=%h %s", "-n20") : "") || attempt("log", "--format=%h %s", "-n5");
+  const files = (base ? attempt("diff", "--name-status", `origin/${base}...HEAD`) : attempt("diff", "--name-status", "HEAD~5")).split("\n").filter(Boolean);
   const dirty = git(repo, "status", "--short").split("\n").filter(Boolean);
   const todos = addedLines(repo).filter(([, , t]) => /\b(TODO|FIXME)\b/.test(t)).map(([f, n, t]) => `  ${f}:${n}: ${t.trim().slice(0, 100)}`);
   return [

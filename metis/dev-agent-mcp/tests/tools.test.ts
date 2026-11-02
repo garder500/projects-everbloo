@@ -122,7 +122,7 @@ test("lot 6: spec_lookup, docs_lookup, changelog_diff, blame_why", async () => {
   expect(specLookup("dev-agent-mcp/src/redact.ts", "export function redact")).toContain("PATTERNS.reduce");
   expect(docsLookup("zod", "string schema validation", "dev-agent-mcp")).toContain("zod@");
   expect(changelogDiff("typescript", "5.0.0", undefined, "dev-agent-mcp")).toBeString();
-  expect(() => blameWhy("dev-agent-mcp/src/redact.ts", 1)).toThrow(); // fichier non commité → pas de blame
+  expect(blameWhy("dev-agent-mcp/src/redact.ts", 1)).toBeString(); // fichier commité
 });
 
 test("readDbUrl lit DB_URL du .env du repo (src/ inclus), sans le renvoyer en erreur", async () => {
@@ -180,9 +180,9 @@ test("lot 7: checkpoint puis rollback (aperçu sans confirm, restauration avec)"
   }
 });
 
-test("lot 7: data_model Sequelize sur api-dashboard", async () => {
+test("lot 7: data_model Sequelize (fixture)", async () => {
   const { dataModel } = await import("../src/datamodel.js");
-  const out = dataModel("api-dashboard/src/models", "Addresses");
+  const out = dataModel("dev-agent-mcp/tests/fixtures/models", "Addresses");
   expect(out).toContain("Addresses");
   expect(out).toContain("belongsTo Profil (fk id_user)");
   expect(out).toContain("id:INTEGER (pk, not null)");
@@ -207,6 +207,6 @@ test("lot 8: find_similar_code, summarize_file (cache), decision_log, task_conte
   expect(s1).toBe(c.summarizeFile("dev-agent-mcp/src/redact.ts"));
   expect(s1).toContain("+redact");
   const { decisionLog, taskContext } = await import("../src/context.js");
-  expect(decisionLog("shopping traces", "api-car")).toContain("Commits");
-  expect(taskContext("api-car")).toContain("branche: development");
+  expect(decisionLog("workflows", "dev-agent-mcp")).toContain("Commits");
+  expect(taskContext("dev-agent-mcp")).toContain("branche:");
 });

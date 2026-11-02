@@ -16,7 +16,7 @@ jobs:
         mcp: [dev-agent-mcp]
     defaults:
       run:
-        working-directory: ${{ matrix.mcp }}
+        working-directory: metis/${{ matrix.mcp }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -31,4 +31,4 @@ jobs:
           bun run build:darwin-arm64
       - uses: softprops/action-gh-release@v2
         with:
-          files: ${{ matrix.mcp }}/dist/${{ matrix.mcp }}-*
+          files: metis/${{ matrix.mcp }}/dist/${{ matrix.mcp }}-*

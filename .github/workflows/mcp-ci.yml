@@ -3,9 +3,9 @@ name: MCP CI
 on:
   push:
     branches: [main]
-    paths: ["dev-agent-mcp/**", ".github/workflows/mcp-*.yml"]
+    paths: ["metis/dev-agent-mcp/**", ".github/workflows/mcp-*.yml"]
   pull_request:
-    paths: ["dev-agent-mcp/**", ".github/workflows/mcp-*.yml"]
+    paths: ["metis/dev-agent-mcp/**", ".github/workflows/mcp-*.yml"]
 
 concurrency:
   group: mcp-ci-${{ github.ref }}
@@ -20,7 +20,7 @@ jobs:
         mcp: [dev-agent-mcp]
     defaults:
       run:
-        working-directory: ${{ matrix.mcp }}
+        working-directory: metis/${{ matrix.mcp }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -36,5 +36,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.mcp }}-linux
-          path: ${{ matrix.mcp }}/dist/*
+          path: metis/${{ matrix.mcp }}/dist/*
           retention-days: 7

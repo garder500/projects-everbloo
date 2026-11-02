@@ -15,7 +15,7 @@ bunx tsc --noEmit # typecheck
 
 ## Configuration du client MCP
 
-Aucune variable requise : le workspace est déduit des racines MCP du client si elles sont exposées, sinon du dossier de lancement (`pixi.toml` dans le dossier, un parent ou un enfant direct). `METIS_WORKSPACE_ROOT` ne sert qu à forcer une racine.
+Aucune variable ni outil requis (pixi, devenv…) : le workspace est déduit des racines MCP du client si elles sont exposées, sinon du dossier de lancement, de ses parents ou de ses enfants directs. Est un workspace : un dossier avec `pixi.toml`, `devenv.nix`/`devenv.yaml` ou `.dev-agent`, ou regroupant au moins 2 projets (`.git` ou `package.json`). `METIS_WORKSPACE_ROOT` ne sert qu à forcer une racine.
 
 **Claude Code** (depuis la racine du workspace) :
 

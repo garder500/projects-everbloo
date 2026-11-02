@@ -10,20 +10,30 @@ export const IGNORED_DIRS = new Set([
 export const CODE_EXTS = new Set([".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"]);
 export const MAX_FILE_BYTES = 2 * 1024 * 1024;
 
-/** Racine du workspace : le dossier (ou un parent, ou un enfant direct) qui contient `pixi.toml`. */
+const MARKERS = ["pixi.toml", "devenv.nix", "devenv.yaml", ".dev-agent"];
+const isProject = (dir: string) => [".git", "package.json", path.join("src", "package.json")].some((m) => fs.existsSync(path.join(dir, m)));
+const subDirs = (dir: string): string[] => {
+  try {
+    return fs.readdirSync(dir, { withFileTypes: true }).filter((e) => e.isDirectory() && !IGNORED_DIRS.has(e.name) && !e.name.startsWith(".")).map((e) => path.join(dir, e.name));
+  } catch {
+    return [];
+  }
+};
+
+/** Un workspace = un marqueur d'outillage (pixi, devenv, .dev-agent) OU un dossier regroupant au moins 2 projets (multi-repo). Aucun outil n'est requis. */
+const isWorkspace = (dir: string): boolean => MARKERS.some((m) => fs.existsSync(path.join(dir, m))) || subDirs(dir).filter(isProject).length >= 2;
+
+/** Racine du workspace : le dossier de lancement, un parent ou un enfant direct qui est un workspace ; à défaut, le dossier de lancement. */
 export function detectRoot(start: string): string | undefined {
   let dir = path.resolve(start);
+  if (isWorkspace(dir)) return dir;
+  const child = subDirs(dir).find(isWorkspace); // lancé depuis le parent du workspace
+  if (child) return child;
   for (let i = 0; i < 5; i++) {
-    if (fs.existsSync(path.join(dir, "pixi.toml"))) return dir;
     const parent = path.dirname(dir);
     if (parent === dir) break;
     dir = parent;
-  }
-  try {
-    const child = fs.readdirSync(start, { withFileTypes: true }).find((e) => e.isDirectory() && !IGNORED_DIRS.has(e.name) && fs.existsSync(path.join(start, e.name, "pixi.toml")));
-    if (child) return path.join(start, child.name);
-  } catch {
-    /* dossier illisible : pas de détection */
+    if (isWorkspace(dir)) return dir;
   }
   return undefined;
 }

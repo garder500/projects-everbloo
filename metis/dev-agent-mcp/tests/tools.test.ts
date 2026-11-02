@@ -391,3 +391,19 @@ test("read_outline descend dans les namespaces des .d.ts", async () => {
   const items = outline("x.d.ts", "declare namespace A { interface B { x: number } type C = string }");
   expect(items.map((i) => i.name)).toEqual(["A", "B", "C"]);
 });
+
+test("detectRoot: workspace multi-repo sans pixi ni devenv", async () => {
+  const fsx = await import("node:fs");
+  const os = await import("node:os");
+  const pathx = await import("node:path");
+  const { detectRoot } = await import("../src/config.js");
+  const ws = fsx.mkdtempSync(pathx.join(os.tmpdir(), "dev-agent-ws-"));
+  fsx.mkdirSync(pathx.join(ws, "a", ".git"), { recursive: true });
+  fsx.mkdirSync(pathx.join(ws, "a", "src"));
+  fsx.mkdirSync(pathx.join(ws, "b", "src"), { recursive: true });
+  fsx.writeFileSync(pathx.join(ws, "b", "src", "package.json"), "{}");
+  expect(detectRoot(ws)).toBe(ws);
+  expect(detectRoot(pathx.join(ws, "a", "src"))).toBe(ws);
+  expect(detectRoot(pathx.join(ws, "b"))).toBe(ws);
+  expect(detectRoot(pathx.dirname(ws))).not.toBe(pathx.dirname(ws));
+});

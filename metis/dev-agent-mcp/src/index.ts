@@ -7,7 +7,7 @@ import { registerLot6 } from "./tools-lot6.js";
 import { instrument, registerLot7 } from "./tools-lot7.js";
 import { registerLot8 } from "./tools-lot8.js";
 
-const server = new McpServer({ name: "dev-agent-mcp", version: "0.1.1" });
+const server = new McpServer({ name: "dev-agent-mcp", version: "0.1.2" });
 instrument(server);
 registerTools(server);
 registerLot6(server);

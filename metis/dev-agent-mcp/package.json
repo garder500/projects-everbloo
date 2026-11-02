@@ -1,6 +1,6 @@
 {
   "name": "dev-agent-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "MCP d'amélioration des agents de dev : cartographie et lecture économes en tokens du monorepo Metis",
   "type": "module",
   "scripts": {

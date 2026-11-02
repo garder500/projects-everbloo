@@ -32,15 +32,17 @@ export function tokenize(s: string): string[] {
 const fileCache = new Map<string, { mtime: number; chunks: Chunk[] }>();
 
 /** Cache disque des plans de fichiers (mtime + taille) : le parsing TypeScript est l'essentiel du coût à froid. */
-const diskFile = path.join(os.tmpdir(), `dev-agent-mcp-index-v3-${createHash("sha1").update(ROOT).digest("hex").slice(0, 10)}.json`);
+const diskFile = () => path.join(os.tmpdir(), `dev-agent-mcp-index-v3-${createHash("sha1").update(ROOT).digest("hex").slice(0, 10)}.json`);
 type DiskEntry = { mtime: number; size: number; items: OutlineItem[] };
 let disk: Map<string, DiskEntry> | undefined;
+let diskRoot = "";
 let diskDirty = false;
 
 function loadDisk(): Map<string, DiskEntry> {
-  if (!disk) {
+  if (!disk || diskRoot !== ROOT) {
+    diskRoot = ROOT;
     try {
-      disk = new Map(Object.entries(JSON.parse(fs.readFileSync(diskFile, "utf8"))));
+      disk = new Map(Object.entries(JSON.parse(fs.readFileSync(diskFile(), "utf8"))));
     } catch {
       disk = new Map();
     }
@@ -51,7 +53,7 @@ function loadDisk(): Map<string, DiskEntry> {
 function saveDisk(): void {
   if (!diskDirty || !disk) return;
   try {
-    fs.writeFileSync(diskFile, JSON.stringify(Object.fromEntries(disk)));
+    fs.writeFileSync(diskFile(), JSON.stringify(Object.fromEntries(disk)));
     diskDirty = false;
   } catch {
     /* cache best-effort */

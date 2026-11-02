@@ -15,7 +15,7 @@ bunx tsc --noEmit # typecheck
 
 ## Configuration du client MCP
 
-Le serveur détecte le workspace en remontant jusqu'au `pixi.toml`, ou via `METIS_WORKSPACE_ROOT`.
+Aucune variable requise : le workspace est déduit des racines MCP du client si elles sont exposées, sinon du dossier de lancement (`pixi.toml` dans le dossier, un parent ou un enfant direct). `METIS_WORKSPACE_ROOT` ne sert qu à forcer une racine.
 
 **Claude Code** (depuis la racine du workspace) :
 
@@ -30,10 +30,7 @@ claude mcp add dev-agent -- bun run C:\Users\user\Code\everbloo\metis\dev-agent-
   "mcpServers": {
     "dev-agent": {
       "command": "bun",
-      "args": ["run", "C:\\Users\\user\\Code\\everbloo\\metis\\dev-agent-mcp\\src\\index.ts"],
-      "env": {
-        "METIS_WORKSPACE_ROOT": "C:\\Users\\user\\Code\\everbloo\\metis"
-      }
+      "args": ["run", "C:\\Users\\user\\Code\\everbloo\\metis\\dev-agent-mcp\\src\\index.ts"]
     }
   }
 }
@@ -56,7 +53,7 @@ Puis `"command": "<chemin du binaire>"` dans la config du client. La CI publie c
 
 | Variable | Rôle |
 | :--- | :--- |
-| `METIS_WORKSPACE_ROOT` | Racine du workspace (sinon détection via `pixi.toml`). |
+| `METIS_WORKSPACE_ROOT` | Optionnelle : force la racine (sinon déduite automatiquement). |
 | `DEV_AGENT_DB_URL` | URL PostgreSQL pour `db_schema` / `db_query_readonly`. Sinon, `DB_URL` est lu dans le `.env` du `repo` passé au tool. |
 | `GITLAB_TOKEN` | Token `read_api` pour `mr_context` et `ci_failures`. |
 | `GITLAB_URL` | Instance GitLab (défaut : l'hôte du remote `origin`). |

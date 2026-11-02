@@ -10,16 +10,26 @@ export const IGNORED_DIRS = new Set([
 export const CODE_EXTS = new Set([".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"]);
 export const MAX_FILE_BYTES = 2 * 1024 * 1024;
 
-function findRoot(): string {
-  if (process.env.METIS_WORKSPACE_ROOT) return path.resolve(process.env.METIS_WORKSPACE_ROOT);
-  let dir = process.cwd();
+/** Racine du workspace : le dossier (ou un parent, ou un enfant direct) qui contient `pixi.toml`. */
+export function detectRoot(start: string): string | undefined {
+  let dir = path.resolve(start);
   for (let i = 0; i < 5; i++) {
     if (fs.existsSync(path.join(dir, "pixi.toml"))) return dir;
     const parent = path.dirname(dir);
     if (parent === dir) break;
     dir = parent;
   }
-  return process.cwd();
+  try {
+    const child = fs.readdirSync(start, { withFileTypes: true }).find((e) => e.isDirectory() && !IGNORED_DIRS.has(e.name) && fs.existsSync(path.join(start, e.name, "pixi.toml")));
+    if (child) return path.join(start, child.name);
+  } catch {
+    /* dossier illisible : pas de détection */
+  }
+  return undefined;
 }
 
-export const ROOT = findRoot();
+/** Ordre : variable d'environnement (forçage) → dossier de lancement → racines MCP fournies par le client (setRoot). */
+export let ROOT = process.env.METIS_WORKSPACE_ROOT ? path.resolve(process.env.METIS_WORKSPACE_ROOT) : (detectRoot(process.cwd()) ?? process.cwd());
+export const setRoot = (dir: string): void => {
+  ROOT = path.resolve(dir);
+};

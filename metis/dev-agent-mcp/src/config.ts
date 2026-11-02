@@ -4,6 +4,7 @@ import path from "node:path";
 export const IGNORED_DIRS = new Set([
   "node_modules", ".git", ".pixi", ".devenv", ".vscode", ".idea", "dist", "build",
   "target", ".turbo", ".next", ".output", "coverage", ".cache", "tmp", "temp", "vendor",
+  "fixtures", "__fixtures__", // jeux de test : bruit pour les graphes d'appels / recherches (un scope DANS un dossier fixtures reste exploré)
 ]);
 
 export const CODE_EXTS = new Set([".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"]);

@@ -38,6 +38,14 @@ export function* walkFiles(dir: string, exts: Set<string> = CODE_EXTS): Generato
   }
 }
 
+/** Message d'erreur sans chemin absolu de la machine (ENOENT, etc.). */
+export function errorText(e: unknown): string {
+  const raw = e instanceof Error ? e.message : String(e);
+  const code = (e as { code?: string })?.code;
+  const clean = raw.split(ROOT + path.sep).join("").split(ROOT).join("<workspace>");
+  return code === "ENOENT" ? `Fichier ou dossier introuvable (${clean.replace(/^ENOENT: no such file or directory, \w+ /, "").replace(/['"]/g, "")})` : clean;
+}
+
 export function truncate(text: string, max = 8000): string {
   return text.length <= max ? text : `${text.slice(0, max)}\n… [tronqué, ${text.length - max} caractères en moins ; affiner la requête]`;
 }

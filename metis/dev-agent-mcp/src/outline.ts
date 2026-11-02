@@ -137,6 +137,9 @@ export function outline(file: string, content: string): OutlineItem[] {
 }
 
 export function findItem(items: OutlineItem[], name: string): OutlineItem | undefined {
+  // « Classe.méthode » : la méthode de cette classe précisément
+  const [cls, method] = name.split(".");
+  if (method) return items.find((i) => i.name === cls)?.children?.find((c) => c.name === method);
   for (const it of items) {
     if (it.name === name) return it;
     const child = it.children?.find((c) => c.name === name);

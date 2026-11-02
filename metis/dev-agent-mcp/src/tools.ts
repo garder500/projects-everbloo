@@ -4,7 +4,7 @@ import { execFileSync } from "node:child_process";
 import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { CODE_EXTS, IGNORED_DIRS, ROOT } from "./config.js";
-import { resolveInRoot, toRel, truncate, walkFiles } from "./fs-utils.js";
+import { errorText, resolveInRoot, toRel, truncate, walkFiles } from "./fs-utils.js";
 import { findItem, outline, type OutlineItem } from "./outline.js";
 import { redact } from "./redact.js";
 import { checkAllowed, execSummary } from "./exec.js";
@@ -25,7 +25,7 @@ ${formatMemories(known)}` : body;
 };
 
 const text = (s: string) => ({ content: [{ type: "text" as const, text: truncate(redact(s)) }] });
-const fail = (e: unknown) => ({ isError: true, content: [{ type: "text" as const, text: e instanceof Error ? e.message : String(e) }] });
+const fail = (e: unknown) => ({ isError: true, content: [{ type: "text" as const, text: errorText(e) }] });
 const guard = <A>(fn: (a: A) => string) => async (a: A) => {
   try {
     return text(fn(a));
@@ -35,9 +35,14 @@ const guard = <A>(fn: (a: A) => string) => async (a: A) => {
 };
 
 const readText = (abs: string) => fs.readFileSync(abs, "utf8");
-const fmt = (it: OutlineItem) => `${it.exported ? "export " : ""}${it.kind} ${it.name} [${it.start}-${it.end}] ${it.signature}`;
+/** Une ligne par symbole : la signature seule quand elle contient déjà le nom (évite « type X … type X = … »). */
+const fmt = (it: OutlineItem) => {
+  const sig = it.signature.replace(/^export\s+(default\s+)?/, "");
+  const head = sig.includes(it.name) ? sig : `${it.kind} ${it.name} ${sig}`;
+  return `${it.exported ? "export " : ""}${head} [${it.start}-${it.end}]`;
+};
 
-export function projectOverview(): string {
+export function projectOverview(project?: string): string {
   const out: string[] = [`Workspace: ${ROOT}`];
   const pixi = path.join(ROOT, "pixi.toml");
   if (fs.existsSync(pixi)) {
@@ -47,6 +52,7 @@ export function projectOverview(): string {
   }
   for (const e of fs.readdirSync(ROOT, { withFileTypes: true })) {
     if (!e.isDirectory() || IGNORED_DIRS.has(e.name) || e.name.startsWith(".")) continue;
+    if (project && e.name !== project) continue;
     let pkgPath: string;
     try {
       pkgPath = path.join(resolveInRoot(pkgDir(e.name)), "package.json");
@@ -91,11 +97,19 @@ export function repoMap(rel = ".", depth = 2): string {
   return lines.join("\n") || "(vide)";
 }
 
+const MAX_OUTLINE = 120;
+
 export function readOutline(rel: string): string {
   const abs = resolveInRoot(rel);
-  return outline(abs, readText(abs))
-    .flatMap((i) => [fmt(i), ...(i.children ?? []).map((c) => `  ${fmt(c)}`)])
-    .join("\n");
+  const ext = path.extname(abs).toLowerCase();
+  if (!CODE_EXTS.has(ext)) {
+    return `Format "${ext || "sans extension"}" non analysé par read_outline (code ts/js seulement) : utiliser read_range_smart / batch_read, ou spec_lookup pour une section d'un .md/.yaml/.json.`;
+  }
+  const lines = outline(abs, readText(abs)).flatMap((i) => [fmt(i), ...(i.children ?? []).map((c) => `  ${fmt(c)}`)]);
+  if (!lines.length) return "Aucun symbole de premier niveau détecté (fichier vide, commentaires seuls ou code hors fonction/classe).";
+  return lines.length > MAX_OUTLINE
+    ? `${lines.slice(0, MAX_OUTLINE).join("\n")}\n… ${lines.length - MAX_OUTLINE} symbole(s) de plus (fichier de ${lines.length} entrées : utiliser find_symbol ou read_symbol)`
+    : lines.join("\n");
 }
 
 export function readSymbol(rel: string, symbol: string): string {
@@ -125,13 +139,25 @@ function scan(re: RegExp, scope: string, max: number, context: number): { hits: 
   return { hits, total };
 }
 
+/** Sortie plafonnée à ~6500 caractères : on s'arrête AVANT la troncature brutale et on dit combien de résultats restent. */
 function formatHits({ hits, total }: { hits: Hit[]; total: number }, compact: boolean): string {
   const byFile = new Map<string, Hit[]>();
   hits.forEach((h) => byFile.set(h.file, [...(byFile.get(h.file) ?? []), h]));
-  const out = [...byFile].map(([f, hs]) =>
-    `${f}\n${hs.map((h) => (compact ? `  ${h.line}: ${h.ctx[0]?.trim()}` : `  ${h.line}:\n${h.ctx.map((c) => `    ${c}`).join("\n")}`)).join("\n")}`,
-  );
-  if (total > hits.length) out.push(`… ${total - hits.length} résultats de plus (max atteint)`);
+  const out: string[] = [];
+  let used = 0;
+  let shown = 0;
+  outer: for (const [f, hs] of byFile) {
+    out.push(f);
+    used += f.length + 1;
+    for (const h of hs) {
+      const line = compact ? `  ${h.line}: ${(h.ctx[0] ?? "").trim().slice(0, 140)}` : `  ${h.line}:\n${h.ctx.map((c) => `    ${c.slice(0, 160)}`).join("\n")}`;
+      if (used + line.length > 6500) break outer;
+      out.push(line);
+      used += line.length + 1;
+      shown++;
+    }
+  }
+  if (total > shown) out.push(`… ${total - shown} résultat(s) de plus non affiché(s) (${total} au total) : affiner scope ou la regex`);
   return out.join("\n") || "Aucun résultat";
 }
 
@@ -245,7 +271,12 @@ export function registerTools(server: McpServer): void {
     { repo: z.string(), allow_unsafe: z.boolean().optional() },
     guard(({ repo, allow_unsafe }) => verifyChange(repo, 25, allow_unsafe)),
   );
-  server.tool("project_overview", "Stack, scripts et tâches pixi de chaque projet du workspace", {}, guard(() => projectOverview()));
+  server.tool(
+    "project_overview",
+    "Stack, scripts et tâches pixi des projets du workspace (project = un seul projet, ex. api-dashboard)",
+    { project: z.string().optional() },
+    guard(({ project }) => projectOverview(project)),
+  );
   server.tool(
     "repo_map",
     "Arbre condensé : dossiers (nb de fichiers) et fichiers avec leurs symboles exportés",

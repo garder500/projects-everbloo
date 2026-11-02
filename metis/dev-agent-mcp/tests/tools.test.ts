@@ -325,3 +325,63 @@ test("rapport 0.1.1: signature de classe s'arrête à l'accolade", async () => {
   const it = outline("m.js", "class A extends B { /** long commentaire */ static x() {} }")[0];
   expect(it.signature).toBe("class A extends B");
 });
+
+test("rapport 50ac519: read_symbol Classe.méthode, read_outline non-code et sans doublon de signature", async () => {
+  const { readSymbol, readOutline } = await import("../src/tools.js");
+  expect(readSymbol("dev-agent-mcp/tests/fixtures/services/addresses.service.js", "AddressesService.update")).toContain("bulkCreate");
+  expect(readOutline("dev-agent-mcp/package.json")).toContain("non analysé");
+  expect(readOutline("dev-agent-mcp/README.md")).toContain("non analysé");
+  const { outline } = await import("../src/outline.js");
+  expect(outline("t.ts", "export type Foo = string;")[0].signature).toBe("export type Foo = string;");
+});
+
+test("rapport 50ac519: erreurs sans chemin absolu, fixtures ignorées hors scope explicite", async () => {
+  const { errorText } = await import("../src/fs-utils.js");
+  const { ROOT } = await import("../src/config.js");
+  expect(errorText(new Error(`ENOENT: no such file or directory, open '${ROOT}/x/y.js'`))).not.toContain(ROOT);
+  const c = await import("../src/codeindex.js");
+  expect(c.findSymbol("AddressesController", "dev-agent-mcp")).toContain("Aucun symbole");
+  expect(c.findSymbol("AddressesController", "dev-agent-mcp/tests/fixtures")).toContain("addresses.controller.js");
+});
+
+test("rapport 50ac519: summarize_dir liste le niveau courant et les sous-dossiers", async () => {
+  const { summarizeDir } = await import("../src/codeindex.js");
+  const out = summarizeDir("dev-agent-mcp");
+  expect(out).toContain("Sous-dossiers");
+  expect(out).toContain("src/ (");
+});
+
+test("rapport 50ac519: checkAllowed lecture seule git étendue et commandes Windows", async () => {
+  const { checkAllowed } = await import("../src/exec.js");
+  for (const ok of ["git branch --show-current", "git branch -a", "git stash list", "git remote -v", "git config --get user.name", "git tag -l", "dir", "git log -3"]) expect(() => checkAllowed(ok)).not.toThrow();
+  for (const ko of ["git branch -D x", "git stash drop", "git push", "git config user.name x", "git checkout main"]) expect(() => checkAllowed(ko)).toThrow();
+});
+
+test("rapport 50ac519: run_tests sur script placeholder, list_entrypoints sans gabarits, risk_zones dédupliqué, search_code plafonné", async () => {
+  const fs = await import("node:fs");
+  const { ROOT } = await import("../src/config.js");
+  const dir = `${ROOT}/__tmp_rt`;
+  fs.mkdirSync(`${dir}/tests`, { recursive: true });
+  fs.writeFileSync(`${dir}/package.json`, JSON.stringify({ name: "x", scripts: { test: 'echo "Error: no test specified" && exit 1' } }));
+  fs.writeFileSync(`${dir}/tests/a.test.js`, "const test = require('node:test');\ntest('a', () => {});\n");
+  fs.writeFileSync(`${dir}/routes.js`, "app.get('/vrai', h);\nconst t = `app.post('/${name}', h)`;\n");
+  try {
+    const { runTests } = await import("../src/verify.js");
+    const out = runTests("__tmp_rt", undefined);
+    expect(out).toContain("placeholder");
+    expect(out).toContain("node --test");
+    const { listEntrypoints } = await import("../src/extras.js");
+    const eps = listEntrypoints("__tmp_rt");
+    expect(eps).toContain("/vrai");
+    expect(eps).not.toContain("${name}");
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+  const { riskZones } = await import("../src/risk.js");
+  const rz = riskZones(["src/models/a.js", "api-x/src/models/a.js"]).text;
+  expect(rz.match(/models\/a\.js/g)?.length).toBe(1);
+  const { searchCode } = await import("../src/tools.js");
+  const sc = searchCode("e", "dev-agent-mcp/src", 200);
+  expect(sc.length).toBeLessThan(7500);
+  expect(sc).toContain("non affiché");
+});

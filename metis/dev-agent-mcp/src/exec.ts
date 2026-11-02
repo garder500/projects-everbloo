@@ -10,8 +10,16 @@ import { redact } from "./redact.js";
  * Binaires autorisés par défaut. Ce n'est PAS un bac à sable : `npm`/`node`/`bun` exécutent du code du projet.
  * Le but est d'éviter les erreurs (rm, git push, scripts qui migrent la base), pas de contenir un acteur malveillant.
  */
-const ALLOWED = new Set(["pixi", "npm", "pnpm", "yarn", "bun", "node", "tsc", "eslint", "prettier", "jest", "vitest", "git", "ls", "cat", "echo"]);
-const GIT_READONLY = new Set(["status", "diff", "log", "show", "branch", "rev-parse", "blame", "ls-files"]);
+const ALLOWED = new Set(["pixi", "npm", "pnpm", "yarn", "bun", "node", "tsc", "eslint", "prettier", "jest", "vitest", "git", "echo", "ls", "cat", "dir", "type", "where", "findstr"]);
+const GIT_READONLY = new Set(["status", "diff", "log", "show", "rev-parse", "blame", "ls-files", "describe", "shortlog", "reflog", "rev-list", "cat-file", "ls-tree", "grep", "diff-tree", "merge-base", "name-rev", "ls-remote"]);
+/** Sous-commandes git à double usage : lecture seule tant que l'argument n'écrit pas (ex. `branch -d`, `stash drop`). */
+const GIT_CONDITIONAL: Record<string, RegExp> = {
+  branch: /^branch(\s+(-a|-r|-v|-vv|--list|--show-current|--contains|--merged|--no-merged|--all|--remotes|--verbose)\b[^;&|]*)*\s*$/,
+  stash: /^stash\s+(list|show)\b/,
+  remote: /^remote(\s+(-v|show\b.*|get-url\b.*))?\s*$/,
+  config: /^config\s+(--get\b|--get-all\b|--list\b|-l\b)/,
+  tag: /^tag(\s+(-l|--list)\b.*)?\s*$/,
+};
 const EVAL_FLAGS = /(^|\s)(-e|-p|--eval|--print|-r|--require|--import)(\s|=|$)/;
 const PM_SCRIPT = /^(npm|pnpm|yarn|bun)\s+(?:run\s+)?([\w:.-]+)/;
 
@@ -26,7 +34,13 @@ export function checkAllowed(cmd: string, cwd = "."): void {
   const trimmed = cmd.trim();
   const [bin, sub] = trimmed.split(/\s+/);
   if (!ALLOWED.has(bin)) throw new Error(`Commande "${bin}" non autorisée par défaut ; passer unsafe=true si c'est voulu.`);
-  if (bin === "git" && !GIT_READONLY.has(sub)) throw new Error(`git ${sub} modifie potentiellement le repo ; passer unsafe=true si c'est voulu.`);
+  if (bin === "git") {
+    const rest = trimmed.replace(/^git\s+(-C\s+\S+\s+)?/, "");
+    const cond = GIT_CONDITIONAL[rest.split(/\s+/)[0]];
+    if (!GIT_READONLY.has(rest.split(/\s+/)[0]) && !(cond && cond.test(rest))) {
+      throw new Error(`git ${sub} peut modifier le repo ; passer unsafe=true si c'est voulu (lecture seule autorisée : status, diff, log, show, blame, branch -a/--list/--show-current, stash list, remote -v, config --get, tag -l…).`);
+    }
+  }
   if ((bin === "node" || bin === "bun") && EVAL_FLAGS.test(trimmed)) throw new Error(`${bin} avec -e/--eval/--print/--require exécute du code arbitraire ; passer unsafe=true si c'est voulu.`);
   const script = PM_SCRIPT.exec(trimmed);
   if (script && !["install", "i", "ci", "add", "remove", "exec", "x", "dlx"].includes(script[2])) {
@@ -68,7 +82,7 @@ export function summarize(output: string, maxLines = 40): string {
   const tail = lines.filter((l) => l.trim()).slice(-8).filter((l) => !seen.has(l.trim()));
   const head = signal.slice(0, maxLines);
   const more = signal.length > head.length ? [`… ${signal.length - head.length} lignes d'erreur de plus`] : [];
-  return [...head, ...more, "--- fin du log ---", ...tail].join("\n");
+  return [...head, ...more, ...(tail.length ? ["--- dernières lignes du log ---", ...tail] : [])].join("\n");
 }
 
 /** Résumé d'une sortie eslint `-f unix` : erreurs avec fichier:ligne (les warnings ne sont que comptés), puis le total. */

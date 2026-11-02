@@ -18,6 +18,12 @@ function resolveSpec(fromFile: string, spec: string, known: Set<string>): string
 
 export const isTestFile = (f: string): boolean => TEST_RE.test(f);
 
+/** Dossier à scanner pour un fichier : son projet (1er segment), ou le dossier fixtures qui le contient (ignoré sinon). */
+export const rootOf = (rel: string): string => {
+  const i = rel.indexOf("/fixtures/");
+  return i >= 0 ? rel.slice(0, i + "/fixtures".length) : rel.split("/")[0];
+};
+
 /** Graphe d'imports relatifs : imports (fichier → ce qu'il importe) et importers (l'inverse). */
 export function buildGraph(scope = "."): { imports: Map<string, Set<string>>; importers: Map<string, Set<string>> } {
   const files = [...walkFiles(resolveInRoot(scope))].map(toRel);
@@ -68,7 +74,7 @@ export const buildImporters = (scope = "."): Map<string, Set<string>> => buildGr
 /** Imports entrants/sortants d'un fichier et cycles qui le traversent. */
 export function dependencyGraph(file: string): string {
   const rel = toRel(resolveInRoot(file));
-  const { imports, importers } = buildGraph(rel.split("/")[0]);
+  const { imports, importers } = buildGraph(rootOf(rel));
   const cycles: string[][] = [];
   const dfs = (cur: string, trail: string[]) => {
     if (cycles.length >= 5 || trail.length > 8) return;
@@ -91,7 +97,7 @@ export function dependencyGraph(file: string): string {
 export function impactAnalysis(files: string[], depth = 3): string {
   const rels = files.map((f) => toRel(resolveInRoot(f)));
   // Limite le scan au(x) projet(s) touché(s) : 1er segment du chemin.
-  const roots = [...new Set(rels.map((r) => r.split("/")[0]))];
+  const roots = [...new Set(rels.map(rootOf))];
   const importers = new Map<string, Set<string>>();
   for (const root of roots) for (const [k, v] of buildImporters(root)) importers.set(k, v);
 

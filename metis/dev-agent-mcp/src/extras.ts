@@ -130,6 +130,7 @@ const ENTRY_RULES: [RegExp, string][] = [
 /** `filter` : sous-chaîne (insensible à la casse) cherchée dans la ligne ou le chemin, pour ne garder que les routes du sujet. */
 export function listEntrypoints(scope = ".", filter?: string): string {
   const out: string[] = [];
+  const perFile = new Map<string, number>();
   const needle = filter?.toLowerCase();
   let total = 0;
   for (const f of walkFiles(resolveInRoot(scope))) {
@@ -137,10 +138,17 @@ export function listEntrypoints(scope = ".", filter?: string): string {
     if (isTestFile(rel)) continue;
     fs.readFileSync(f, "utf8").split(/\r?\n/).forEach((l, i) => {
       const rule = ENTRY_RULES.find(([re]) => re.test(l));
-      if (!rule || (needle && !l.toLowerCase().includes(needle) && !rel.toLowerCase().includes(needle))) return;
+      // `${…}` = gabarit de génération de code (commands/generate…), pas une vraie route
+      if (!rule || l.includes("${") || (needle && !l.toLowerCase().includes(needle) && !rel.toLowerCase().includes(needle))) return;
       total++;
+      perFile.set(rel, (perFile.get(rel) ?? 0) + 1);
       if (out.length < 200) out.push(`${rel}:${i + 1}: [${rule[1]}] ${l.trim().slice(0, 120)}`);
     });
+  }
+  // Sans filtre et trop de résultats : un index par fichier vaut mieux qu'une liste tronquée.
+  if (!needle && total > 60) {
+    const files = [...perFile].sort((a, b) => b[1] - a[1]);
+    return truncate(`${total} point(s) d'entrée dans ${files.length} fichier(s) — trop pour tout lister, utiliser filter ou un scope plus précis.\n${files.slice(0, 60).map(([f, n]) => `  ${f} (${n})`).join("\n")}${files.length > 60 ? `\n  … ${files.length - 60} fichier(s) de plus` : ""}`, 10000);
   }
   const more = total > out.length ? `\n… ${total - out.length} de plus (affiner scope ou filter)` : "";
   return truncate(`${total} point(s) d'entrée${filter ? ` pour "${filter}"` : ""}\n${out.join("\n") || "Aucun point d'entrée détecté"}${more}`, 10000);

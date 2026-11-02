@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { truncate } from "./fs-utils.js";
+import { errorText, truncate } from "./fs-utils.js";
 import { redact } from "./redact.js";
 import { dataModel } from "./datamodel.js";
 import { apiContractCheck, checkpoint, coverageGaps, rollback } from "./safety.js";
@@ -11,7 +11,7 @@ const guard = <A>(fn: (a: A) => string) => async (a: A) => {
   try {
     return reply(fn(a));
   } catch (e) {
-    return { isError: true, content: [{ type: "text" as const, text: e instanceof Error ? e.message : String(e) }] };
+    return { isError: true, content: [{ type: "text" as const, text: errorText(e) }] };
   }
 };
 

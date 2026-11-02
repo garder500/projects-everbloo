@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { createHash } from "node:crypto";
-import { ROOT } from "./config.js";
+import { CODE_EXTS, IGNORED_DIRS, ROOT } from "./config.js";
 import { resolveInRoot, toRel, walkFiles } from "./fs-utils.js";
 import { outline, type OutlineItem } from "./outline.js";
 
@@ -117,14 +117,16 @@ export function findSymbol(name: string, scope = ".", limit = 15): string {
   const all = indexScope(scope);
   const exact = all.filter((c) => c.name === name);
   const loose = all.filter((c) => c.name !== name && c.name.toLowerCase().includes(q));
-  const hits = [...exact, ...loose].slice(0, limit);
+  const matches = [...exact, ...loose];
+  const hits = matches.slice(0, limit);
   if (!hits.length) return `Aucun symbole "${name}".`;
-  return hits
+  const body = hits
     .map((c) => {
       const doc = docAbove(c.file, c.start);
       return `${c.file}:${c.start}-${c.end} ${c.exported ? "export " : ""}${c.kind} ${c.name}\n  ${c.signature}${doc ? `\n  doc: ${doc.slice(0, 200)}` : ""}`;
     })
     .join("\n");
+  return `${body}${matches.length > hits.length ? `\n… ${matches.length - hits.length} autre(s) définition(s) (${exact.length} exacte(s)) : nom courant, restreindre scope` : ""}`;
 }
 
 /** Fenêtre autour d'un symbole : le symbole + `context` lignes de chaque côté. */
@@ -303,7 +305,8 @@ function summaryLine(abs: string): string {
   const key = `${abs}:${hash(content)}`;
   let line = dirLines.get(key);
   if (!line) {
-    const header = (/^\s*(?:\/\*+([\s\S]*?)\*\/|((?:\/\/.*\n?)+))/.exec(content)?.[0] ?? "").replace(/^\s*(\/\*+|\*\/|\*|\/\/)\s?/gm, "").replace(/\s+/g, " ").trim();
+    let header = (/^\s*(?:\/\*+([\s\S]*?)\*\/|((?:\/\/.*\n?)+))/.exec(content)?.[0] ?? "").replace(/^\s*(\/\*+|\*\/|\*|\/\/)\s?/gm, "").replace(/\s+/g, " ").trim();
+    if (/^(eslint|@ts-|prettier|istanbul|use strict|global )/i.test(header)) header = ""; // directives d'outils, pas un rôle
     const items = fileChunksFromContent(abs, content).filter((i) => i.kind !== "method");
     const syms = items.slice(0, 6).map((i) => `${i.exported ? "+" : ""}${i.name}`).join(", ");
     line = `${path.basename(abs)} (${content.split("\n").length} l.)${header ? ` — ${header.slice(0, 70)}` : ""}${syms ? ` — ${syms}${items.length > 6 ? ", …" : ""}` : ""}`;
@@ -312,9 +315,13 @@ function summaryLine(abs: string): string {
   return line;
 }
 
+/** Niveau courant seulement : fichiers du dossier (une ligne chacun) + sous-dossiers avec leur effectif. Budget ≈ 6000 caractères. */
 export function summarizeDir(rel: string, budget = 6000): string {
-  const files = [...walkFiles(resolveInRoot(rel))];
-  if (!files.length) return "Aucun fichier de code.";
+  const dir = resolveInRoot(rel);
+  const entries = fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name));
+  const files = entries.filter((e) => e.isFile() && CODE_EXTS.has(path.extname(e.name).toLowerCase())).map((e) => path.join(dir, e.name));
+  const subdirs = entries.filter((e) => e.isDirectory() && !IGNORED_DIRS.has(e.name) && !e.name.startsWith(".")).map((e) => ({ name: e.name, count: [...walkFiles(path.join(dir, e.name))].length }));
+  if (!files.length && !subdirs.length) return "Aucun fichier de code.";
   const out: string[] = [];
   let used = 0;
   for (const f of files) {
@@ -324,5 +331,11 @@ export function summarizeDir(rel: string, budget = 6000): string {
     used += l.length + 1;
   }
   const rest = files.length - out.length;
-  return `${rel} — ${files.length} fichier(s)\n${out.join("\n")}${rest > 0 ? `\n… ${rest} fichier(s) non listé(s) (budget) : viser un sous-dossier` : ""}`;
+  const sub = subdirs.map((s) => `${s.name}/ (${s.count} fichier(s) de code)`);
+  return [
+    `${rel} — ${files.length} fichier(s) ici, ${subdirs.length} sous-dossier(s)`,
+    ...out,
+    ...(rest > 0 ? [`… ${rest} fichier(s) non listé(s) (budget ~${budget} car.) : lire un fichier précis`] : []),
+    ...(sub.length ? ["Sous-dossiers (appeler summarize_dir dessus) :", ...sub] : []),
+  ].join("\n");
 }

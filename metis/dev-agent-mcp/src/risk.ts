@@ -35,6 +35,11 @@ export function riskZones(files: string[]): { hits: Map<string, string[]>; text:
     const p = f.replace(/\\/g, "/");
     for (const z of zones()) if (new RegExp(z.pattern, "i").test(p)) hits.set(z.name, [...(hits.get(z.name) ?? []), p]);
   }
+  // Même fichier cité sous deux formes (« src/models/a.js » et « api-x/src/models/a.js ») : on garde la plus complète.
+  for (const [zone, list] of hits) {
+    const uniq = [...new Set(list)];
+    hits.set(zone, uniq.filter((f) => !uniq.some((g) => g !== f && g.endsWith(`/${f}`))));
+  }
   if (!hits.size) return { hits, text: "Aucune zone critique touchée." };
   const text = [...hits]
     .map(([name, fs_]) => {

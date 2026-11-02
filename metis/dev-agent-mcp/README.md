@@ -76,7 +76,8 @@ Puis `"command": "<chemin du binaire>"` dans la config du client. La CI publie c
 
 ## Garde-fous
 
-- **Lecture seule par défaut.** `run_command` n'accepte que des binaires courants (et `git` en lecture) sauf `unsafe: true`. `rollback` n'affiche qu'un aperçu sans `confirm: true`. Les requêtes DB sont limitées à un SELECT en transaction `READ ONLY` (10 s), colonnes sensibles et emails masqués.
+- **Scripts qui écrivent ou migrent la base.** `run_tests`, `verify_change` et `run_command` (via `npm run …`) inspectent les scripts du `package.json` (en suivant `npm run x` et les variantes `run-script-os`). Un script qui déclenche `--fix`, `lint-staged`, `db:migrate`, `sequelize-cli`, `seed` ou `drop` est **refusé** sauf `allow_unsafe: true` (ou `unsafe: true` pour `run_command`). `verify_change` lance eslint **sans `--fix`**, sur les seuls fichiers modifiés.
+- **Lecture seule par défaut.** `run_command` n'accepte que des binaires courants (et `git` en lecture) sauf `unsafe: true`, et refuse `node`/`bun` avec `-e`/`--eval`/`--print`/`--require`. Ce n'est **pas un bac à sable** : `npm`, `node` ou `bun` exécutent du code du projet ; c'est un garde-fou contre les erreurs, pas contre un acteur malveillant. `rollback` n'affiche qu'un aperçu sans `confirm: true`. Les requêtes DB sont limitées à un SELECT en transaction `READ ONLY` (10 s), colonnes sensibles et emails masqués.
 - Les chemins sont toujours résolus à l'intérieur du workspace.
 - Les pièges mémorisés (`memory_save` avec `kind: "pitfall"`) sont ajoutés automatiquement aux sorties de `read_outline` / `read_symbol` du chemin concerné.
 
@@ -90,6 +91,8 @@ Puis `"command": "<chemin du binaire>"` dans la config du client. La CI publie c
 ## Limites connues
 
 - `search_semantic` est lexical (BM25 sur symboles, noms `camelCase`/`snake_case` découpés), sans embeddings : les requêtes en anglais fonctionnent mieux sur du code en anglais.
-- `call_graph` et `impact_analysis` raisonnent par nom et par imports relatifs, sans résolution de types.
+- `call_graph` et `impact_analysis` raisonnent par nom et par imports relatifs (plus les modèles Sequelize, reliés par leur nom de classe), sans résolution de types. Quand `impact_analysis` ou `dependency_graph` ne voit aucun dépendant, ils le disent : require calculé, alias, injection ou chargement dynamique restent invisibles. Pour `call_graph` / `find_references`, préférer `Classe.méthode` aux noms courants (`update`…).
+- `run_tests` n'accepte `affected_by` que pour jest/vitest ; avec mocha ou `node --test`, il l'indique et lance la suite complète.
+- Le masquage ne remplace un nombre par `[CARD]` que s'il est isolé et valide au test de Luhn (les horodatages de migrations restent lisibles).
 - Les tools DB gèrent PostgreSQL uniquement.
 - Premier index à froid : environ 5 s sur `api-aerial/src` ; restreindre `scope` aide.

@@ -31,18 +31,54 @@ const isExported = (n: ts.Node): boolean =>
   ts.canHaveModifiers(n) &&
   !!ts.getModifiers(n)?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword || m.kind === ts.SyntaxKind.DefaultKeyword);
 
+const isFn = (n: ts.Node | undefined): n is ts.ArrowFunction | ts.FunctionExpression => !!n && (ts.isArrowFunction(n) || ts.isFunctionExpression(n));
+
+/** `module.exports`, `exports` ou `module.exports.x` / `exports.x` : renvoie le nom exporté (undefined pour module.exports lui-même, "" si ce n'est pas un export CJS). */
+function cjsTarget(left: ts.Expression): string | undefined {
+  const text = left.getText();
+  if (text === "module.exports" || text === "exports") return undefined;
+  const m = /^(?:module\.)?exports\.(\w+)$/.exec(text);
+  return m ? m[1] : "";
+}
+
 export function outline(file: string, content: string): OutlineItem[] {
   const sf = ts.createSourceFile(file, content, ts.ScriptTarget.Latest, true, scriptKind(file));
   const line = (pos: number) => sf.getLineAndCharacterOfPosition(pos).line + 1;
   const items: OutlineItem[] = [];
   const exportedNames = new Set<string>();
+  const wrappers: ts.Statement[][] = []; // corps de factories `module.exports = (a, b) => { ... }` (modèles Sequelize…)
 
-  for (const st of sf.statements) {
+  const scanExports = (st: ts.Statement) => {
     if (ts.isExportDeclaration(st) && st.exportClause && ts.isNamedExports(st.exportClause)) {
       st.exportClause.elements.forEach((e) => exportedNames.add((e.propertyName ?? e.name).text));
     }
-    if (ts.isExportAssignment(st) && ts.isIdentifier(st.expression)) exportedNames.add(st.expression.text);
-  }
+    if (ts.isExportAssignment(st)) {
+      if (ts.isIdentifier(st.expression)) exportedNames.add(st.expression.text);
+      if (isFn(st.expression) && ts.isBlock(st.expression.body)) wrappers.push([...st.expression.body.statements]);
+    }
+    if (ts.isExpressionStatement(st) && ts.isBinaryExpression(st.expression) && st.expression.operatorToken.kind === ts.SyntaxKind.EqualsToken) {
+      const { left, right } = st.expression;
+      const target = cjsTarget(left);
+      if (target === "") return;
+      if (target) {
+        exportedNames.add(target);
+        if (ts.isIdentifier(right)) exportedNames.add(right.text);
+      } else if (ts.isIdentifier(right)) {
+        exportedNames.add(right.text);
+      } else if (ts.isObjectLiteralExpression(right)) {
+        for (const p of right.properties) {
+          if (ts.isShorthandPropertyAssignment(p)) exportedNames.add(p.name.text);
+          else if (ts.isPropertyAssignment(p)) {
+            if (ts.isIdentifier(p.name)) exportedNames.add(p.name.text);
+            if (ts.isIdentifier(p.initializer)) exportedNames.add(p.initializer.text);
+          }
+        }
+      } else if (isFn(right) && ts.isBlock(right.body)) {
+        wrappers.push([...right.body.statements]);
+      }
+    }
+  };
+  sf.statements.forEach(scanExports);
 
   const base = (node: ts.Node, name: string, kind: OutlineItem["kind"], exp: boolean): OutlineItem => ({
     name,
@@ -53,39 +89,45 @@ export function outline(file: string, content: string): OutlineItem[] {
     exported: exp || exportedNames.has(name),
   });
 
-  for (const st of sf.statements) {
-    const exp = isExported(st);
-    if (ts.isFunctionDeclaration(st)) {
-      items.push(base(st, st.name?.text ?? "default", "function", exp));
-    } else if (ts.isClassDeclaration(st)) {
-      const item = base(st, st.name?.text ?? "default", "class", exp);
-      item.children = st.members
-        .filter((m): m is ts.MethodDeclaration => ts.isMethodDeclaration(m) && !!m.name)
-        .map((m) => base(m, m.name.getText(sf), "method", false));
-      items.push(item);
-    } else if (ts.isInterfaceDeclaration(st)) {
-      items.push(base(st, st.name.text, "interface", exp));
-    } else if (ts.isTypeAliasDeclaration(st)) {
-      items.push(base(st, st.name.text, "type", exp));
-    } else if (ts.isEnumDeclaration(st)) {
-      items.push(base(st, st.name.text, "enum", exp));
-    } else if (ts.isVariableStatement(st)) {
-      for (const d of st.declarationList.declarations) {
-        if (!ts.isIdentifier(d.name)) continue;
-        const it = base(d, d.name.text, "const", exp);
-        it.start = line(st.getStart(sf));
-        it.end = line(st.getEnd());
-        if (d.initializer && (ts.isArrowFunction(d.initializer) || ts.isFunctionExpression(d.initializer))) {
-          it.kind = "function";
-          it.signature = `const ${d.name.text} = ${signatureOf(d.initializer, sf)}`.slice(0, 200);
-        } else {
-          it.signature = it.signature.slice(0, 120);
+  const collect = (statements: readonly ts.Statement[], wrapped: boolean) => {
+    for (const st of statements) {
+      const exp = isExported(st);
+      if (ts.isFunctionDeclaration(st)) {
+        items.push(base(st, st.name?.text ?? "default", "function", exp));
+      } else if (ts.isClassDeclaration(st)) {
+        // une classe dans une factory est ce que le module fournit (ex. modèle Sequelize) : exportée
+        const item = base(st, st.name?.text ?? "default", "class", exp || wrapped);
+        item.children = st.members
+          .filter((m): m is ts.MethodDeclaration => ts.isMethodDeclaration(m) && !!m.name)
+          .map((m) => base(m, sf.text.slice(m.name.getStart(sf), m.name.getEnd()), "method", false));
+        items.push(item);
+      } else if (ts.isInterfaceDeclaration(st)) {
+        items.push(base(st, st.name.text, "interface", exp));
+      } else if (ts.isTypeAliasDeclaration(st)) {
+        items.push(base(st, st.name.text, "type", exp));
+      } else if (ts.isEnumDeclaration(st)) {
+        items.push(base(st, st.name.text, "enum", exp));
+      } else if (ts.isVariableStatement(st)) {
+        for (const d of st.declarationList.declarations) {
+          if (!ts.isIdentifier(d.name)) continue;
+          const it = base(d, d.name.text, "const", exp);
+          it.start = line(st.getStart(sf));
+          it.end = line(st.getEnd());
+          if (isFn(d.initializer)) {
+            it.kind = "function";
+            it.signature = `const ${d.name.text} = ${signatureOf(d.initializer, sf)}`.slice(0, 200);
+          } else {
+            it.signature = it.signature.slice(0, 120);
+          }
+          items.push(it);
         }
-        items.push(it);
       }
     }
-  }
-  return items;
+  };
+
+  collect(sf.statements, false);
+  wrappers.forEach((w) => collect(w, true));
+  return items.sort((a, b) => a.start - b.start);
 }
 
 export function findItem(items: OutlineItem[], name: string): OutlineItem | undefined {

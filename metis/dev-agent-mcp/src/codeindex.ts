@@ -32,7 +32,7 @@ export function tokenize(s: string): string[] {
 const fileCache = new Map<string, { mtime: number; chunks: Chunk[] }>();
 
 /** Cache disque des plans de fichiers (mtime + taille) : le parsing TypeScript est l'essentiel du coût à froid. */
-const diskFile = path.join(os.tmpdir(), `dev-agent-mcp-index-${createHash("sha1").update(ROOT).digest("hex").slice(0, 10)}.json`);
+const diskFile = path.join(os.tmpdir(), `dev-agent-mcp-index-v2-${createHash("sha1").update(ROOT).digest("hex").slice(0, 10)}.json`);
 type DiskEntry = { mtime: number; size: number; items: OutlineItem[] };
 let disk: Map<string, DiskEntry> | undefined;
 let diskDirty = false;
@@ -205,15 +205,21 @@ export function callGraph(symbol: string, direction: "in" | "out", depth = 1, sc
     return out;
   };
   const lines: string[] = [];
-  const seen = new Set<string>([symbol]);
-  let frontier = [symbol];
+  let omitted = 0;
+  // « Classe.méthode » : on ne garde que les appelants qui écrivent explicitement Classe.méthode( — beaucoup moins d'homonymes.
+  const dotted = symbol.includes(".") ? symbol.split(".") : undefined;
+  const target = dotted ? dotted[dotted.length - 1] : symbol;
+  const qualified = dotted ? new RegExp(`\\b${dotted.join("\\s*\\.\\s*")}\\s*\\(`) : undefined;
+  const seen = new Set<string>([target]);
+  let frontier = [target];
   for (let d = 1; d <= depth && frontier.length; d++) {
     const next: string[] = [];
     for (const name of frontier) {
       const related =
         direction === "out"
           ? [...new Set((byName.get(name) ?? []).flatMap((c) => [...calls(c)]))].filter((n) => byName.has(n))
-          : [...new Set(all.filter((c) => c.name !== name && calls(c).has(name)).map((c) => c.name))];
+          : [...new Set(all.filter((c) => c.name !== name && (d === 1 && qualified ? qualified.test(c.text) : calls(c).has(name))).map((c) => c.name))];
+      omitted += Math.max(0, related.length - 25);
       for (const r of related.slice(0, 25)) {
         const where = (byName.get(r) ?? []).slice(0, 2).map((c) => `${c.file}:${c.start}`).join(", ");
         lines.push(`${"  ".repeat(d - 1)}${direction === "out" ? `${name} → ${r}` : `${r} → ${name}`}  (${where})`);
@@ -225,7 +231,9 @@ export function callGraph(symbol: string, direction: "in" | "out", depth = 1, sc
     }
     frontier = next;
   }
-  return lines.length ? `(appels détectés par nom, sans résolution de types)\n${lines.slice(0, 80).join("\n")}` : `Aucun appel ${direction === "out" ? "sortant" : "entrant"} trouvé pour "${symbol}".`;
+  omitted += Math.max(0, lines.length - 80);
+  const note = omitted ? `\n… ${omitted} relation(s) non affichée(s) (plafonds : 25 par symbole, 80 lignes) — nom trop courant ? essayer Classe.méthode` : "";
+  return lines.length ? `(appels détectés par nom, sans résolution de types)\n${lines.slice(0, 80).join("\n")}${note}` : `Aucun appel ${direction === "out" ? "sortant" : "entrant"} trouvé pour "${symbol}".`;
 }
 
 const summaries = new Map<string, string>();

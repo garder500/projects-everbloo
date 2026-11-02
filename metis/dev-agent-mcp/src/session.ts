@@ -28,10 +28,21 @@ export function record(tool: string, args: unknown, outputChars: number): void {
 export function budgetReport(): string {
   const rows = [...stats].sort((a, b) => b[1].chars - a[1].chars);
   const total = rows.reduce((n, [, s]) => n + s.chars, 0);
-  const rereads = [...reads].filter(([, n]) => n > 2).sort((a, b) => b[1] - a[1]);
+  const rereads = [...reads].filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1]);
+  // Conseil propre à chaque tool : « scope/max_results » n'existe pas partout.
+  const advice: Record<string, string> = {
+    repo_map: "viser un sous-dossier (path) et réduire depth",
+    find_references: "chercher Classe.méthode plutôt qu'un nom courant, ou restreindre scope",
+    search_code: "restreindre scope ou affiner la regex",
+    list_entrypoints: "utiliser filter et scope",
+    find_symbol: "restreindre scope",
+    search_semantic: "restreindre scope ou baisser k",
+    task_context: "viser le repo concerné",
+    run_command: "baisser max_lines et lire le log complet seulement si besoin",
+  };
   const tips = [
     ...rereads.slice(0, 5).map(([p, n]) => `- ${p} lu ${n} fois : noter l'essentiel dans scratchpad`),
-    ...rows.filter(([, s]) => s.calls > 0 && s.chars / s.calls > 6000).map(([t]) => `- ${t} renvoie de grosses sorties : restreindre scope/max_results`),
+    ...rows.filter(([, s]) => s.calls > 0 && s.chars / s.calls > 6000).map(([t]) => `- ${t} renvoie de grosses sorties : ${advice[t] ?? "affiner la requête"}`),
   ];
   return [
     `Sorties des tools de cette session : ~${Math.round(total / 4)} tokens (${rows.reduce((n, [, s]) => n + s.calls, 0)} appels)`,

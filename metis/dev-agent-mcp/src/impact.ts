@@ -24,17 +24,43 @@ export function buildGraph(scope = "."): { imports: Map<string, Set<string>>; im
   const known = new Set(files);
   const imports = new Map<string, Set<string>>();
   const importers = new Map<string, Set<string>>();
-  for (const f of files) {
-    const src = fs.readFileSync(path.join(ROOT, f), "utf8");
+  const link = (from: string, to: string) => {
+    if (from === to) return;
+    imports.set(from, (imports.get(from) ?? new Set()).add(to));
+    importers.set(to, (importers.get(to) ?? new Set()).add(from));
+  };
+  const sources = new Map(files.map((f) => [f, fs.readFileSync(path.join(ROOT, f), "utf8")]));
+
+  // Modèles Sequelize : chargés dynamiquement par models/index.js, donc jamais importés par chemin.
+  // On relie par le nom de classe : `models.Addresses`, `db.Addresses`, `const { Addresses } = require('../models')`.
+  const modelFiles = new Map<string, string>();
+  for (const [f, src] of sources) {
+    const cls = /class\s+(\w+)\s+extends\s+Model\b/.exec(src);
+    if (cls) modelFiles.set(cls[1], f);
+  }
+
+  for (const [f, src] of sources) {
     for (const m of src.matchAll(IMPORT_RE)) {
       const target = resolveSpec(f, m[1], known);
-      if (!target) continue;
-      imports.set(f, (imports.get(f) ?? new Set()).add(target));
-      importers.set(target, (importers.get(target) ?? new Set()).add(f));
+      if (target) link(f, target);
+    }
+    // Un modèle qui en référence un autre (associations) n'est pas un consommateur : on évite d'inonder le résultat.
+    if (!modelFiles.size || [...modelFiles.values()].includes(f)) continue;
+    const names = new Set<string>();
+    for (const m of src.matchAll(/\b(?:models|Models|db|sequelize\.models)\.(\w+)\b/g)) names.add(m[1]);
+    for (const m of src.matchAll(/\{([^}]*)\}\s*=\s*(?:require\([^)]*(?:models|db)[^)]*\)|\bmodels\b|\bdb\b)/g)) {
+      m[1].split(",").forEach((n) => names.add(n.split(":")[0].trim()));
+    }
+    for (const n of names) {
+      const target = modelFiles.get(n);
+      if (target) link(f, target);
     }
   }
   return { imports, importers };
 }
+
+const BLIND_SPOT =
+  "⚠ Aucun dépendant détecté, mais ce graphe ne suit que les imports statiques relatifs et les modèles Sequelize par nom : require calculé, alias, injection et chargement dynamique sont invisibles. Ne pas en conclure qu'il n'y a pas d'impact (vérifier avec find_references).";
 
 /** Graphe inverse : fichier → fichiers qui l'importent (imports relatifs uniquement). */
 export const buildImporters = (scope = "."): Map<string, Set<string>> => buildGraph(scope).importers;
@@ -58,7 +84,8 @@ export function dependencyGraph(file: string): string {
     `Importe (${imports.get(rel)?.size ?? 0}):\n${list(imports.get(rel))}`,
     `Importé par (${importers.get(rel)?.size ?? 0}):\n${list(importers.get(rel))}`,
     cycles.length ? `⚠ Cycles:\n${cycles.map((c) => `  ${c.join(" → ")}`).join("\n")}` : "Aucun cycle",
-  ].join("\n");
+    importers.get(rel)?.size ? "" : BLIND_SPOT,
+  ].filter(Boolean).join("\n");
 }
 
 export function impactAnalysis(files: string[], depth = 3): string {
@@ -94,5 +121,6 @@ export function impactAnalysis(files: string[], depth = 3): string {
     `Tests à relancer (${tests.length}):\n${fmt(tests)}`,
     `Routes/contrôleurs touchés (${routes.length}):\n${fmt(routes)}`,
     `Autres modules consommateurs (${others.length}):\n${fmt(others)}`,
-  ].join("\n");
+    all.length ? "" : BLIND_SPOT,
+  ].filter(Boolean).join("\n");
 }

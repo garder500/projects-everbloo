@@ -14,6 +14,7 @@ const DEFAULT_ZONES: Zone[] = [
   { name: "comptabilité", pattern: "compta|accounting|ledger|vat|tva", checks: ["tests de montants/arrondis", "relecture humaine"] },
   { name: "authentification", pattern: "auth|jwt|token|session|permission|guard", checks: ["tests d'accès refusé", "aucun secret en clair", "relecture sécurité"] },
   { name: "migrations/schéma", pattern: "migration|schema\\.|\\.sql$|prisma", checks: ["migration réversible", "tester sur copie de données", "vérifier les consommateurs du modèle"] },
+  { name: "modèle de données", pattern: "(^|/)models?/", checks: ["migration réversible pour toute colonne ajoutée/modifiée", "mettre à jour types tsoa et contrat", "impact_analysis sur les consommateurs du modèle"] },
   { name: "contrat API", pattern: "openapi|swagger|tsoa|\\.sdk|sdk/", checks: ["régénérer le contrat/SDK", "api_contract à jour", "impact_analysis sur les clients"] },
   { name: "code partagé", pattern: "(^|/)(shared|common|libs?|utils)/", checks: ["impact_analysis sur tous les projets consommateurs", "tests des consommateurs"] },
   { name: "config/secrets", pattern: "\\.env|secret|credential|docker|compose|\\.ya?ml$|pixi\\.toml", checks: ["aucun secret commité", "vérifier tous les environnements"] },
@@ -53,7 +54,10 @@ export function planCheck(plan: string, files: string[] = []): string {
   const problems: string[] = [];
   if (!/test/i.test(plan)) problems.push("Le plan ne prévoit aucun test.");
   if (!/hors p[ée]rim[eè]tre|out of scope|ne pas/i.test(plan)) problems.push("Périmètre non borné (pas de « hors périmètre »).");
-  if (hits.has("migrations/schéma") && !/rollback|revert|r[ée]versible|down/i.test(plan)) problems.push("Migration sans plan de retour arrière.");
+  const rollback = /rollback|revert|r[ée]versible|\bdown\b|undo/i;
+  const touchesSchema = hits.has("modèle de données") || /\b(colonne|column|champ|attribut|field)s?\b/i.test(plan);
+  if (touchesSchema && !/migration/i.test(plan)) problems.push("Modification de colonne/modèle sans migration prévue.");
+  if ((touchesSchema || hits.has("migrations/schéma")) && /migration/i.test(plan) && !rollback.test(plan)) problems.push("Migration sans plan de retour arrière.");
   if (hits.has("paiement/facturation") && !/idempoten/i.test(plan)) problems.push("Zone paiement sans mention d'idempotence.");
   if (hits.has("code partagé") && !/impact|consommateur/i.test(plan)) problems.push("Code partagé sans analyse d'impact.");
   if (hits.has("contrat API") && !/(sdk|contrat|g[ée]n[ée]r)/i.test(plan)) problems.push("Contrat API modifié sans régénération du SDK/contrat.");

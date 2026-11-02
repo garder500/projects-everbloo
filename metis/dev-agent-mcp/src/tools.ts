@@ -13,6 +13,7 @@ import { forPath, formatMemories, memoryRecall, memorySave } from "./memory.js";
 import { dependencyGraph, impactAnalysis } from "./impact.js";
 import { batchRead, fileDiffSince, findTestsFor, listEntrypoints, reviewDiff, secretScan } from "./extras.js";
 import { planCheck, riskZones } from "./risk.js";
+import { pkgDir } from "./pkg.js";
 
 /** Pièges connus de la zone, injectés quand l'agent ouvre un fichier concerné. */
 const withPitfalls = (rel: string, body: string): string => {
@@ -46,12 +47,16 @@ export function projectOverview(): string {
   }
   for (const e of fs.readdirSync(ROOT, { withFileTypes: true })) {
     if (!e.isDirectory() || IGNORED_DIRS.has(e.name) || e.name.startsWith(".")) continue;
-    const pkgPath = ["", "src"].map((sub) => path.join(ROOT, e.name, sub, "package.json")).find((p) => fs.existsSync(p));
-    if (!pkgPath) continue;
+    let pkgPath: string;
+    try {
+      pkgPath = path.join(resolveInRoot(pkgDir(e.name)), "package.json");
+    } catch {
+      continue;
+    }
     try {
       const pkg = JSON.parse(readText(pkgPath));
       const deps = { ...pkg.dependencies, ...pkg.devDependencies };
-      const stack = ["tsoa", "express", "fastify", "@nestjs/core", "react", "vue", "next", "vite", "jest", "vitest", "mocha"].filter((d) => d in deps);
+      const stack = ["tsoa", "express", "fastify", "@nestjs/core", "sequelize", "pg", "mysql2", "react", "vue", "next", "vite", "jest", "vitest", "mocha"].filter((d) => d in deps);
       const scripts = ["dev", "start", "build", "test", "lint", "typecheck"].filter((s) => pkg.scripts?.[s]);
       out.push(`- ${e.name}: ${pkg.name ?? ""} | stack: ${stack.join(", ") || "?"} | scripts: ${scripts.join(", ") || "-"}`);
     } catch {
@@ -71,8 +76,10 @@ export function repoMap(rel = ".", depth = 2): string {
       if (e.isDirectory()) {
         if (IGNORED_DIRS.has(e.name) || e.name.startsWith(".")) continue;
         const count = [...walkFiles(full)].length;
-        lines.push(`${indent}${e.name}/ (${count} fichiers de code)`);
-        if (level < depth) walk(full, level + 1, indent + "  ");
+        // Dossier massif (migrations, fichiers générés) : résumé seulement, pour ne pas noyer le reste de l'arbre.
+        const bulky = count > 40;
+        lines.push(`${indent}${e.name}/ (${count} fichiers de code${bulky ? ", non détaillé : cibler ce dossier avec path" : ""})`);
+        if (level < depth && !bulky) walk(full, level + 1, indent + "  ");
       } else if (CODE_EXTS.has(path.extname(e.name))) {
         const exported = outline(full, readText(full)).filter((i) => i.exported).map((i) => i.name);
         lines.push(`${indent}${e.name}${exported.length ? `: ${exported.slice(0, 6).join(", ")}${exported.length > 6 ? ", …" : ""}` : ""}`);
@@ -127,17 +134,21 @@ function formatHits({ hits, total }: { hits: Hit[]; total: number }, compact: bo
   return out.join("\n") || "Aucun résultat";
 }
 
+/** `symbol` = identifiant (`AddressesService`) ou forme pointée (`AddressesService.update`) pour éviter le bruit des noms courants. */
 export function findReferences(symbol: string, scope = ".", max = 40): string {
-  if (!/^[\w$]+$/.test(symbol)) throw new Error("symbol doit être un identifiant");
-  const re = new RegExp(`\\b${symbol.replace(/\$/g, "\\$")}\\b`);
-  return formatHits(scan(re, scope, max, 1), false);
+  if (!/^[\w$]+(\.[\w$]+)*$/.test(symbol)) throw new Error("symbol doit être un identifiant, éventuellement pointé (Classe.méthode)");
+  const re = new RegExp(`\\b${symbol.replace(/\$/g, "\\$").replace(/\./g, "\\s*\\.\\s*")}\\b`);
+  const result = scan(re, scope, max, 1);
+  const noisy = !symbol.includes(".") && result.total > 100;
+  return `${result.total} occurrence(s) de "${symbol}"${noisy ? " — nom très courant : viser Classe.méthode ou restreindre scope" : ""}\n${formatHits(result, result.hits.length > 30)}`;
 }
 
 export function searchCode(pattern: string, scope = ".", max = 50): string {
   return formatHits(scan(new RegExp(pattern), scope, max, 0), true);
 }
 
-const git = (cwd: string, ...args: string[]) => execFileSync("git", args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+/** trimEnd uniquement : un trim() mangerait l'espace de tête de la première ligne de `status --short`. */
+const git = (cwd: string, ...args: string[]) => execFileSync("git", args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trimEnd();
 
 export function gitContext(repo?: string): string {
   if (!repo) {
@@ -173,7 +184,12 @@ export function registerTools(server: McpServer): void {
   server.tool("file_diff_since", "Fichiers et volumes modifiés depuis un commit/ref, sans relire les fichiers", { ref: z.string(), ...repoArg }, guard(({ ref, repo }) => fileDiffSince(ref, repo)));
   server.tool("find_tests_for", "Tests qui référencent un symbole ou un fichier", { target: z.string(), scope: z.string().optional() }, guard(({ target, scope }) => findTestsFor(target, scope)));
   server.tool("dependency_graph", "Imports entrants/sortants d'un fichier et cycles qui le traversent", { file: z.string() }, guard(({ file }) => dependencyGraph(file)));
-  server.tool("list_entrypoints", "Routes HTTP (tsoa/express), jobs planifiés et handlers d'événements", { scope: z.string().optional() }, guard(({ scope }) => listEntrypoints(scope)));
+  server.tool(
+    "list_entrypoints",
+    "Routes HTTP (tsoa/express), jobs planifiés et handlers d'événements ; scope = dossier ou fichier, filter = mot à retrouver dans la ligne ou le chemin",
+    { scope: z.string().optional(), filter: z.string().optional() },
+    guard(({ scope, filter }) => listEntrypoints(scope, filter)),
+  );
   server.tool("secret_scan", "Détecte clés/tokens/mots de passe dans les lignes ajoutées du diff d'un repo (valeurs masquées)", repoArg, guard(({ repo }) => secretScan(repo)));
   server.tool("review_diff", "Checklist auto sur le diff : any, erreurs avalées, console.log, .only, TODO, logs sensibles, secrets", repoArg, guard(({ repo }) => reviewDiff(repo)));
   const kind = z.enum(["pitfall", "decision", "convention", "note"]);
@@ -209,21 +225,21 @@ export function registerTools(server: McpServer): void {
     "Exécute une commande (binaires courants seulement sauf unsafe=true) ; renvoie erreurs + fin du log, log complet dans un fichier",
     { cmd: z.string(), cwd: z.string().optional(), max_lines: z.number().int().min(5).max(200).optional(), timeout_s: z.number().int().min(1).max(600).optional(), unsafe: z.boolean().optional() },
     guard(({ cmd, cwd, max_lines, timeout_s, unsafe }) => {
-      if (!unsafe) checkAllowed(cmd);
+      if (!unsafe) checkAllowed(cmd, cwd ?? ".");
       return execSummary(cmd, cwd ?? ".", max_lines ?? 40, (timeout_s ?? 120) * 1000).text;
     }),
   );
   server.tool(
     "run_tests",
     "Tests d'un repo ; avec affected_by, uniquement les tests liés à ces fichiers (jest/vitest) ; échecs résumés",
-    { repo: z.string(), affected_by: z.array(z.string()).optional(), max_lines: z.number().int().min(5).max(200).optional() },
-    guard(({ repo, affected_by, max_lines }) => runTests(repo, affected_by, max_lines)),
+    { repo: z.string(), affected_by: z.array(z.string()).optional(), max_lines: z.number().int().min(5).max(200).optional(), allow_unsafe: z.boolean().optional() },
+    guard(({ repo, affected_by, max_lines, allow_unsafe }) => runTests(repo, affected_by, max_lines, allow_unsafe)),
   );
   server.tool(
     "verify_change",
-    "Enchaîne format, lint, typecheck et tests ciblés sur les fichiers modifiés d'un repo ; un seul verdict PASS/FAIL",
-    { repo: z.string() },
-    guard(({ repo }) => verifyChange(repo)),
+    "Lint (eslint sans --fix, sur les seuls fichiers modifiés), typecheck et tests d'un repo ; un seul verdict. Refuse les scripts qui écrivent (--fix) ou migrent la base sauf allow_unsafe=true",
+    { repo: z.string(), allow_unsafe: z.boolean().optional() },
+    guard(({ repo, allow_unsafe }) => verifyChange(repo, 25, allow_unsafe)),
   );
   server.tool("project_overview", "Stack, scripts et tâches pixi de chaque projet du workspace", {}, guard(() => projectOverview()));
   server.tool(

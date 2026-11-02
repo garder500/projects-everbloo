@@ -39,7 +39,10 @@ export function fileDiffSince(ref: string, repo = "."): string {
 export function findTestsFor(target: string, scope = "."): string {
   const isPath = /[\\/]/.test(target) || /\.\w+$/.test(target);
   const needle = isPath ? path.basename(target).replace(/\.\w+$/, "") : target;
-  const re = new RegExp(`\\b${needle.replace(/[$.]/g, "\\$&")}\\b`);
+  const escaped = needle.replace(/[$.]/g, "\\$&");
+  // Un fichier est « référencé » par un import/require de son nom (« addresses » seul matcherait le verbe anglais) ;
+  // un symbole, par le mot entier.
+  const re = isPath ? new RegExp(`["'\`][^"'\`\\n]*\\b${escaped}(\\.\\w+)?["'\`]`) : new RegExp(`\\b${escaped}\\b`);
   const hits: string[] = [];
   for (const f of walkFiles(resolveInRoot(scope))) {
     const rel = toRel(f);
@@ -66,9 +69,12 @@ export function addedLines(repo: string): [string, number, string][] {
   return out;
 }
 
+const scanned = (lines: [string, number, string][]) => `${lines.length} ligne(s) ajoutée(s) analysée(s) dans ${new Set(lines.map(([f]) => f)).size} fichier(s)`;
+
 export function secretScan(repo = "."): string {
-  const found = addedLines(repo).filter(([, , t]) => hasSecret(t)).map(([f, n]) => `${f}:${n}: secret probable (valeur masquée)`);
-  return found.length ? `✗ ${found.length} secret(s) probable(s) dans le diff:\n${found.join("\n")}` : "✓ Aucun secret détecté dans le diff.";
+  const added = addedLines(repo);
+  const found = added.filter(([, , t]) => hasSecret(t)).map(([f, n]) => `${f}:${n}: secret probable (valeur masquée)`);
+  return found.length ? `✗ ${found.length} secret(s) probable(s) dans le diff (${scanned(added)}):\n${found.join("\n")}` : `✓ Aucun secret détecté (${scanned(added)}).`;
 }
 
 const REVIEW_RULES: [RegExp, string][] = [
@@ -83,11 +89,12 @@ const REVIEW_RULES: [RegExp, string][] = [
 
 /** Checklist automatique sur les lignes ajoutées du diff. */
 export function reviewDiff(repo = "."): string {
-  const findings = addedLines(repo).flatMap(([f, n, t]) => [
+  const added = addedLines(repo);
+  const findings = added.flatMap(([f, n, t]) => [
     ...REVIEW_RULES.filter(([re]) => re.test(t)).map(([, label]) => `${f}:${n}: ${label}`),
     ...(hasSecret(t) ? [`${f}:${n}: secret probable`] : []),
   ]);
-  return findings.length ? truncate(`${findings.length} point(s) à vérifier:\n${findings.join("\n")}`) : "✓ Rien à signaler sur les lignes ajoutées.";
+  return findings.length ? truncate(`${findings.length} point(s) à vérifier (${scanned(added)}):\n${findings.join("\n")}`) : `✓ Rien à signaler (${scanned(added)}).`;
 }
 
 const ENTRY_RULES: [RegExp, string][] = [
@@ -98,16 +105,21 @@ const ENTRY_RULES: [RegExp, string][] = [
   [/\.(?:process|consume|subscribe)\(\s*["'`]([^"'`]+)/, "handler d'événement"],
 ];
 
-export function listEntrypoints(scope = "."): string {
+/** `filter` : sous-chaîne (insensible à la casse) cherchée dans la ligne ou le chemin, pour ne garder que les routes du sujet. */
+export function listEntrypoints(scope = ".", filter?: string): string {
   const out: string[] = [];
+  const needle = filter?.toLowerCase();
+  let total = 0;
   for (const f of walkFiles(resolveInRoot(scope))) {
     const rel = toRel(f);
     if (isTestFile(rel)) continue;
     fs.readFileSync(f, "utf8").split(/\r?\n/).forEach((l, i) => {
       const rule = ENTRY_RULES.find(([re]) => re.test(l));
-      if (rule) out.push(`${rel}:${i + 1}: [${rule[1]}] ${l.trim().slice(0, 120)}`);
+      if (!rule || (needle && !l.toLowerCase().includes(needle) && !rel.toLowerCase().includes(needle))) return;
+      total++;
+      if (out.length < 200) out.push(`${rel}:${i + 1}: [${rule[1]}] ${l.trim().slice(0, 120)}`);
     });
-    if (out.length >= 200) break;
   }
-  return truncate(out.join("\n") || "Aucun point d'entrée détecté", 10000);
+  const more = total > out.length ? `\n… ${total - out.length} de plus (affiner scope ou filter)` : "";
+  return truncate(`${total} point(s) d'entrée${filter ? ` pour "${filter}"` : ""}\n${out.join("\n") || "Aucun point d'entrée détecté"}${more}`, 10000);
 }

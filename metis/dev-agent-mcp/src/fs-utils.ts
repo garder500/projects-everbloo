@@ -15,6 +15,11 @@ export const toRel = (abs: string): string => path.relative(ROOT, abs).split(pat
 export function* walkFiles(dir: string, exts: Set<string> = CODE_EXTS): Generator<string> {
   let entries: fs.Dirent[];
   try {
+    if (fs.statSync(dir).isFile()) {
+      // scope = un fichier : on le traite seul plutôt que de répondre « rien trouvé ».
+      if (exts.has(path.extname(dir).toLowerCase())) yield dir;
+      return;
+    }
     entries = fs.readdirSync(dir, { withFileTypes: true });
   } catch {
     return;

@@ -31,7 +31,7 @@ test("read_symbol lit le bloc avec numéros de ligne", () => {
 });
 
 test("find_references refuse un symbole non identifiant", () => {
-  expect(() => findReferences("a.b")).toThrow();
+  expect(() => findReferences("a b")).toThrow();
 });
 
 test("summarize garde les erreurs dédupliquées et la fin du log", () => {
@@ -209,4 +209,66 @@ test("lot 8: find_similar_code, summarize_file (cache), decision_log, task_conte
   const { decisionLog, taskContext } = await import("../src/context.js");
   expect(decisionLog("workflows", "dev-agent-mcp")).toContain("Commits");
   expect(taskContext("dev-agent-mcp")).toContain("branche:");
+});
+
+test("correctifs: masquage carte (Luhn) sans casser les noms de migrations", async () => {
+  const { redact } = await import("../src/redact.js");
+  expect(redact("migrations/20261102000000-add-note.js")).toBe("migrations/20261102000000-add-note.js");
+  expect(redact("dev-agent-mcp-log-1793615579256.log")).toContain("1793615579256");
+  expect(redact("carte 4111 1111 1111 1111 ok")).toContain("[CARD]");
+  expect(redact("id 1234567890123456 fin")).toContain("1234567890123456"); // Luhn invalide
+});
+
+test("correctifs: scripts dangereux détectés, node -e refusé, avertissement affected_by", async () => {
+  const { scriptRisk } = await import("../src/pkg.js");
+  const { checkAllowed } = await import("../src/exec.js");
+  const pkg = { scripts: { test: "run-script-os", "test:win32": "npm run sequelize && mocha", sequelize: "npx sequelize-cli db:migrate", lint: "eslint . --fix", typecheck: "tsc --noEmit" } };
+  expect(scriptRisk(pkg, "test")).toContain("test");
+  expect(scriptRisk(pkg, "lint")).toContain("--fix");
+  expect(scriptRisk(pkg, "typecheck")).toBeUndefined();
+  expect(() => checkAllowed("node -e 'process.exit(1)'")).toThrow(/arbitraire/);
+  expect(() => checkAllowed("node script.js")).not.toThrow();
+});
+
+test("correctifs: outline CommonJS (factory de modèle) et exports module.exports", async () => {
+  const { outline } = await import("../src/outline.js");
+  const fs = await import("node:fs");
+  const items = outline("m.js", fs.readFileSync("tests/fixtures/models/addresses.js", "utf8"));
+  const cls = items.find((i) => i.name === "Addresses");
+  expect(cls?.exported).toBe(true);
+  expect(cls?.children?.map((c) => c.name)).toContain("associate");
+  const cjs = outline("x.js", "function a(){}\nfunction b(){}\nconst c = 1;\nmodule.exports = { a, d: b };\nexports.c = c;");
+  expect(cjs.filter((i) => i.exported).map((i) => i.name).sort()).toEqual(["a", "b", "c"]);
+});
+
+test("correctifs: impact_analysis relie un modèle Sequelize à ses utilisateurs, et prévient quand il ne voit rien", async () => {
+  const { impactAnalysis } = await import("../src/impact.js");
+  const out = impactAnalysis(["dev-agent-mcp/tests/fixtures/models/addresses.js"]);
+  expect(out).toContain("dev-agent-mcp/tests/fixtures/services/addresses.service.js");
+  expect(impactAnalysis(["dev-agent-mcp/src/index.ts"])).toContain("Ne pas en conclure");
+});
+
+test("correctifs: scope fichier, filter entrypoints, find_tests_for par import", async () => {
+  const { listEntrypoints, findTestsFor } = await import("../src/extras.js");
+  expect(listEntrypoints("dev-agent-mcp/tests/fixtures/models/addresses.js")).toContain("0 point(s)");
+  expect(listEntrypoints("dev-agent-mcp/src", "zzz-inexistant")).toContain("0 point(s)");
+  expect(findTestsFor("dev-agent-mcp/src/redact.ts", "dev-agent-mcp/tests")).toContain("tools.test.ts"); // import ../src/redact.js
+  expect(findTestsFor("dev-agent-mcp/src/memory.ts", "dev-agent-mcp/tests")).toContain("tools.test.ts");
+});
+
+test("correctifs: plan_check exige migration + retour arrière pour une colonne", async () => {
+  const { planCheck } = await import("../src/risk.js");
+  const sans = planCheck("Ajouter une colonne note au modèle. Tests unitaires. Hors périmètre : le front.", ["api-dashboard/src/models/addresses.js"]);
+  expect(sans).toContain("sans migration");
+  const avec = planCheck("Ajouter une colonne note au modèle via une migration avec undo. Tests unitaires. Hors périmètre : le front.", ["api-dashboard/src/models/addresses.js"]);
+  expect(avec).not.toContain("sans migration");
+  expect(avec).not.toContain("retour arrière");
+});
+
+test("correctifs: decision_log multi-dépôts, task_context sur branche de base, find_references pointé", async () => {
+  const { decisionLog, taskContext } = await import("../src/context.js");
+  expect(decisionLog("workflows")).toContain("dépôts cherchés");
+  expect(taskContext("dev-agent-mcp")).toMatch(/branche: \S+/);
+  const { findReferences } = await import("../src/tools.js");
+  expect(findReferences("AddressesService.update", "dev-agent-mcp/tests")).toContain("1 occurrence");
 });

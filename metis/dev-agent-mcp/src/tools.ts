@@ -9,7 +9,7 @@ import { findItem, outline, type OutlineItem } from "./outline.js";
 import { redact } from "./redact.js";
 import { checkAllowed, execSummary } from "./exec.js";
 import { runTests, verifyChange } from "./verify.js";
-import { forPath, formatMemories, memoryRecall, memorySave } from "./memory.js";
+import { forPath, formatMemories, memoryRecall, memorySaveChecked } from "./memory.js";
 import { dependencyGraph, impactAnalysis } from "./impact.js";
 import { batchRead, fileDiffSince, findTestsFor, listEntrypoints, reviewDiff, secretScan } from "./extras.js";
 import { planCheck, riskZones } from "./risk.js";
@@ -78,7 +78,8 @@ export function repoMap(rel = ".", depth = 2): string {
         const count = [...walkFiles(full)].length;
         // Dossier massif (migrations, fichiers générés) : résumé seulement, pour ne pas noyer le reste de l'arbre.
         const bulky = count > 40;
-        lines.push(`${indent}${e.name}/ (${count} fichiers de code${bulky ? ", non détaillé : cibler ce dossier avec path" : ""})`);
+        const sample = bulky ? [...walkFiles(full)].slice(0, 12).map((f) => path.basename(f)) : [];
+        lines.push(`${indent}${e.name}/ (${count} fichiers de code${bulky ? `, non détaillé : cibler ce dossier avec path ; ex. ${sample.join(", ")}, …` : ""})`);
         if (level < depth && !bulky) walk(full, level + 1, indent + "  ");
       } else if (CODE_EXTS.has(path.extname(e.name))) {
         const exported = outline(full, readText(full)).filter((i) => i.exported).map((i) => i.name);
@@ -197,7 +198,10 @@ export function registerTools(server: McpServer): void {
     "memory_save",
     "Mémorise un piège, une décision, une convention ou une note rattachée à un chemin (scope) ; secrets masqués",
     { fact: z.string(), kind: kind.optional(), scope: z.string().optional(), tags: z.array(z.string()).optional() },
-    guard(({ fact, kind: k, scope, tags }) => formatMemories([memorySave(fact, k, scope, tags)])),
+    guard(({ fact, kind: k, scope, tags }) => {
+      const { mem, existing } = memorySaveChecked(fact, k, scope, tags);
+      return `${existing ? `Déjà mémorisé (quasi identique), non dupliqué :\n` : ""}${formatMemories([mem])}`;
+    }),
   );
   server.tool(
     "memory_recall",

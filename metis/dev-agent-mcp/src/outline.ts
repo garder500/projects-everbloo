@@ -23,8 +23,14 @@ function scriptKind(file: string): ts.ScriptKind {
 /** Signature = déclaration sans corps, sur une ligne. */
 function signatureOf(node: ts.Node, sf: ts.SourceFile): string {
   const body = (node as { body?: ts.Node }).body;
-  const end = body ? body.getStart(sf) : node.getEnd();
-  return sf.text.slice(node.getStart(sf), end).replace(/\s+/g, " ").trim().slice(0, 200);
+  let end = body ? body.getStart(sf) : node.getEnd();
+  // classe / interface / enum : l'en-tête s'arrête à l'accolade ouvrante (sinon on coupe le corps en plein mot)
+  if (!body && (ts.isClassDeclaration(node) || ts.isInterfaceDeclaration(node) || ts.isEnumDeclaration(node))) {
+    const brace = sf.text.indexOf("{", node.getStart(sf));
+    if (brace >= 0 && brace < end) end = brace;
+  }
+  const sig = sf.text.slice(node.getStart(sf), end).replace(/\s+/g, " ").trim();
+  return sig.length > 200 ? `${sig.slice(0, 197)}…` : sig;
 }
 
 const isExported = (n: ts.Node): boolean =>

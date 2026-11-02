@@ -272,3 +272,56 @@ test("correctifs: decision_log multi-dépôts, task_context sur branche de base,
   const { findReferences } = await import("../src/tools.js");
   expect(findReferences("AddressesService.update", "dev-agent-mcp/tests")).toContain("1 occurrence");
 });
+
+test("rapport 0.1.1: call_graph entrant = sites d'appel réels de Classe.méthode", async () => {
+  const { callGraph } = await import("../src/codeindex.js");
+  const out = callGraph("AddressesService.update", "in", 1, "dev-agent-mcp/tests/fixtures");
+  expect(out).toContain("save → update");
+  expect(out).toContain("addresses.controller.js:6");
+  expect(out).not.toContain("rename");
+  expect(callGraph("update", "in", 1, "dev-agent-mcp/tests/fixtures")).toContain("rename → update");
+});
+
+test("rapport 0.1.1: find_similar_code retrouve un extrait copié d'une longue fonction", async () => {
+  const { findSimilarCode } = await import("../src/codeindex.js");
+  const snippet = "const pkg = readPkg(rel); const deps = { ...pkg.dependencies, ...pkg.devDependencies }; const r = runner(resolveInRoot(rel));";
+  expect(findSimilarCode(snippet, "dev-agent-mcp/src")).toContain("verify.ts");
+});
+
+test("rapport 0.1.1: summarize_dir tient dans le budget et signale le reste", async () => {
+  const { summarizeDir } = await import("../src/codeindex.js");
+  const full = summarizeDir("dev-agent-mcp/src");
+  expect(full).toContain("redact.ts (");
+  expect(full).not.toContain("[tronqué");
+  expect(summarizeDir("dev-agent-mcp/src", 200)).toContain("non listé");
+});
+
+test("rapport 0.1.1: memory_save ne duplique pas un fait quasi identique", async () => {
+  const fs = await import("node:fs");
+  const os = await import("node:os");
+  process.env.DEV_AGENT_MEMORY_FILE = `${os.tmpdir()}/dev-agent-mem-dup-${Date.now()}.json`;
+  const { memorySaveChecked } = await import("../src/memory.js");
+  const a = memorySaveChecked("Toute nouvelle colonne passe par une migration réversible", "pitfall", "api-dashboard/src");
+  const b = memorySaveChecked("Toute colonne passe par une migration réversible", "pitfall", "api-dashboard/src/models");
+  const c = memorySaveChecked("Ne jamais logguer les numéros de carte", "pitfall", "api-dashboard/src/models");
+  expect(a.existing).toBe(false);
+  expect(b.existing).toBe(true);
+  expect(b.mem.id).toBe(a.mem.id);
+  expect(c.existing).toBe(false);
+  fs.unlinkSync(process.env.DEV_AGENT_MEMORY_FILE);
+  delete process.env.DEV_AGENT_MEMORY_FILE;
+});
+
+test("rapport 0.1.1: summarizeLint garde les erreurs avec fichier:ligne et compte les warnings", async () => {
+  const { summarizeLint } = await import("../src/exec.js");
+  const out = summarizeLint("/x/src/a.js:1:2: 'x' is defined but never used. [Error/no-unused-vars]\n/x/src/b.js:3:4: Unexpected console [Warning/no-console]\n\n2 problems");
+  expect(out).toContain("a.js:1:2");
+  expect(out).not.toContain("b.js");
+  expect(out).toContain("1 erreur(s), 1 warning(s)");
+});
+
+test("rapport 0.1.1: signature de classe s'arrête à l'accolade", async () => {
+  const { outline } = await import("../src/outline.js");
+  const it = outline("m.js", "class A extends B { /** long commentaire */ static x() {} }")[0];
+  expect(it.signature).toBe("class A extends B");
+});

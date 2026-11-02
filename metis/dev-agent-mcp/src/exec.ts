@@ -41,7 +41,11 @@ export function checkAllowed(cmd: string, cwd = "."): void {
 
 export function run(cmd: string, cwdRel = ".", timeoutMs = 120_000): RunResult {
   const r = spawnSync(cmd, { cwd: resolveInRoot(cwdRel), shell: true, encoding: "utf8", timeout: timeoutMs, maxBuffer: 32 * 1024 * 1024 });
-  const output = redact(`${r.stdout ?? ""}${r.stderr ?? ""}`);
+  // Les avertissements CRLF de git (« LF will be replaced by CRLF ») reviennent à chaque appel et ne servent à rien.
+  const output = redact(`${r.stdout ?? ""}${r.stderr ?? ""}`)
+    .split("\n")
+    .filter((l) => !/^warning: in the working copy of .* will be replaced by/.test(l))
+    .join("\n");
   const logFile = path.join(os.tmpdir(), `dev-agent-mcp-log-${Date.now()}.log`);
   fs.writeFileSync(logFile, output);
   return { code: r.status ?? -1, timedOut: r.error?.message.includes("ETIMEDOUT") ?? false, output, logFile };
@@ -67,13 +71,24 @@ export function summarize(output: string, maxLines = 40): string {
   return [...head, ...more, "--- fin du log ---", ...tail].join("\n");
 }
 
-export function execSummary(cmd: string, cwd: string, maxLines: number, timeoutMs?: number): { ok: boolean; text: string } {
+/** Résumé d'une sortie eslint `-f unix` : erreurs avec fichier:ligne (les warnings ne sont que comptés), puis le total. */
+export function summarizeLint(output: string, maxLines = 25): string {
+  const lines = output.split(/\r?\n/).filter((l) => l.trim());
+  const errors = lines.filter((l) => /\[Error\//.test(l));
+  const warnings = lines.filter((l) => /\[Warning\//.test(l)).length;
+  const total = lines.find((l) => /\d+ problems?/.test(l));
+  const shown = errors.slice(0, maxLines).map((l) => l.replace(/^.*[\\/]src[\\/]/, "").slice(0, 220));
+  const more = errors.length > shown.length ? [`… ${errors.length - shown.length} erreur(s) de plus`] : [];
+  return [...shown, ...more, `${errors.length} erreur(s), ${warnings} warning(s)${total ? ` — ${total.trim()}` : ""}`].join("\n");
+}
+
+export function execSummary(cmd: string, cwd: string, maxLines: number, timeoutMs?: number, summarizer: (out: string, max: number) => string = summarize): { ok: boolean; text: string } {
   const r = run(cmd, cwd, timeoutMs);
   const ok = r.code === 0 && !r.timedOut;
   const lines = r.output.split(/\r?\n/).filter((l) => l.trim());
   const body = ok
     ? [...(lines.length > maxLines ? [`… ${lines.length - maxLines} ligne(s) plus haut (voir log complet)`] : []), ...lines.slice(-maxLines)].join("\n")
-    : summarize(r.output, maxLines);
+    : summarizer(r.output, maxLines);
   const status = r.timedOut ? "TIMEOUT" : ok ? "OK" : `ÉCHEC (code ${r.code})`;
   return { ok, text: `$ ${cmd}  [${cwd}]\n${status}\n${body}\nlog complet: ${r.logFile}` };
 }

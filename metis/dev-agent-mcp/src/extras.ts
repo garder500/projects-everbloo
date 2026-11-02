@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { resolveInRoot, toRel, truncate, walkFiles } from "./fs-utils.js";
-import { isTestFile } from "./impact.js";
+import { buildGraph, isTestFile } from "./impact.js";
 import { hasSecret } from "./redact.js";
 
 const git = (repo: string, ...args: string[]) =>
@@ -44,14 +44,36 @@ export function findTestsFor(target: string, scope = "."): string {
   // un symbole, par le mot entier.
   const re = isPath ? new RegExp(`["'\`][^"'\`\\n]*\\b${escaped}(\\.\\w+)?["'\`]`) : new RegExp(`\\b${escaped}\\b`);
   const hits: string[] = [];
+  const direct = new Set<string>();
   for (const f of walkFiles(resolveInRoot(scope))) {
     const rel = toRel(f);
     if (!isTestFile(rel)) continue;
     const lines = fs.readFileSync(f, "utf8").split(/\r?\n/);
     const idx = lines.findIndex((l) => re.test(l));
-    if (idx >= 0) hits.push(`${rel}:${idx + 1}: ${lines[idx].trim().slice(0, 140)}`);
+    if (idx >= 0) {
+      direct.add(rel);
+      hits.push(`${rel}:${idx + 1}: ${lines[idx].trim().slice(0, 140)}`);
+    }
   }
-  return hits.slice(0, 30).join("\n") || `Aucun test ne référence "${needle}"`;
+  // Pour un fichier : les tests qui n'importent que ses utilisateurs (ex. un modèle testé via un service) comptent aussi.
+  const indirect: string[] = [];
+  const abs = isPath ? resolveInRoot(target) : "";
+  if (isPath && fs.existsSync(abs) && fs.statSync(abs).isFile()) {
+    const start = toRel(abs);
+    const { importers } = buildGraph(start.split("/")[0]);
+    const dist = new Map<string, number>([[start, 0]]);
+    let frontier = [start];
+    for (let d = 1; d <= 3 && frontier.length; d++) {
+      frontier = frontier.flatMap((f) => [...(importers.get(f) ?? [])]).filter((f) => !dist.has(f));
+      frontier.forEach((f) => dist.set(f, d));
+    }
+    for (const [f, d] of dist) if (d > 0 && isTestFile(f) && !direct.has(f)) indirect.push(`${f} (via dépendants, distance ${d})`);
+  }
+  const parts = [
+    hits.length ? `Tests qui ${isPath ? "importent ce fichier" : "référencent ce symbole"} (${hits.length}):\n${hits.slice(0, 30).join("\n")}` : undefined,
+    indirect.length ? `Tests atteints via les dépendants du fichier (${indirect.length}, cohérent avec impact_analysis):\n${indirect.slice(0, 30).join("\n")}` : undefined,
+  ].filter(Boolean);
+  return parts.join("\n") || `Aucun test ne référence "${needle}" (ni directement ni via ses dépendants)`;
 }
 
 /** Lignes ajoutées du diff (indexé + non indexé) : [fichier, n° de ligne, texte]. */

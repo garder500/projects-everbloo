@@ -25,25 +25,38 @@ function load(): Memory[] {
   }
 }
 
-export function memorySave(fact: string, kind: MemoryKind = "note", scope = "*", tags: string[] = []): Memory {
+const words = (s: string) => s.toLowerCase().split(/[^\p{L}\p{N}_]+/u).filter((w) => w.length > 2);
+
+const jaccard = (a: string, b: string): number => {
+  const [x, y] = [new Set(words(a)), new Set(words(b))];
+  const inter = [...x].filter((w) => y.has(w)).length;
+  return inter / (x.size + y.size - inter || 1);
+};
+
+/** Même type et portées imbriquées (l'une préfixe l'autre) : la même consigne répétée à deux niveaux est un doublon. */
+const overlaps = (a: string, b: string): boolean => a === "*" || b === "*" || a === b || a.startsWith(`${b}/`) || b.startsWith(`${a}/`);
+
+/** Enregistre un fait ; si un fait quasi identique (≥ 75 % de mots communs) existe déjà, ne duplique pas et renvoie l'existant. */
+export function memorySaveChecked(fact: string, kind: MemoryKind = "note", scope = "*", tags: string[] = []): { mem: Memory; existing: boolean } {
   const all = load();
   const clean = redact(fact).trim();
-  const dup = all.find((m) => m.fact === clean && m.scope === scope && m.kind === kind);
-  if (dup) return dup;
+  const normScope = scope.replace(/\\/g, "/").replace(/\/+$/, "") || "*";
+  const dup = all.find((m) => m.kind === kind && overlaps(m.scope, normScope) && (m.fact === clean || jaccard(m.fact, clean) >= 0.75));
+  if (dup) return { mem: dup, existing: true };
   const mem: Memory = {
     id: all.reduce((max, m) => Math.max(max, m.id), 0) + 1,
     kind,
     fact: clean,
-    scope: scope.replace(/\\/g, "/").replace(/\/+$/, "") || "*",
+    scope: normScope,
     tags,
     createdAt: new Date().toISOString().slice(0, 10),
   };
   fs.mkdirSync(path.dirname(memoryFile()), { recursive: true });
   fs.writeFileSync(memoryFile(), JSON.stringify([...all, mem], null, 2));
-  return mem;
+  return { mem, existing: false };
 }
 
-const words = (s: string) => s.toLowerCase().split(/[^\p{L}\p{N}_]+/u).filter((w) => w.length > 2);
+export const memorySave = (fact: string, kind: MemoryKind = "note", scope = "*", tags: string[] = []): Memory => memorySaveChecked(fact, kind, scope, tags).mem;
 
 /** Mémoires dont le scope couvre ce chemin (le plus spécifique d'abord). */
 export function forPath(rel: string, kind?: MemoryKind): Memory[] {

@@ -178,18 +178,19 @@ const shingles = (text: string): Set<string> => {
 export function findSimilarCode(snippet: string, scope = ".", limit = 5): string {
   const target = shingles(snippet);
   if (target.size < 2) throw new Error("Extrait trop court (au moins ~5 tokens).");
+  // Part de l'extrait retrouvée dans le candidat (et non Jaccard) : un extrait de 3 lignes copié d'une longue fonction doit ressortir.
   const scored = indexScope(scope)
-    .filter((c) => c.kind !== "class" && c.end - c.start < 150)
+    .filter((c) => c.kind !== "class")
     .map((c) => {
       const s = shingles(c.text);
       let inter = 0;
       for (const x of target) if (s.has(x)) inter++;
-      return { c, sim: inter / (target.size + s.size - inter || 1) };
+      return { c, sim: inter / target.size };
     })
-    .filter((x) => x.sim > 0.15)
-    .sort((a, b) => b.sim - a.sim)
+    .filter((x) => x.sim >= 0.5)
+    .sort((a, b) => b.sim - a.sim || a.c.end - a.c.start - (b.c.end - b.c.start)) // à similarité égale, le plus petit bloc d'abord
     .slice(0, limit);
-  return scored.length ? scored.map(({ c, sim }) => `${Math.round(sim * 100)}%  ${c.file}:${c.start}-${c.end} ${c.kind} ${c.name}`).join("\n") : "Aucun code similaire trouvé.";
+  return scored.length ? scored.map(({ c, sim }) => `${Math.round(sim * 100)}% de l'extrait  ${c.file}:${c.start}-${c.end} ${c.kind} ${c.name}`).join("\n") : "Aucun code similaire trouvé.";
 }
 
 /** Graphe d'appels PAR NOM (sans résolution de types) : homonymes possibles. */
@@ -206,33 +207,54 @@ export function callGraph(symbol: string, direction: "in" | "out", depth = 1, sc
   };
   const lines: string[] = [];
   let omitted = 0;
-  // « Classe.méthode » : on ne garde que les appelants qui écrivent explicitement Classe.méthode( — beaucoup moins d'homonymes.
+  // « Classe.méthode » : on ne garde que les appels écrits explicitement Classe.méthode( — beaucoup moins d'homonymes.
   const dotted = symbol.includes(".") ? symbol.split(".") : undefined;
   const target = dotted ? dotted[dotted.length - 1] : symbol;
   const qualified = dotted ? new RegExp(`\\b${dotted.join("\\s*\\.\\s*")}\\s*\\(`) : undefined;
   const seen = new Set<string>([target]);
   let frontier = [target];
+  // Corps de fonctions/méthodes seulement : une classe englobe ses méthodes et fausserait les appelants.
+  const bodies = all.filter((c) => c.kind !== "class");
+  const nameCall = (n: string) => new RegExp(`(^|[^\\w$])${n.replace(/\$/g, "\\$")}\\s*\\(`);
+
   for (let d = 1; d <= depth && frontier.length; d++) {
     const next: string[] = [];
     for (const name of frontier) {
-      const related =
-        direction === "out"
-          ? [...new Set((byName.get(name) ?? []).flatMap((c) => [...calls(c)]))].filter((n) => byName.has(n))
-          : [...new Set(all.filter((c) => c.name !== name && (d === 1 && qualified ? qualified.test(c.text) : calls(c).has(name))).map((c) => c.name))];
-      omitted += Math.max(0, related.length - 25);
-      for (const r of related.slice(0, 25)) {
-        const where = (byName.get(r) ?? []).slice(0, 2).map((c) => `${c.file}:${c.start}`).join(", ");
-        lines.push(`${"  ".repeat(d - 1)}${direction === "out" ? `${name} → ${r}` : `${r} → ${name}`}  (${where})`);
-        if (!seen.has(r)) {
-          seen.add(r);
-          next.push(r);
+      if (direction === "out") {
+        const related = [...new Set((byName.get(name) ?? []).flatMap((c) => [...calls(c)]))].filter((n) => byName.has(n));
+        omitted += Math.max(0, related.length - 25);
+        for (const r of related.slice(0, 25)) {
+          const where = (byName.get(r) ?? []).slice(0, 2).map((c) => `${c.file}:${c.start}`).join(", ");
+          lines.push(`${"  ".repeat(d - 1)}${name} → ${r}  (${where})`);
+          if (!seen.has(r)) {
+            seen.add(r);
+            next.push(r);
+          }
+        }
+        continue;
+      }
+      // entrant : chaque site d'appel (fichier:ligne) et la fonction qui le contient
+      const re = d === 1 && qualified ? qualified : nameCall(name);
+      const sites: { c: Chunk; line: number }[] = [];
+      for (const c of bodies) {
+        if (c.name === name && !qualified) continue; // récursion triviale
+        c.text.split("\n").forEach((l, i) => {
+          if (i > 0 && re.test(l)) sites.push({ c, line: c.start + i });
+        });
+      }
+      omitted += Math.max(0, sites.length - 30);
+      for (const { c, line } of sites.slice(0, 30)) {
+        lines.push(`${"  ".repeat(d - 1)}${c.name} → ${name}  (${c.file}:${line})`);
+        if (!seen.has(c.name)) {
+          seen.add(c.name);
+          next.push(c.name);
         }
       }
     }
     frontier = next;
   }
   omitted += Math.max(0, lines.length - 80);
-  const note = omitted ? `\n… ${omitted} relation(s) non affichée(s) (plafonds : 25 par symbole, 80 lignes) — nom trop courant ? essayer Classe.méthode` : "";
+  const note = omitted ? `\n… ${omitted} relation(s) non affichée(s) (plafonds : 25-30 par symbole, 80 lignes) — nom trop courant ? essayer Classe.méthode` : "";
   return lines.length ? `(appels détectés par nom, sans résolution de types)\n${lines.slice(0, 80).join("\n")}${note}` : `Aucun appel ${direction === "out" ? "sortant" : "entrant"} trouvé pour "${symbol}".`;
 }
 
@@ -273,7 +295,34 @@ export function summarizeFile(rel: string): string {
   return s;
 }
 
-export function summarizeDir(rel: string, max = 40): string {
-  const files = [...walkFiles(resolveInRoot(rel))].slice(0, max);
-  return files.map((f) => summarizeFile(toRel(f))).join("\n") || "Aucun fichier de code.";
+const dirLines = new Map<string, string>();
+
+/** Une ligne par fichier (nom, taille, rôle, symboles principaux) : tient dans un budget fixe, même pour un gros dossier. */
+function summaryLine(abs: string): string {
+  const content = fs.readFileSync(abs, "utf8");
+  const key = `${abs}:${hash(content)}`;
+  let line = dirLines.get(key);
+  if (!line) {
+    const header = (/^\s*(?:\/\*+([\s\S]*?)\*\/|((?:\/\/.*\n?)+))/.exec(content)?.[0] ?? "").replace(/^\s*(\/\*+|\*\/|\*|\/\/)\s?/gm, "").replace(/\s+/g, " ").trim();
+    const items = fileChunksFromContent(abs, content).filter((i) => i.kind !== "method");
+    const syms = items.slice(0, 6).map((i) => `${i.exported ? "+" : ""}${i.name}`).join(", ");
+    line = `${path.basename(abs)} (${content.split("\n").length} l.)${header ? ` — ${header.slice(0, 70)}` : ""}${syms ? ` — ${syms}${items.length > 6 ? ", …" : ""}` : ""}`;
+    dirLines.set(key, line);
+  }
+  return line;
+}
+
+export function summarizeDir(rel: string, budget = 6000): string {
+  const files = [...walkFiles(resolveInRoot(rel))];
+  if (!files.length) return "Aucun fichier de code.";
+  const out: string[] = [];
+  let used = 0;
+  for (const f of files) {
+    const l = summaryLine(f);
+    if (used + l.length > budget) break;
+    out.push(l);
+    used += l.length + 1;
+  }
+  const rest = files.length - out.length;
+  return `${rel} — ${files.length} fichier(s)\n${out.join("\n")}${rest > 0 ? `\n… ${rest} fichier(s) non listé(s) (budget) : viser un sous-dossier` : ""}`;
 }

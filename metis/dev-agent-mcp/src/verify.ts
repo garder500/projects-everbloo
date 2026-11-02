@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { CODE_EXTS } from "./config.js";
-import { execSummary } from "./exec.js";
+import { execSummary, summarizeLint } from "./exec.js";
 import { resolveInRoot } from "./fs-utils.js";
 import { pkgDir, readPkg, relativeToPkg, scriptRisk } from "./pkg.js";
 
@@ -85,16 +85,23 @@ export function verifyChange(repo: string, maxLines = 25, allowUnsafe = false): 
     ["tests", tests],
   ];
 
+  // Toutes les étapes tournent : une dette de lint ne doit pas masquer un échec de typecheck ou de tests.
   const report: string[] = [`${repo}: ${files.length} fichier(s) modifié(s), ${codeFiles.length} de code`];
+  const failed: string[] = [];
+  const details: string[] = [];
   for (const [name, step] of steps) {
     if (!step.cmd) {
       report.push(`- ${name}: ignoré (${step.skip})`);
       continue;
     }
-    const res = execSummary(step.cmd, cwd, maxLines, 300_000);
+    const res = execSummary(step.cmd, cwd, maxLines, 300_000, name === "lint" && step.cmd.includes("eslint") ? summarizeLint : undefined);
     report.push(`- ${name}: ${res.ok ? "pass" : "FAIL"}`);
-    if (!res.ok) return [`VERDICT: FAIL (${name})`, ...report, "", res.text].join("\n");
+    if (!res.ok) {
+      failed.push(name);
+      details.push(`── ${name}\n${res.text}`);
+    }
   }
   const refused = steps.filter(([, s]) => s.skip?.startsWith("refusé")).map(([n]) => n);
-  return [`VERDICT: ${refused.length ? `PASS PARTIEL (non vérifié : ${refused.join(", ")})` : "PASS"}`, ...report].join("\n");
+  const verdict = failed.length ? `FAIL (${failed.join(", ")})` : refused.length ? `PASS PARTIEL (non vérifié : ${refused.join(", ")})` : "PASS";
+  return [`VERDICT: ${verdict}`, ...report, ...(details.length ? ["", ...details] : [])].join("\n");
 }

@@ -1,0 +1,27 @@
+{
+  "name": "dev-agent-mcp",
+  "version": "0.1.0",
+  "description": "MCP d'amélioration des agents de dev : cartographie et lecture économes en tokens du monorepo Metis",
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun --watch src/index.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "build": "bun build --compile ./src/index.ts --outfile dist/dev-agent-mcp",
+    "build:windows-x64": "bun build --compile --target=bun-windows-x64 ./src/index.ts --outfile dist/dev-agent-mcp-windows-x64.exe",
+    "build:linux-x64": "bun build --compile --target=bun-linux-x64 ./src/index.ts --outfile dist/dev-agent-mcp-linux-x64",
+    "build:darwin-arm64": "bun build --compile --target=bun-darwin-arm64 ./src/index.ts --outfile dist/dev-agent-mcp-darwin-arm64"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.1",
+    "pg": "^8.13.0",
+    "typescript": "^5.7.3",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "@types/pg": "^8.11.10",
+    "bun-types": "^1.2.0"
+  }
+}

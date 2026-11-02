@@ -14,5 +14,5 @@ devenv.local.yaml
 !.pixi/config.toml
 
 # MCP build & artifacts
-metis-mcp/dist/
+dev-agent-mcp/dist/
 node_modules/

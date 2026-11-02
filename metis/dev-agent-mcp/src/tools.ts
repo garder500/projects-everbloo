@@ -102,6 +102,7 @@ const MAX_OUTLINE = 120;
 export function readOutline(rel: string): string {
   const abs = resolveInRoot(rel);
   const ext = path.extname(abs).toLowerCase();
+  if (fs.existsSync(abs) && fs.statSync(abs).isDirectory()) return `${rel} est un dossier : utiliser summarize_dir ou repo_map.`;
   if (!CODE_EXTS.has(ext)) {
     return `Format "${ext || "sans extension"}" non analysé par read_outline (code ts/js seulement) : utiliser read_range_smart / batch_read, ou spec_lookup pour une section d'un .md/.yaml/.json.`;
   }

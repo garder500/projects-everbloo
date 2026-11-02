@@ -3,7 +3,7 @@ import path from "node:path";
 
 export interface OutlineItem {
   name: string;
-  kind: "function" | "class" | "interface" | "type" | "enum" | "const" | "method";
+  kind: "function" | "class" | "interface" | "type" | "enum" | "const" | "method" | "namespace";
   signature: string;
   start: number;
   end: number;
@@ -113,6 +113,10 @@ export function outline(file: string, content: string): OutlineItem[] {
         items.push(base(st, st.name.text, "type", exp));
       } else if (ts.isEnumDeclaration(st)) {
         items.push(base(st, st.name.text, "enum", exp));
+      } else if (ts.isModuleDeclaration(st) && st.body && ts.isModuleBlock(st.body)) {
+        // `declare namespace X { … }` (fichiers .d.ts) : le namespace puis son contenu
+        items.push(base(st, st.name.getText(sf), "namespace", exp));
+        collect(st.body.statements, wrapped);
       } else if (ts.isVariableStatement(st)) {
         for (const d of st.declarationList.declarations) {
           if (!ts.isIdentifier(d.name)) continue;

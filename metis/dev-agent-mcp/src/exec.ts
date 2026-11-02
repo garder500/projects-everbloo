@@ -91,7 +91,7 @@ export function summarizeLint(output: string, maxLines = 25): string {
   const errors = lines.filter((l) => /\[Error\//.test(l));
   const warnings = lines.filter((l) => /\[Warning\//.test(l)).length;
   const total = lines.find((l) => /\d+ problems?/.test(l));
-  const shown = errors.slice(0, maxLines).map((l) => l.replace(/^.*[\\/]src[\\/]/, "").slice(0, 220));
+  const shown = errors.slice(0, maxLines).map((l) => l.replace(/^.*[\\/]src[\\/]/, "").slice(0, 400));
   const more = errors.length > shown.length ? [`… ${errors.length - shown.length} erreur(s) de plus`] : [];
   return [...shown, ...more, `${errors.length} erreur(s), ${warnings} warning(s)${total ? ` — ${total.trim()}` : ""}`].join("\n");
 }

@@ -385,3 +385,9 @@ test("rapport 50ac519: run_tests sur script placeholder, list_entrypoints sans g
   expect(sc.length).toBeLessThan(7500);
   expect(sc).toContain("non affiché");
 });
+
+test("read_outline descend dans les namespaces des .d.ts", async () => {
+  const { outline } = await import("../src/outline.js");
+  const items = outline("x.d.ts", "declare namespace A { interface B { x: number } type C = string }");
+  expect(items.map((i) => i.name)).toEqual(["A", "B", "C"]);
+});

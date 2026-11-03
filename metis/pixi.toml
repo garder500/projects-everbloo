@@ -19,9 +19,7 @@ setup = "npm install -g bun @google/gemini-cli"
 clean = "./clean-branches.sh"
 clone = "./sync-repos.sh --clone-only"
 sync = "./sync-repos.sh"
-minio-up = "./dev-env.sh minio-up"
-minio-down = "./dev-env.sh minio-down"
-env-local = "./dev-env.sh env"
+env-clean = "node launcher/clean-env.mjs"
 info = "git --version && echo To clean branches, run: pixi run clean"
 mcp = "cd dev-agent-mcp && bun run src/index.ts"
 mcp-test = "cd dev-agent-mcp && bun test"
@@ -62,19 +60,22 @@ install-ci = { depends-on = ["ci-api-aerial", "ci-api-dashboard", "ci-api-car", 
 
 # --- PROCESSES (équivalent de 'devenv up') ---
 api-aerial = { cmd = "npm run dev", cwd = "api-aerial/src" }
-api-dashboard = { cmd = "npm run dev", cwd = "api-dashboard/src" }
+# MCP Metis : URL locales des API métier (logs techniques, actualisation UETTR).
+# Ports locaux : aerial 8080, dashboard 8081, hotel 8082, rail 8083, car 8084.
+api-dashboard = { cmd = "npm run dev", cwd = "api-dashboard/src", env = { AERIAL_API_URL = "http://localhost:8080", HOTEL_API_URL = "http://localhost:8082", RAIL_API_URL = "http://localhost:8083", CAR_API_URL = "http://localhost:8084" } }
 api-car = { cmd = "npm run dev", cwd = "api-car/src" }
 api-hotel = { cmd = "npm run dev", cwd = "api-hotel/src" }
 api-rail = { cmd = "npm run dev", cwd = "api-rail/src" }
 front-resa = { cmd = "npm run dev", cwd = "front-reservation" }
 front-dashboard = { cmd = "npm run dev", cwd = "front-dashboard/src" }
 
-# `pixi run up` : installe/synchronise les deps (et les package-lock) puis lance tout.
-# `pixi run up-fast` : lance sans passer par l'install.
-up-fast = """node $APPDATA/npm/node_modules/concurrently/dist/bin/index.js -k \
-  -n api-aerial,api-dashboard,api-car,api-hotel,api-rail,front-resa,front-dashboard \
-  -c blue,magenta,red,yellow,cyan,green,white \
-  --hide front-resa,front-dashboard \
-  "npm run dev --prefix api-aerial/src" "npm run dev --prefix api-dashboard/src" "npm run dev --prefix api-car/src" "npm run dev --prefix api-hotel/src" "npm run dev --prefix api-rail/src" "npm run dev --prefix front-reservation" "npm run dev --prefix front-dashboard/src"
-"""
-up = { depends-on = ["install", "minio-up", "env-local", "up-fast"] }
+# `pixi run up` : installe les deps, retire les anciens .env.local MinIO (S3 preprod via les .env versionnés),
+# puis ouvre le mini site http://localhost:4000 (api-dashboard + front-reservation démarrent d'office,
+# les autres services se lancent à la demande depuis le site).
+# `pixi run up-fast` : pareil sans passer par l'install.
+up-fast = "node launcher/server.mjs"
+# `pixi run dev-switch` : tous les sous-repos sur development (ff-only) + nettoyage des branches mergées.
+# `pixi run dev` : dev-switch puis up.
+dev-switch = "./dev-switch.sh"
+dev = { depends-on = ["dev-switch", "up"] }
+up = { depends-on = ["install", "env-clean", "up-fast"] }
